@@ -1,0 +1,18 @@
+
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+}
+h1 {
+    margin-bottom: 90px;
+}
+#buttons-container p {
+    font-size: 1.1rem;
+}
+.icons-container {
+    width: 50px;
+    height: 40px;
+}
+.rotate-icon {
+    transform: rotate(-180deg);
+}

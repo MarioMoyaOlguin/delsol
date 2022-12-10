@@ -1,1 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+
+.red {
+    color: #f4323e;
+}
+.gray {
+    color: #949494;
+}
+.dark-gray {
+    color: #747474;
+}
+.gray-bg {
+    background-color: #f9fafc;
+}
+.red-bg {
+    background-color: #f4323e;
+}
+.text-black {
+    color: black;
+}
+.logo {
+    height: 120px;
+    width: 120px;
+}
+.themed-container {
+    border-radius: 30px;
+    -webkit-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    -moz-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+}
+.themed-form {
+    padding: 40px 60px;
+    width: 768px;
+}
+p, label {
+    color: #949494;
+    font-size: 1.3rem;
+}
+label {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+input, .select {
+    appearance: none !important;
+    border: 2px solid #d0def0 !important;
+    border-radius: 10px;
+    height: 40px !important;
+    outline: none;
+    padding: 4px 10px;
+}
+.select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    cursor: pointer;
+}
+.select select {
+    display: none;
+}
+.gray-btn, .action-btn, .cancel-btn {
+    border-radius: 9999px;
+    font-size: 1.1rem;
+    width: 150px;
+    padding: 4px;
+}
+.gray-btn {
+    border: 1px solid #949494;
+    color: #949494;
+    background-color: white;
+}
+.action-btn, .cancel-btn {
+    border: 1px solid #f4323e;
+}
+.action-btn {
+    background-color: #f4323e;
+    color: white;
+}
+.cancel-btn {
+    background-color: white;
+    color: #f4323e;
+}
+

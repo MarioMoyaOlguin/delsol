@@ -1,0 +1,29 @@
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+}
+img {
+    width: 120px;
+    height: 120px;
+}
+h1 {
+    font-size: 36px;
+}
+.themed-container {
+    width: 768px;
+}
+textarea {
+    width: 500px;
+    height: 100px;
+    resize: none;
+    appearance: none !important;
+    border: 2px solid #d0def0 !important;
+    border-radius: 10px;
+    outline: none;
+    padding: 4px 10px;
+}
+textarea::placeholder {
+    color: #949494;
+    font-style: italic;
+    font-weight: 500;
+}

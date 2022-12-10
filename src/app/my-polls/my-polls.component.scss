@@ -1,0 +1,34 @@
+.new-poll {
+    border: 2px solid #d0def0 !important;
+    border-radius: 9999px;
+    background-color: white;
+    -webkit-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+    -moz-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+    box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+}
+.icons-container {
+    width: 40px;
+    height: 34px;
+}
+.rotate-icon {
+    transform: rotate(-180deg);
+}
+th, td {
+    padding: 16px 10px !important;
+    font-size: 1.1rem;
+}
+th {
+    color: #8b8b8b;
+}
+td {
+    color: #949494;
+}
+table svg {
+    color: #f4323e;
+}
+.edit {
+    border: none;
+    background-color: transparent;
+    font-size: 0.8rem;
+    font-weight: 600 !important;
+}
