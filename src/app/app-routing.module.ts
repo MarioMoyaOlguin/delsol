@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 import { ChooseDepComponent } from './choose-dep/choose-dep.component';
 import { CommentsComponent } from './comments/comments.component';
+import { CreatePollPrototypeComponent } from './create-poll-prototype/create-poll-prototype.component';
+import { CreatePollComponent } from './create-poll/create-poll.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyPollsComponent } from './my-polls/my-polls.component';
 import { NewPollComponent } from './new-poll/new-poll.component';
@@ -62,6 +64,14 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'crear-cuestionario-encuesta',
+    component: CreatePollComponent,
+  },
+  {
+    path: 'prototipo-crear-cuestionario',
+    component: CreatePollPrototypeComponent,
   },
 ];
 

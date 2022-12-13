@@ -1,0 +1,26 @@
+.themed-container {
+    width: 980px;
+}
+.sm-text {
+    font-size: 14px;
+}
+.add-img {
+    border: 2px solid #d0def0 !important;
+    border-radius: 10px;
+    height: 40px !important;
+    padding: 4px 10px;
+}
+.new-q-container {
+    // border: 2px dashed #d0def0;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23D0DEF0FF' stroke-width='4' stroke-dasharray='10' stroke-dashoffset='37' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 10px;
+    cursor: pointer;
+}
+.themed-container svg {
+    color: #bac8da;
+}
+.form-section {
+    width: 452px;
+    height: 107px;
+}
+

@@ -17,6 +17,8 @@ import { ChooseDepComponent } from './choose-dep/choose-dep.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ThanksScreenComponent } from './thanks-screen/thanks-screen.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CreatePollComponent } from './create-poll/create-poll.component';
+import { CreatePollPrototypeComponent } from './create-poll-prototype/create-poll-prototype.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ChooseDepComponent,
     CommentsComponent,
     ThanksScreenComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreatePollComponent,
+    CreatePollPrototypeComponent
   ],
   imports: [
     BrowserModule,

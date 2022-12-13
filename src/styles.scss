@@ -1,21 +1,21 @@
 
 .red {
-    color: #f4323e;
+    color: #f4323e !important;
 }
 .gray {
-    color: #949494;
+    color: #949494 !important;
 }
 .dark-gray {
-    color: #747474;
+    color: #747474 !important;
 }
 .gray-bg {
-    background-color: #f9fafc;
+    background-color: #f9fafc !important;
 }
 .red-bg {
-    background-color: #f4323e;
+    background-color: #f4323e !important;
 }
 .text-black {
-    color: black;
+    color: black !important;
 }
 .logo {
     height: 120px;
@@ -46,6 +46,23 @@ input, .select {
     height: 40px !important;
     outline: none;
     padding: 4px 10px;
+}
+button {
+    appearance: none !important;
+    outline: none !important;
+}
+textarea {
+    resize: none;
+    appearance: none !important;
+    border: 2px solid #d0def0 !important;
+    border-radius: 10px;
+    outline: none;
+    padding: 4px 10px;
+}
+textarea::placeholder {
+    color: #949494;
+    font-style: italic;
+    font-weight: 500;
 }
 .select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
@@ -78,5 +95,12 @@ input, .select {
 .cancel-btn {
     background-color: white;
     color: #f4323e;
+}
+.question-type {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #bac8da;
 }
 

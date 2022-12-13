@@ -1,0 +1,103 @@
+<main class="gray-bg w-100">
+    <app-header>
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
+                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+            </svg>
+            <p class="mb-0 lh-1">Volver</p>
+        </div>
+    </app-header>
+
+    <form class="themed-container d-flex flex-column p-4 mx-auto mt-5" #alsPoll id="poll">
+        <div class="d-flex fw-bold mb-4">
+            <p class="red fs-3 mb-0 me-3">Título de la encuesta</p>
+            <div class="d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill dark-gray" viewBox="0 0 16 16">
+                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                </svg>
+                <p class="mb-0 ms-1 sm-text fw-semibold">Editar</p>
+            </div>
+        </div>
+
+        <div class="d-flex gap-4 flex-wrap" id="questionsContainer">
+            <div class="d-flex flex-column form-section">
+                <label for="pregunta1">Pregunta 1</label>
+                <input type="text" name="" id="pregunta1" class="">
+            </div>
+
+            <div class="d-flex flex-column form-section justify-content-end">
+                <select class="select mb-4" id="tienda" placeholder="opción multiple">
+                    <option selected value="0"></option>
+                    <option value="1">Respuesta personalizada</option>
+                    <option value="2">Puntuación</option>
+                    <option value="3">Estrellas</option>
+                    <option value="4">NPS</option>
+                    <option value="5">Texto</option>
+                </select>
+            </div>
+
+            
+            <div class="d-flex flex-column form-section">
+                <label for="pregunta1">Respuesta 1</label>
+                <div class="d-flex">
+                    <input type="text" name="" id="pregunta1" class=" me-2 w-100">
+                    <div class="d-flex mb-4 align-items-center add-img bg-white gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus me-1" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image-fill" viewBox="0 0 16 16">
+                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="d-flex flex-column form-section">
+                <label for="pregunta1">Respuesta 2</label>
+                <div class="d-flex">
+                    <input type="text" name="" id="pregunta1" class="mb-4 me-2 w-100">
+                    <div class="d-flex align-items-center add-img bg-white gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus me-1" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image-fill" viewBox="0 0 16 16">
+                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="d-flex flex-column form-section">
+                <label for="pregunta1">Respuesta 3 (opcional)</label>
+                <div class="d-flex">
+                    <input type="text" name="" id="pregunta1" class="mb-4 me-2 w-100">
+                    <div class="d-flex align-items-center add-img bg-white gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus me-1" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image-fill" viewBox="0 0 16 16">
+                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section pb-4">
+                <div class="d-flex justify-content-center align-items-center new-q-container h-100" id="question" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus me-1 dark-gray" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    <p class="mb-0 fw-bold">Nueva Respuesta</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="d-flex gap-5 justify-content-end mt-5">
+            <button class="cancel-btn">Guardar</button>
+            
+            <button class="action-btn">Publicar</button>
+        </div> -->
+    </form>
+
+</main>

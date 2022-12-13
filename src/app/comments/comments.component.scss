@@ -15,12 +15,6 @@ h1 {
 textarea {
     width: 500px;
     height: 100px;
-    resize: none;
-    appearance: none !important;
-    border: 2px solid #d0def0 !important;
-    border-radius: 10px;
-    outline: none;
-    padding: 4px 10px;
 }
 textarea::placeholder {
     color: #949494;
