@@ -1,0 +1,16 @@
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+    
+}
+.main-container {
+    border-radius: 30px;
+    width: 760px;
+    -webkit-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    -moz-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+}
+img {
+    width: 150px;
+    height: 150px;
+}

@@ -19,6 +19,9 @@ import { ThanksScreenComponent } from './thanks-screen/thanks-screen.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { CreatePollPrototypeComponent } from './create-poll-prototype/create-poll-prototype.component';
+import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.component';
+import { CalificacionComponent } from './calificacion/calificacion.component';
+import { NpsComponent } from './nps/nps.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { CreatePollPrototypeComponent } from './create-poll-prototype/create-pol
     ThanksScreenComponent,
     DashboardComponent,
     CreatePollComponent,
-    CreatePollPrototypeComponent
+    CreatePollPrototypeComponent,
+    EncuestaCreadaComponent,
+    CalificacionComponent,
+    NpsComponent,
   ],
   imports: [
     BrowserModule,

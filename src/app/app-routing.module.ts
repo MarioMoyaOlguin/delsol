@@ -15,6 +15,9 @@ import { HomeComponent } from './start/home/home.component';
 import { LoginComponent } from './start/login/login.component';
 import { ThanksScreenComponent } from './thanks-screen/thanks-screen.component';
 import { UserExperienceComponent } from './user-experience/user-experience.component';
+import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.component';
+import { CalificacionComponent } from './calificacion/calificacion.component';
+import { NpsComponent } from './nps/nps.component';
 
 const routes: Routes = [
   {
@@ -72,6 +75,18 @@ const routes: Routes = [
   {
     path: 'prototipo-crear-cuestionario',
     component: CreatePollPrototypeComponent,
+  },
+  {
+    path: 'encuesta-creada',
+    component: EncuestaCreadaComponent,
+  },
+  {
+    path: 'calificacion',
+    component: CalificacionComponent,
+  },
+  {
+    path: 'NPS',
+    component: NpsComponent,
   },
 ];
 

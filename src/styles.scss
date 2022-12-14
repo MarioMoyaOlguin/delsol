@@ -21,6 +21,12 @@
     height: 120px;
     width: 120px;
 }
+.font-small {
+    font-size: 16px;
+}
+a {
+    text-decoration: none;
+}
 .themed-container {
     border-radius: 30px;
     -webkit-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
@@ -39,10 +45,10 @@ label {
     font-size: 1.4rem;
     margin-bottom: 0.6rem;
 }
-input, .select {
+input[type=text], input[type=password], .select {
     appearance: none !important;
     border: 2px solid #d0def0 !important;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 40px !important;
     outline: none;
     padding: 4px 10px;
@@ -59,10 +65,10 @@ textarea {
     outline: none;
     padding: 4px 10px;
 }
-textarea::placeholder {
-    color: #949494;
-    font-style: italic;
-    font-weight: 500;
+textarea::placeholder, input::placeholder {
+    color: #949494 !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
 }
 .select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
@@ -95,6 +101,7 @@ textarea::placeholder {
 .cancel-btn {
     background-color: white;
     color: #f4323e;
+    border-color: #f4323e !important;
 }
 .question-type {
     padding: 10px;

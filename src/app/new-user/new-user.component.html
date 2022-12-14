@@ -1,6 +1,13 @@
 <main>
 
-    <app-header></app-header>
+    <app-header>
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
+                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+            </svg>
+            <a routerLink="/home" class="gray">Volver</a>
+        </div>
+    </app-header>
     
     <form action="" class="themed-container themed-form mx-auto mt-4">
         <h1 class="text-center red mb-4">Nuevo Usuario</h1>
@@ -54,9 +61,12 @@
         </div>
 
         <div class="d-flex gap-5 justify-content-end mt-5">
-            <button class="cancel-btn">Cancelar</button>
-            
-            <button class="action-btn">Crear</button>
+            <a routerLink="/home">
+                <button class="cancel-btn">Cancelar</button>
+            </a>
+            <a routerLink="/home">
+                <button class="action-btn">Crear</button>
+            </a>
         </div>
     </form>
 
