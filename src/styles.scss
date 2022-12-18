@@ -1,4 +1,7 @@
-
+main {
+    min-height: 100vh !important;
+    background-color: #f9fafc !important;
+}
 .red {
     color: #f4323e !important;
 }
@@ -20,6 +23,9 @@
 .logo {
     height: 120px;
     width: 120px;
+}
+.pointer {
+    cursor: pointer !important;
 }
 .font-small {
     font-size: 16px;
@@ -102,12 +108,5 @@ textarea::placeholder, input::placeholder {
     background-color: white;
     color: #f4323e;
     border-color: #f4323e !important;
-}
-.question-type {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #bac8da;
 }
 

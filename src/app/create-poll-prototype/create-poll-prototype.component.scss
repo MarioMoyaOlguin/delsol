@@ -6,6 +6,9 @@
 main {
     min-height: 100vh;
 }
+.switch-bg {
+    background-color: #eed8d8 !important;
+}
 .themed-container {
     max-width: 880px;
 }
@@ -18,15 +21,14 @@ main {
     height: 40px !important;
     padding: 4px 10px;
 }
-.button {
-    height: fit-content;
+.bton {
+    background-color: #d0dae6 !important;
+    border-radius: 4px !important;
+    border: none !important;
 }
 button {
     appearance: none !important;
     outline: none !important;
-}
-#pregunta button {
-    border: none !important;
 }
 .new-q-container {
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23D0DEF0FF' stroke-width='4' stroke-dasharray='10' stroke-dashoffset='37' stroke-linecap='square'/%3e%3c/svg%3e");
@@ -51,9 +53,6 @@ button {
     margin-bottom: 0px;
     font-size: 18px;
 }
-.select-type {
-    height: fit-content;
-}
 textarea {
     appearance: none !important;
     border: 2px solid #d0def0 !important;
@@ -67,6 +66,10 @@ th {
     width: 10%;
     text-align: center;
     border: 1px solid #bac8da;
+    cursor: pointer;
+}
+th:hover {
+    background-color: #ccc;
 }
 .set-container {
     height: 47px;
@@ -83,7 +86,45 @@ th {
     background-color: rgb(100, 100, 100);
     z-index: 10;
 }
-
+.stars-cont {
+    width: 500px !important;
+}
+.stars-cont p{
+    margin-bottom: 0px;
+    height: 24px !important;
+    font-size: 16px !important;
+}
+.stars-cont svg {
+    color: rgb(92, 92, 92) !important;
+    cursor: pointer;
+}
+.stars-cont svg:hover {
+    color: #f4323e !important;
+}
+.stars-cont input {
+    height: 30px !important;
+}
+.border-e-0 {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-right: 0px !important;
+}
+.border-s-0 {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-left: 0px !important;
+}
+.select-type p{
+    background-color: #e2e8f0;
+    margin-bottom: 0px;
+    width: 120px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #747474;
+}
 
 /* The container */
 .item-container {
@@ -115,12 +156,12 @@ th {
     left: 5px;
     height: 20px;
     width: 20px;
-    background-color: rgb(255, 255, 255);
+    background-color: #ccc;
 }
   
 /* On mouse-over, add a grey background color */
 .item-container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: #2196F3;
 }
   
 /* When the checkbox is checked, add a blue background */
@@ -155,5 +196,7 @@ th {
 .new-option {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
+    height: 30px !important;
 }
+
 

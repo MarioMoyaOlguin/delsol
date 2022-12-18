@@ -22,6 +22,9 @@ import { CreatePollPrototypeComponent } from './create-poll-prototype/create-pol
 import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.component';
 import { CalificacionComponent } from './calificacion/calificacion.component';
 import { NpsComponent } from './nps/nps.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { NpsComponent } from './nps/nps.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
