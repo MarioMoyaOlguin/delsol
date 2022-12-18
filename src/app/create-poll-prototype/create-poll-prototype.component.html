@@ -33,7 +33,7 @@
                 <div *ngSwitchCase="'texto'" class="d-flex flex-column w-100 mb-4"
                 [ngStyle]="question.done ? completed : edit"> <!-- fondo y borde rojo o azul -->
                     <div class="d-flex justify-content-between w-100 p-2">
-                        <p class="mb-0 fs-6">{{question.questionNumber}}</p>
+                        <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                         <div class="d-flex gap-3">
                             <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)"
                             [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
@@ -68,7 +68,7 @@
                 <!-- -------------------------- case calificacion -------------------------- -->
                 <div *ngSwitchCase="'calificacion'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
                     <div class="d-flex justify-content-between w-100 p-2">
-                        <p class="mb-0 fs-6">{{question.questionNumber}}</p>
+                        <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                         <div class="d-flex gap-3">
                             <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)"
                             [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
@@ -117,7 +117,7 @@
                 <div *ngSwitchCase="'opcion'" class="w-100 gap-4"
                 [ngStyle]="question.done ? completed : edit">
                     <div class="d-flex justify-content-between w-100 p-2">
-                        <p class="mb-0 fs-6">{{question.questionNumber}}</p>
+                        <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                         <div class="d-flex gap-3">
                             <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)"
                             [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
@@ -181,7 +181,7 @@
                 <!-- --------------------------- case estrellas ---------------------------- -->
                 <div *ngSwitchCase="'estrellas'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
                     <div class="d-flex justify-content-between w-100 p-2">
-                        <p class="mb-0 fs-6">{{question.questionNumber}}</p>
+                        <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                         <div class="d-flex gap-3">
                             <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)"
                             [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
@@ -247,9 +247,12 @@
                 <!-- ------------------------------ case NPS ------------------------------- -->
                 <div *ngSwitchCase="'nps'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
                     <div class="d-flex justify-content-between w-100 p-2">
-                        <p class="mb-0 fs-6">{{question.questionNumber}}</p>
+                        <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                         <div class="d-flex gap-3">
-                            <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)">Eliminar</button>
+                            <button class="mb-0 bg-white bton" (click)="removeQuestion($event, i)"
+                            [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
+                                Eliminar
+                            </button>
                             <button class="mb-0 bton"  *ngIf="!question.done"
                             (click)="createQuestion($event, 'nps', i, [textQuestion.value, bad.value, neutral.value, good.value])">
                                 Agregar

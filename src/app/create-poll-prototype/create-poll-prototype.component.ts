@@ -25,7 +25,7 @@ export class CreatePollPrototypeComponent implements OnInit {
   editing = false // controla el modo de edición de pregunta
   questionsArray:any[] = []; //Array de preguntas
   optionsArray:any[] = [] //Array de opciones, pregunta tipo opcion
-  i = 1; //Contador
+  i = 0; //Contador
 
   /* -------------------------------------------------------------------------- */
   /*                              Estilos dinámicos                             */
@@ -59,6 +59,7 @@ export class CreatePollPrototypeComponent implements OnInit {
   prototypeQuestion(questionType:string) {
     this.disable = true;
     this.editing = true;
+    this.i++;
 
     switch (questionType) {
       case 'texto':
@@ -80,7 +81,6 @@ export class CreatePollPrototypeComponent implements OnInit {
         this.questionsArray.push({type: 'nps', questionNumber: `Pregunta ${this.i}`, question: `Pregunta ${this.i}`, done: false});
         break;
     }
-    this.i++;
   }
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
@@ -92,12 +92,8 @@ export class CreatePollPrototypeComponent implements OnInit {
       alert('Rellena todos los campos');
       return;
     }
-    if(qType === 'texto' && data![0] === '') {
-      alert('Escribe tu pregunta')
-      return;
-    }
-    if(qType === 'calificacion' && data![0] === '' || data![1] === '' || data![2] === '' || data![3] === '') {
-      alert('Rellena todos los campos');
+    if(data![0] === '' || data![1] === '' || data![2] === '' || data![3] === '') {
+      alert('Rellena todos los campos gg');
       return;
     }
 
@@ -144,6 +140,7 @@ export class CreatePollPrototypeComponent implements OnInit {
     this.i--;
     this.optionsArray = [];
     this.check = false;
+    this.editing = false;
   }
 
   /* --------------------- Switch de pregunta obligatoria --------------------- */
@@ -156,4 +153,5 @@ export class CreatePollPrototypeComponent implements OnInit {
     if(data === '') return;
     this.optionsArray.push(data);
   }
+
 }
