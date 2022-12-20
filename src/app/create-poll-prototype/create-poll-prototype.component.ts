@@ -25,7 +25,6 @@ export class CreatePollPrototypeComponent implements OnInit {
   editing = false // controla el modo de edición de pregunta
   questionsArray:any[] = []; //Array de preguntas
   optionsArray:any[] = [] //Array de opciones, pregunta tipo opcion
-  i = 0; //Contador
 
   /* -------------------------------------------------------------------------- */
   /*                              Estilos dinámicos                             */
@@ -59,33 +58,30 @@ export class CreatePollPrototypeComponent implements OnInit {
   prototypeQuestion(questionType:string) {
     this.disable = true;
     this.editing = true;
-    this.i++;
 
     switch (questionType) {
       case 'texto':
-        this.questionsArray.push({type: 'texto', question: `Pregunta ${this.i}`, questionNumber: `Pregunta ${this.i}`, done: false});
+        this.questionsArray.push({type: 'texto', question: `Pregunta`, done: false});
         break;
       case 'calificacion':
-        this.questionsArray.push({type: 'calificacion', questionNumber: `Pregunta ${this.i}`, question: `Pregunta ${this.i}`,
-          low: ' ', high: ' ', done: false});
+        this.questionsArray.push({type: 'calificacion', question: `Pregunta`, low: ' ', high: ' ', done: false});
         break;
       case 'opcion':
-        this.questionsArray.push({type: 'opcion', questionNumber: `Pregunta ${this.i}`, question: `Pregunta ${this.i}`, done: false,
-        optionsArray: []});
+        this.questionsArray.push({type: 'opcion', question: `Pregunta`, done: false, optionsArray: []});
         break;
       case 'estrellas':
-        this.questionsArray.push({type: 'estrellas', questionNumber: `Pregunta ${this.i}`, question: `Pregunta ${this.i}`,
-        bad: '', neutral: '', good: '', done: false});
+        this.questionsArray.push({type: 'estrellas', question: `Pregunta`, bad: '', neutral: '', good: '', done: false});
         break;
       case 'nps':
-        this.questionsArray.push({type: 'nps', questionNumber: `Pregunta ${this.i}`, question: `Pregunta ${this.i}`, done: false});
+        this.questionsArray.push({type: 'nps', question: `Pregunta`, done: false});
         break;
     }
   }
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
-  createQuestion(e:Event, qType:string, index:number, data?:Array<String>) {
-    e.preventDefault();
+  createQuestion(qType:string, index:number, data?:Array<String>) {
+    
+    console.log("qType: ", qType);
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
@@ -93,36 +89,34 @@ export class CreatePollPrototypeComponent implements OnInit {
       return;
     }
     if(data![0] === '' || data![1] === '' || data![2] === '' || data![3] === '') {
-      alert('Rellena todos los campos gg');
+      alert('Rellena todos los campos');
       return;
     }
 
-    this.questionsArray.pop();
-
     switch (qType) {
       case 'texto':
-        this.questionsArray.push({type: 'texto', question: data![0], questionNumber: `Pregunta `+(index + 1), answer: `Respuesta`,
-          required: this.check, done: true});
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], answer: `Respuesta`,
+          required: this.check, done: true}));
         console.log(this.questionsArray);
         break;
       case 'calificacion':
-        this.questionsArray.push({type: 'calificacion', question: data![0], questionNumber: `Pregunta `+(index + 1), low: data![1],
-          high: data![2], required: this.check, done: true});
+        this.questionsArray.splice(index, 1, ({type: 'calificacion', question: data![0], low: data![1],
+          high: data![2], required: this.check, done: true}));
         console.log(this.questionsArray);
         break;
         case 'opcion':
-          this.questionsArray.push({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, questionNumber: `Pregunta `+(index + 1),
-            done: true, required: this.check});
+          this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true,
+            required: this.check}));
           console.log(this.questionsArray);
           break;
         case 'estrellas':
-          this.questionsArray.push({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3],
-            questionNumber: `Pregunta `+(index + 1), required: this.check, done: true});
+          this.questionsArray.splice(index, 1, ({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
+            required: this.check, done: true}));
           console.log(this.questionsArray);
           break;
         case 'nps':
-          this.questionsArray.push({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3],
-            questionNumber: `Pregunta `+(index + 1), required: this.check, done: true});
+          this.questionsArray.splice(index, 1, ({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
+            required: this.check, done: true}));
           console.log(this.questionsArray);
           break;
     }
@@ -134,13 +128,51 @@ export class CreatePollPrototypeComponent implements OnInit {
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
   removeQuestion = (e:Event, index:number) => {
-    e.preventDefault();
     this.questionsArray.splice(index, 1)
     this.disable = false;
-    this.i--;
     this.optionsArray = [];
     this.check = false;
     this.editing = false;
+  }
+
+  /* ----------------------------- Editar pregunta ---------------------------- */
+  editQuestion = (type:string, index:number) => {
+    this.disable = true;
+    this.editing = true;
+
+    switch (type) {
+      case 'texto':
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: `Pregunta`, done: false}));
+        break;
+      case 'calificacion':
+        this.questionsArray.splice(index, 1, ({type: 'calificacion', question: `Pregunta`, low: ' ', high: ' ', done: false}));
+        break;
+      case 'opcion':
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: `Pregunta`, done: false, optionsArray: []}));
+        break;
+      case 'estrellas':
+        this.questionsArray.splice(index, 1, ({type: 'estrellas', question: `Pregunta`, bad: '', neutral: '', good: '', done: false}));
+        break;
+      case 'nps':
+        this.questionsArray.splice(index, 1, ({type: 'nps', question: `Pregunta`, done: false}));
+        break;
+    }
+  }
+
+  /* --------------------------------- Move up -------------------------------- */
+  moveUp = (index:number) => {
+    const item = this.questionsArray[index]
+    this.questionsArray.splice(index, 1);
+    this.questionsArray.splice(index -1, 0, item);
+    console.log(this.questionsArray);
+  }
+
+  /* -------------------------------- Move down ------------------------------- */
+  moveDown = (index:number) => {
+    const item = this.questionsArray[index]
+    this.questionsArray.splice(index, 1);
+    this.questionsArray.splice(index +1, 0, item);
+    console.log(this.questionsArray);
   }
 
   /* --------------------- Switch de pregunta obligatoria --------------------- */
@@ -152,6 +184,11 @@ export class CreatePollPrototypeComponent implements OnInit {
   setOption = (data:string) => {
     if(data === '') return;
     this.optionsArray.push(data);
+  }
+
+  /* ----------------- Elimina opción del arreglo de opciones ----------------- */
+  removeOption = (index:number) => {
+    this.optionsArray.splice(index, 1);
   }
 
 }

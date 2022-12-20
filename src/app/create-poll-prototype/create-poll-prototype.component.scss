@@ -3,18 +3,14 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
-main {
-    min-height: 100vh;
-}
-.switch-bg {
-    background-color: #eed8d8 !important;
-}
-.themed-container {
-    max-width: 880px;
-}
-.sm-text {
-    font-size: 14px;
-}
+main { min-height: 100vh; }
+
+.switch-bg { background-color: #eed8d8 !important; }
+
+.themed-container { max-width: 880px; }
+
+.sm-text { font-size: 14px; }
+
 .add-img {
     border: 2px solid #d0def0 !important;
     border-radius: 10px;
@@ -22,9 +18,17 @@ main {
     padding: 4px 10px;
 }
 .bton {
-    background-color: #d0dae6 !important;
+    background-color: transparent !important;
     border-radius: 4px !important;
     border: none !important;
+    height: 30px !important;
+    width: 40px !important;
+}
+.bton svg {
+    color: black !important;
+}
+.bton:hover {
+    background-color: #d0def0 !important;
 }
 button {
     appearance: none !important;
@@ -68,12 +72,10 @@ th {
     border: 1px solid #bac8da;
     cursor: pointer;
 }
-th:hover {
-    background-color: #ccc;
-}
-.set-container {
-    height: 47px;
-}
+th:hover { background-color: #ccc; }
+
+.set-container { height: 47px; }
+
 .check-container {
     height: 26px !important;
     padding: 0px 3px;
@@ -86,11 +88,9 @@ th:hover {
     background-color: rgb(100, 100, 100);
     z-index: 10;
 }
-.stars-cont {
-    width: 500px !important;
-}
+.stars-cont { width: 500px !important; }
+
 .stars-cont p{
-    margin-bottom: 0px;
     height: 24px !important;
     font-size: 16px !important;
 }
@@ -98,9 +98,8 @@ th:hover {
     color: rgb(92, 92, 92) !important;
     cursor: pointer;
 }
-.stars-cont svg:hover {
-    color: #f4323e !important;
-}
+.stars-cont svg:hover { color: #f4323e !important; }
+
 .stars-cont input {
     height: 30px !important;
 }
@@ -125,14 +124,20 @@ th:hover {
     align-items: center;
     color: #747474;
 }
+.dlt {
+    border-radius: 4px !important;
+}
+.dlt:hover{
+    background-color: #d0def0 !important;
+}
 
 /* The container */
 .item-container {
-    display: block;
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
+    width: fit-content !important;
     font-size: 20px !important;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -160,14 +165,10 @@ th:hover {
 }
   
 /* On mouse-over, add a grey background color */
-.item-container:hover input ~ .checkmark {
-    background-color: #2196F3;
-}
+.item-container:hover input ~ .checkmark { background-color: #2196F3; }
   
 /* When the checkbox is checked, add a blue background */
-.item-container input:checked ~ .checkmark {
-    background-color: #2196F3;
-}
+.item-container input:checked ~ .checkmark { background-color: #2196F3; }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
@@ -177,9 +178,7 @@ th:hover {
 }
   
 /* Show the checkmark when checked */
-.item-container input:checked ~ .checkmark:after {
-    display: block;
-}
+.item-container input:checked ~ .checkmark:after { display: block; }
   
 /* Style the checkmark/indicator */
 .item-container .checkmark:after {
@@ -197,6 +196,35 @@ th:hover {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
     height: 30px !important;
+    width: 100% !important;
+    max-width: 220px !important;
+    border-right: 0px !important;
+}
+.input-calificacion {
+    height: 30px !important;
 }
 
 
+@media only screen and (max-width: 992px) {
+    .themed-container {
+        max-width: 100% !important;
+        border-radius: 0px !important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .select-type p {
+        width: 100px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+    }
+    .bton {
+        width: 30px !important;
+    }
+    .input-calificacion {
+        width: 100% !important;
+    }
+    .stars-cont {
+        width: 100% !important;
+    }
+}
