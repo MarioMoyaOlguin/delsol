@@ -3,11 +3,11 @@ main {
     min-width: 100vw;
     min-height: 100vh;
 }
-h1 {
-    margin-bottom: 90px;
-}
 a {
     text-decoration: none;
+}
+.title {
+    font-size: 18px !important;
 }
 #buttons-container p {
     font-size: 1.1rem;
@@ -18,4 +18,15 @@ a {
 }
 .rotate-icon {
     transform: rotate(-180deg);
+}
+
+
+@media only screen and (max-width: 576px) {
+    .title {
+        font-size: 16px !important;
+    }
+    .link-btn {
+        width: 120px !important;
+        height: 100px !important;
+    }
 }

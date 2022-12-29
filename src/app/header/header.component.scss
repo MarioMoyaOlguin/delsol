@@ -2,3 +2,17 @@
     width: 70px;
     height: 70px;
 }
+
+@media only screen and (max-width: 576px) {
+    .logo-nav {
+        width: 60px;
+        height: 60px;
+    }
+    .user {
+        width: 35px;
+        height: 35px;
+    }
+    .username {
+        font-size: 17px !important;
+    }
+}

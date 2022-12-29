@@ -5,3 +5,10 @@
     border: 2px solid #d0def0 !important;
 }
 
+@media only screen and (max-width: 576px) {
+    .link-btn {
+        width: 120px !important;
+        height: 100px !important;
+    }
+}
+

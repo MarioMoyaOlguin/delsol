@@ -7,7 +7,7 @@ main { min-height: 100vh; }
 
 .switch-bg { background-color: #eed8d8 !important; }
 
-.themed-container { max-width: 880px; }
+.themed-container { max-width: 992px; }
 
 .sm-text { font-size: 14px; }
 
@@ -207,7 +207,12 @@ th:hover { background-color: #ccc; }
 
 @media only screen and (max-width: 992px) {
     .themed-container {
-        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .themed-container {
         border-radius: 0px !important;
     }
 }
