@@ -12,4 +12,11 @@ export class CommentsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  message = '';
+
+  setMessage = (text:string) => {
+    this.message = text;
+    console.log(this.message)
+  }
+
 }

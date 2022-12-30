@@ -1,17 +1,26 @@
-
+main {
+    min-height: 100vh;
+    min-width: 320px;
+}
 .themed-container {
     padding: 20px;
     font-weight: 500 !important;
 }
 .left-card {
+    width: 100%;
+    max-width: 380px;
     height: 202px !important;
+}
+.right-card {
+    width: 100%;
+    max-width: 380px;
 }
 p {
     font-size: 19px;
 }
-.left-container {
-    width: 460px;
-
+.shirt {
+    width: 26px;
+    height: 26px;
 }
 .sm-text{
     font-size: 13px;
@@ -28,3 +37,8 @@ a {
     text-decoration: none;
 }
 
+@media only screen and (max-width: 768px) {
+    p {
+        font-size: 17px;
+    }
+}

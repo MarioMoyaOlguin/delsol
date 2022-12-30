@@ -21,10 +21,10 @@ export class CalificacionComponent implements OnInit {
 
     for (let i = 0; i < 10; i++) {
       if(index === i) {
-        this.scoreArr.push({index: i, active: true});
+        this.scoreArr.push({index: i + 1, active: true});
 
       } else {
-        this.scoreArr.push({index: i, active: false});
+        this.scoreArr.push({index: i + 1, active: false});
       }
     }
     console.log(this.scoreArr)

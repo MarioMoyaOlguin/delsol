@@ -1,9 +1,8 @@
-* {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+
+main {
+    min-width: 320px;
+    min-height: 100vh; 
 }
-main { min-height: 100vh; }
 
 .switch-bg { background-color: #eed8d8 !important; }
 

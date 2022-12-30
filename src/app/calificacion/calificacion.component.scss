@@ -1,4 +1,5 @@
 main {
+    min-width: 320px;
     min-height: 100vh;
 }
 img {
@@ -26,7 +27,7 @@ th {
     cursor: pointer;
 }
 th:hover {
-    background-color: #eada17;
+    background-color: #d3d3d3 !important;
 }
 
 @media only screen and (max-width: 768px) {
