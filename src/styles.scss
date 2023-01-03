@@ -1,6 +1,15 @@
+* {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
 main {
     min-height: 100vh !important;
     background-color: #f9fafc !important;
+}
+button[type="submit"]:disabled {
+    background-color: rgb(127, 127, 127) !important;
+    border-color: rgb(127, 127, 127) !important;
 }
 .red {
     color: #f4323e !important;
@@ -89,7 +98,7 @@ textarea::placeholder, input::placeholder {
 .gray-btn, .action-btn, .cancel-btn {
     border-radius: 9999px;
     font-size: 1.1rem;
-    width: 150px;
+    width: 150px !important;
     padding: 4px;
 }
 .gray-btn {

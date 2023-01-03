@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-new-poll',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewPollComponent implements OnInit {
 
-  constructor() { }
+  pollForm!:FormGroup;
+
+  constructor(private router:Router, private fb:FormBuilder) { }
 
   ngOnInit(): void {
+    this.pollForm = this.fb.group({
+      titulo: ['', [Validators.required]],
+      tienda: ['', [Validators.required, Validators.pattern('[^ ]')]],
+      departamento: ['', [Validators.required, Validators.pattern('[^ ]')]]
+    });
   }
+  /* --------------------------------- Getters -------------------------------- */
+  get getTitulo() { return this.pollForm.get("titulo") }
+  get getTienda() { return this.pollForm.get("tienda") }
+  get getDepartamento() { return this.pollForm.get("departamento") }
+
+  newPoll = () => {
+    this.router.navigate(['/crear-encuesta'], {});
+  }
+
 
 }

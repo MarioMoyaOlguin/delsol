@@ -69,7 +69,7 @@ const routes: Routes = [
     component: DashboardComponent,
   },
   {
-    path: 'crear-cuestionario-encuesta',
+    path: 'crear-encuesta',
     component: CreatePollComponent,
   },
   {

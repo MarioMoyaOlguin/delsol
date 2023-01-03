@@ -1,0 +1,24 @@
+input.ng-touched.ng-invalid {
+    border: 2px solid rgb(228, 63, 63) !important;
+}
+form {
+    width: 100%;
+    max-width: 768px;
+}
+
+@media only screen and (max-width: 768px) {
+    form {
+        border-radius: 0px;
+    }
+    label {
+        font-size: 20px;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .action-btn, .cancel-btn {
+        width: 100px !important;
+    }
+    .themed-form {
+        padding: 20px 30px;
+    }
+}

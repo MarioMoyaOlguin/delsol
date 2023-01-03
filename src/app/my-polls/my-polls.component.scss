@@ -27,15 +27,15 @@ h1 {
 }
 input {
     width: 100%;
-    height: 30px !important;
+    height: 29px !important;
     border: 0px !important;
-    border-radius: 4px !important;
+    border-radius: 0px !important;
     font-size: 16px !important;
 }
 .chk {
     width: 40px;
-    border-radius: 4px;
     color: rgb(20, 20, 20) !important;
+    background-color: white;
 }
 .chk:hover {
     background-color: #e7f2ff;
@@ -68,6 +68,11 @@ table svg {
         line-height: 15px;
     }
     h1 {
-        font-size: 26px;
+        font-size: 24px;
+    }
+}
+@media only screen and (min-width: 576px) {
+    .font-small {
+        font-size: 20px;
     }
 }
