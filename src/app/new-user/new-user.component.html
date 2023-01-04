@@ -9,65 +9,84 @@
         </div>
     </app-header>
     
-    <form action="" class="themed-container themed-form mx-auto mt-4">
-        <h1 class="text-center red mb-4">Nuevo Usuario</h1>
-
-        <div class="d-flex gap-5">
-            <div class="d-flex flex-column w-100">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="" id="nombre" class="mb-4">
+    <div class="px-md-4 pb-4">
+        <form action="" class="themed-container themed-form mx-auto mt-4" [formGroup]="newUserForm" (submit)="newUser()">
+            <h1 class="text-center red mb-4">Nuevo Usuario</h1>
+    
+            <div class="d-flex flex-column flex-md-row gap-md-5">
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="" id="nombre" class="" formControlName="nombre" required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getNombre?.touched && getNombre?.invalid">Campo requerido</p>
+                </div>
+    
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
+                    <label for="mail">Correo</label>
+                    <input type="email" name="email" id="mail" class="" formControlName="correo" required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getCorreo?.touched && getCorreo?.invalid">Campo requerido</p>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getCorreo?.touched && getCorreo?.errors?.['pattern']">
+                        Email no válido
+                    </p>
+                </div>
             </div>
-
-            <div class="d-flex flex-column w-100">
-                <label for="mail">Correo</label>
-                <input type="text" name="" id="mail" class="mb-4">
+            
+            <div class="d-flex flex-column flex-md-row gap-md-5">
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
+                    <label for="pass">Contraseña</label>
+                    <input type="password" name="" id="pass" class="" formControlName="contraseña" required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getContrasena?.touched && getContrasena?.invalid">Campo requerido</p>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getContrasena?.touched && getContrasena?.errors?.['minlength']">
+                        Mínimo de 6 dígitos
+                    </p>
+                </div>
+    
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
+                    <label for="pass2">Confirmar Contraseña</label>
+                    <input type="password" name="" id="pass2" class="" formControlName="confirmar" required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getConfirmar?.touched && getConfirmar?.invalid">Campo requerido</p>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="f['confirmar'].getError('MustMatch') != null">
+                        La contraseña no coincide
+                    </p>
+                </div>
             </div>
-        </div>
-        
-        <div class="d-flex gap-5">
-            <div class="d-flex flex-column w-100">
-                <label for="pass">Contraseña</label>
-                <input type="password" name="" id="pass" class="mb-4">
+            
+            <div class="d-flex flex-column flex-md-row gap-md-5">
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
+                    <label for="tienda">Tienda</label>
+    
+                    <select class="select" id="tienda" formControlName="tienda" required>
+                        <option value=""></option>
+                        <option value="1">Tienda 1</option>
+                        <option value="2">Tienda 2</option>
+                        <option value="3">Tienda 3</option>
+                        <option value="4">Tienda 4</option>
+                    </select>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getTienda?.touched && getTienda?.invalid">
+                        Porfavor seleccione una tienda
+                    </p>
+                </div>
+    
+                <div class="d-flex flex-column w-100">
+                    <label for="puesto">Puesto</label>
+                    
+                    <select class="select" id="puesto" formControlName="puesto" required>
+                        <option value=""></option>
+                        <option value="1">Gerente</option>
+                        <option value="2">Encargado</option>
+                    </select>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getPuesto?.touched && getPuesto?.invalid">
+                        Porfavor seleccione un puesto
+                    </p>
+                </div>
             </div>
-
-            <div class="d-flex flex-column w-100">
-                <label for="pass2">Confirmar Contraseña</label>
-                <input type="password" name="" id="pass2" class="mb-4">
+    
+            <div class="d-flex gap-5 justify-content-end mt-5">
+                <a routerLink="/home">
+                    <button class="cancel-btn">Cancelar</button>
+                </a>
+                <button type="submit" class="action-btn" [disabled]="newUserForm.invalid">Crear</button>
             </div>
-        </div>
-        
-        <div class="d-flex gap-5">
-            <div class="d-flex flex-column w-100">
-                <label for="tienda">Tienda</label>
-
-                <select class="select" id="tienda">
-                    <option selected value="0"></option>
-                    <option value="1">Tienda 1</option>
-                    <option value="2">Tienda 2</option>
-                    <option value="3">Tienda 3</option>
-                    <option value="4">Tienda 4</option>
-                </select>
-            </div>
-
-            <div class="d-flex flex-column w-100">
-                <label for="puesto">Puesto</label>
-                
-                <select class="select" id="puesto">
-                    <option selected></option>
-                    <option value="1">Gerente</option>
-                    <option value="2">Encargado</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="d-flex gap-5 justify-content-end mt-5">
-            <a routerLink="/home">
-                <button class="cancel-btn">Cancelar</button>
-            </a>
-            <a routerLink="/home">
-                <button class="action-btn">Crear</button>
-            </a>
-        </div>
-    </form>
+        </form>
+    </div>
 
 </main>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-user',
@@ -7,9 +9,52 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewUserComponent implements OnInit {
 
-  constructor() { }
+  newUserForm!:FormGroup;
+
+  constructor(private router:Router, private fb:FormBuilder) { }
 
   ngOnInit(): void {
+    this.newUserForm = this.fb.group({
+      nombre: ['', [Validators.required]],
+      correo: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      contraseña: ['', [Validators.required, Validators.minLength(6)]],
+      confirmar: ['', [Validators.required]],
+      tienda: ['', [Validators.required]],
+      puesto: ['', [Validators.required]]
+    },{
+      validators:this.MustMatch("contraseña", "confirmar")
+    });
+    
+  }
+  get f() { return this.newUserForm.controls;}
+  get getNombre() { return this.newUserForm.get("nombre") }
+  get getCorreo() { return this.newUserForm.get("correo") }
+  get getContrasena() { return this.newUserForm.get("contraseña") }
+  get getConfirmar() { return this.newUserForm.get("confirmar") }
+  get getTienda() { return this.newUserForm.get("tienda") }
+  get getPuesto() { return this.newUserForm.get("puesto") }
+  
+  data:any[] = []
+
+  MustMatch = (pass:string, match:string) => {
+    return (formGroup:FormGroup) => {
+      const passwordControl = formGroup.controls[pass];
+      const confirmPasswordControl = formGroup.controls[match];
+
+      if(confirmPasswordControl.errors && !confirmPasswordControl.errors['MustMatch']) {
+        return;
+      }
+      if(passwordControl.value !== confirmPasswordControl.value) {
+        confirmPasswordControl.setErrors({MustMatch: true});
+        
+      } else {
+        confirmPasswordControl.setErrors(null);
+      }
+    }
+  }
+
+  newUser = () => {
+    this.router.navigate(['/home'], {});
   }
 
 }
