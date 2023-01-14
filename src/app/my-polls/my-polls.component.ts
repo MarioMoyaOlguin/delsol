@@ -22,17 +22,30 @@ export class MyPollsComponent implements OnInit {
     {nombre: 'Encuesta dto. ropa ', num: '20', estado: 'cerrado', respuestas: '200 / 200', done: true},
     {nombre: 'Experiencia de compras ', num: '23', estado: 'activo', respuestas: '116 / 200', done: true}
   ];
-
-  rename = (index:number) => {
+  
+  edit = (index:number) => {
     this.editing = true;
     this.pollsArray[index].done = false;
   }
 
-  setName = (name:string, index:number) => {
-    if(name === '') {
+  setData = (index:number, data:string[]) => {
+    if(data[0] === '' || data[1] === '' || data[2] === '' || data[3] === '') {
       return
     }
-    this.pollsArray[index].nombre = name;
+    this.pollsArray[index].nombre = data[0];
+    this.pollsArray[index].num = data[1];
+    this.pollsArray[index].estado = data[2];
+    this.pollsArray[index].respuestas = data[3];
+    this.pollsArray[index].done = true;
+    console.log("this.usersArray[index]: ", this.pollsArray[index]);
+    this.editing = false;
+  }
+
+  deleteUser = () => {
+    
+  }
+
+  cancelEdit = (index:number) => {
     this.pollsArray[index].done = true;
     this.editing = false;
   }

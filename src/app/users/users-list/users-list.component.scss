@@ -12,15 +12,6 @@ h1 {
 .svg-hover:hover {
     color: #f4323e !important;
 }
-button:hover {
-    border-color: rgb(3, 133, 3) !important;
-    -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-    box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-}
-.bg-edit {
-    background-color: #ffc0c4;
-}
 .new-poll {
     border: 2px solid #d0def0 !important;
     border-radius: 9999px;
@@ -28,6 +19,18 @@ button:hover {
     -webkit-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
     -moz-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
     box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+}
+.bg-edit {
+    background-color: #ffc0c4;
+}
+button {
+    padding-left: 0px !important;
+}
+button:hover {
+    border-color: rgb(3, 133, 3) !important;
+    -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
+    -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
+    box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
 }
 .icons-container {
     width: 40px;
@@ -44,17 +47,10 @@ input, select {
     font-size: 16px !important;
     outline: none !important;
 }
-.chk {
-    width: 40px;
-    color: rgb(20, 20, 20) !important;
-    background-color: white;
-}
-.chk:hover {
-    background-color: #e7f2ff;
-}
 th, td {
-    padding: 16px 10px !important;
+    padding: 10px 5px !important;
     font-size: 1.1rem;
+    line-height: 1;
 }
 th {
     color: #8b8b8b;
@@ -62,15 +58,7 @@ th {
 td {
     color: #949494;
 }
-table svg {
-    color: #f4323e;
-}
-.edit {
-    border: none;
-    background-color: transparent;
-    font-size: 0.8rem;
-    font-weight: 600 !important;
-}
+
 
 @media only screen and (max-width: 768px) {
     th, td {

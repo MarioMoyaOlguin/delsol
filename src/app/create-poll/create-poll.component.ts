@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-create-poll',
@@ -6,8 +6,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./create-poll.component.scss']
 })
 export class CreatePollComponent implements OnInit {
-  
-  // @ViewChild('seccionPreguntas') divPreguntas!: ElementRef;
   
   constructor() { }
   

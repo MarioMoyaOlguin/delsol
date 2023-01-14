@@ -5,7 +5,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
             </svg>
-            <a routerLink="/home" class="gray">Volver</a>
+            <a routerLink="/lista-usuarios" class="gray">Volver</a>
         </div>
     </app-header>
     
@@ -66,7 +66,7 @@
                     </p>
                 </div>
     
-                <div class="d-flex flex-column w-100">
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4">
                     <label for="puesto">Puesto</label>
                     
                     <select class="select" id="puesto" formControlName="puesto" required>
@@ -79,9 +79,24 @@
                     </p>
                 </div>
             </div>
+
+            <div class="d-flex flex-column flex-md-row gap-md-5 one-input-column">
+                <div class="d-flex flex-column w-100 mb-3 mb-md-4 me-half-rem">
+                    <label for="tipo-usuario">Tipo de usuario</label>
+    
+                    <select class="select" id="tipo-usuario" formControlName="tipoUsuario" required>
+                        <option value=""></option>
+                        <option value="Normal">Normal</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getTipoUsuario?.touched && getTipoUsuario?.invalid">
+                        Porfavor seleccione un tipo de usuario
+                    </p>
+                </div>
+            </div>
     
             <div class="d-flex gap-5 justify-content-end mt-5">
-                <a routerLink="/home">
+                <a routerLink="/lista-usuarios">
                     <button class="cancel-btn">Cancelar</button>
                 </a>
                 <button type="submit" class="action-btn" [disabled]="newUserForm.invalid">Crear</button>

@@ -20,7 +20,8 @@ export class NewUserComponent implements OnInit {
       contraseña: ['', [Validators.required, Validators.minLength(6)]],
       confirmar: ['', [Validators.required]],
       tienda: ['', [Validators.required]],
-      puesto: ['', [Validators.required]]
+      puesto: ['', [Validators.required]],
+      tipoUsuario: ['', [Validators.required]]
     },{
       validators:this.MustMatch("contraseña", "confirmar")
     });
@@ -33,6 +34,7 @@ export class NewUserComponent implements OnInit {
   get getConfirmar() { return this.newUserForm.get("confirmar") }
   get getTienda() { return this.newUserForm.get("tienda") }
   get getPuesto() { return this.newUserForm.get("puesto") }
+  get getTipoUsuario() { return this.newUserForm.get("tipoUsuario") }
   
   data:any[] = []
 
@@ -54,7 +56,7 @@ export class NewUserComponent implements OnInit {
   }
 
   newUser = () => {
-    this.router.navigate(['/home'], {});
+    this.router.navigate(['/usuarios'], {});
   }
 
 }

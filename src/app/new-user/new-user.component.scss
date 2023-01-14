@@ -5,6 +5,12 @@ form {
 input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
     border: 2px solid rgb(228, 63, 63) !important;
 }
+.one-input-column {
+    width: 50%;
+}
+.me-half-rem {
+    margin-right: 1.5rem;
+}
 
 
 @media only screen and (max-width: 768px) {
@@ -17,6 +23,9 @@ input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
     }
     input {
         height: 34px !important;
+    }
+    .one-input-column {
+        width: 100%;
     }
 }
 @media only screen and (max-width: 576px) {

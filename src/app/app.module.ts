@@ -23,6 +23,9 @@ import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.compo
 import { CalificacionComponent } from './calificacion/calificacion.component';
 import { NpsComponent } from './nps/nps.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { PanelComponent } from './users/panel/panel.component';
+import { ModulesComponent } from './modules/modules.component';
 
 
 
@@ -48,6 +51,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     EncuestaCreadaComponent,
     CalificacionComponent,
     NpsComponent,
+    UsersListComponent,
+    PanelComponent,
+    ModulesComponent,
   ],
   imports: [
     BrowserModule,

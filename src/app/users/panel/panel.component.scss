@@ -1,0 +1,15 @@
+.list-title {
+    font-size: 19px;
+}
+
+
+
+@media only screen and (max-width: 576px) {
+    .title {
+        font-size: 16px !important;
+    }
+    .link-btn {
+        width: 120px !important;
+        height: 100px !important;
+    }
+}

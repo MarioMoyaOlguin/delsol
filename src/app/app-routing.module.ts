@@ -18,6 +18,9 @@ import { UserExperienceComponent } from './user-experience/user-experience.compo
 import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.component';
 import { CalificacionComponent } from './calificacion/calificacion.component';
 import { NpsComponent } from './nps/nps.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { PanelComponent } from './users/panel/panel.component';
+import { ModulesComponent } from './modules/modules.component';
 
 const routes: Routes = [
   {
@@ -87,6 +90,18 @@ const routes: Routes = [
   {
     path: 'NPS',
     component: NpsComponent,
+  },
+  {
+    path: 'usuarios',
+    component: PanelComponent,
+  },
+  {
+    path: 'lista-usuarios',
+    component: UsersListComponent,
+  },
+  {
+    path: 'tiendas',
+    component: ModulesComponent,
   },
 ];
 
