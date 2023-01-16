@@ -15,12 +15,12 @@ export class MyPollsComponent implements OnInit {
   editing = false;
 
   pollsArray:any[] = [
-    {nombre: 'Encuesta prueba ', num: '5', estado: 'activo', respuestas: '134 / 200', done: true},
-    {nombre: 'Instalaciones ', num: '24', estado: 'activo', respuestas: '146 / 200', done: true},
-    {nombre: 'Encuesta electrónica ', num: '31', estado: 'activo', respuestas: '167 / 200', done: true},
-    {nombre: 'Atención al cliente ', num: '46', estado: 'cerrado', respuestas: '200 / 200', done: true},
-    {nombre: 'Encuesta dto. ropa ', num: '20', estado: 'cerrado', respuestas: '200 / 200', done: true},
-    {nombre: 'Experiencia de compras ', num: '23', estado: 'activo', respuestas: '116 / 200', done: true}
+    {checked: false, nombre: 'Encuesta prueba ', num: '5', estado: 'activo', respuestas: '134', done: true},
+    {checked: false, nombre: 'Instalaciones ', num: '24', estado: 'activo', respuestas: '146', done: true},
+    {checked: false, nombre: 'Encuesta electrónica ', num: '31', estado: 'activo', respuestas: '167', done: true},
+    {checked: false, nombre: 'Atención al cliente ', num: '46', estado: 'cerrado', respuestas: '200', done: true},
+    {checked: false, nombre: 'Encuesta dto. ropa ', num: '20', estado: 'cerrado', respuestas: '200', done: true},
+    {checked: false, nombre: 'Experiencia de compras ', num: '23', estado: 'activo', respuestas: '116', done: true}
   ];
   
   edit = (index:number) => {
@@ -29,13 +29,11 @@ export class MyPollsComponent implements OnInit {
   }
 
   setData = (index:number, data:string[]) => {
-    if(data[0] === '' || data[1] === '' || data[2] === '' || data[3] === '') {
+    if(data[0] === '' || data[1] === '') {
       return
     }
     this.pollsArray[index].nombre = data[0];
-    this.pollsArray[index].num = data[1];
-    this.pollsArray[index].estado = data[2];
-    this.pollsArray[index].respuestas = data[3];
+    this.pollsArray[index].estado = data[1];
     this.pollsArray[index].done = true;
     console.log("this.usersArray[index]: ", this.pollsArray[index]);
     this.editing = false;
@@ -48,6 +46,16 @@ export class MyPollsComponent implements OnInit {
   cancelEdit = (index:number) => {
     this.pollsArray[index].done = true;
     this.editing = false;
+  }
+
+  setChecked = (index:number) => {
+    this.pollsArray[index].checked = !this.pollsArray[index].checked;
+  }
+
+  setAll = (checked:boolean) => {
+    for (let index = 0; index < this.pollsArray.length; index++) {
+      this.pollsArray[index].checked = checked;
+    }
   }
 
 }

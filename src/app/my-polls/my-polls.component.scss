@@ -6,6 +6,13 @@ main {
 h1 {
     font-size: 32px;
 }
+input[type=checkbox] {
+    height: 14px !important;
+    width: 14px !important;
+}
+.checkbox-column {
+    width: 34px;
+}
 .svg-hover {
     color: black !important;
 }

@@ -6,7 +6,7 @@ main {
     background-color: #f9fafc !important;
 }
 .ease-in-out {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow;
+    transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
@@ -20,6 +20,7 @@ button[type="submit"]:disabled {
 .gray {
     color: #949494 !important;
 }
+
 .dark-gray {
     color: #747474 !important;
 }
@@ -58,12 +59,15 @@ a {
     padding: 24px 60px;
     width: 768px;
 }
+.text-label {
+    color: #949494;
+    font-size: 1.1rem;
+}
 p, label {
     color: #949494;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
 }
 label {
-    font-size: 1.4rem;
     margin-bottom: 0.6rem;
 }
 input[type=text], input[type=password], input[type=email], .select {

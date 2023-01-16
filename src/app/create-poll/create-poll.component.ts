@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { fade } from 'src/app/animations';
 
 @Component({
   selector: 'app-create-poll',
   templateUrl: './create-poll.component.html',
-  styleUrls: ['./create-poll.component.scss']
+  styleUrls: ['./create-poll.component.scss'],
+  animations: [
+    fade
+  ],
 })
 export class CreatePollComponent implements OnInit {
   
@@ -15,6 +19,7 @@ export class CreatePollComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
   /* -------------------------------------------------------------------------- */
+  alert = false; //control para el switch de alerta para pregunta
   check = false; //control para el switch de pregunta obligatoria
   visible = true; // control para mostrar/esconder elementos
   disable = false // control para habilitar/desabilitar elementos
@@ -27,8 +32,8 @@ export class CreatePollComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                              Estilos dinámicos                             */
   /* -------------------------------------------------------------------------- */
-  right = {'justify-content': 'end', 'background-color': 'rgb(76, 197, 76)', 'border-color': 'rgb(76, 197, 76)'};
-  left = {'justify-content': 'start', 'background-color': 'white', 'border-color': 'rgb(105, 105, 105)'};
+  right = {'background-color': 'rgb(76, 197, 76)', 'border-color': 'rgb(76, 197, 76)'};
+  left = {'background-color': 'white', 'border-color': 'rgb(105, 105, 105)'};
 
   disabled = {'pointer-events': 'none', 'cursor': 'not-allowed'};
   enabled = {'pointer-events': 'auto', 'cursor': 'pointer'};
@@ -88,8 +93,6 @@ export class CreatePollComponent implements OnInit {
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
   createQuestion(qType:string, index:number, data?:Array<String>) {
-    
-    console.log("qType: ", qType);
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
@@ -103,8 +106,7 @@ export class CreatePollComponent implements OnInit {
 
     switch (qType) {
       case 'texto':
-        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], answer: `Respuesta`,
-          required: this.check, done: true}));
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true}));
         console.log(this.questionsArray);
         break;
       case 'calificacion':
@@ -112,22 +114,24 @@ export class CreatePollComponent implements OnInit {
           high: data![2], required: this.check, done: true}));
         console.log(this.questionsArray);
         break;
-        case 'opcion':
+      case 'opcion':
           this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true,
             required: this.check}));
           console.log(this.questionsArray);
           break;
-        case 'estrellas':
+      case 'estrellas':
           this.questionsArray.splice(index, 1, ({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
             required: this.check, done: true}));
           console.log(this.questionsArray);
           break;
-        case 'nps':
+      case 'nps':
           this.questionsArray.splice(index, 1, ({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
             required: this.check, done: true}));
           console.log(this.questionsArray);
           break;
     }
+    //Reiniciar controles
+    this.alert = false;
     this.check = false;
     this.editing = false;
     this.disable = false;
@@ -186,6 +190,10 @@ export class CreatePollComponent implements OnInit {
   /* --------------------- Switch de pregunta obligatoria --------------------- */
   setRequired = () => {
     this.check = !this.check;
+  }
+
+  setAlert = () => {
+    this.alert = !this.alert;
   }
 
   /* ------- Validar que no se guarde texto vacio al arreglo de opciones ------ */

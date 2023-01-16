@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
             </svg>
-            <a routerLink="/home" class="gray" [ngStyle]="editing ? noPointerEvs : pointerEvs">Volver</a>
+            <a routerLink="/mis-encuestas" class="gray" [ngStyle]="editing ? noPointerEvs : pointerEvs">Volver</a>
         </div>
     </app-header>
 
@@ -30,8 +30,8 @@
             <!--                            Seccion preguntas                            -->
             <!-- ----------------------------------------------------------------------- -->
             <!-- ciclo for para renderizar preguntas de acuerdo al arreglo questionsArray -->
-            <div class="d-flex w-100 gap-5 mb-4" id="pregunta" *ngFor="let question of questionsArray; let i = index" #seccionPreguntas
-            [ngStyle]="{'pointer-events': editTitle ? 'none' : 'auto'}">
+            <div class="d-flex w-100 gap-5 mb-4 ease-in-out" id="pregunta" *ngFor="let question of questionsArray; let i = index" #seccionPreguntas
+            [ngStyle]="{'pointer-events': editTitle ? 'none' : 'auto'}" @fadeInOut>
     
                 <!-- switch que renderiza el tipo de pregunta segun sea su caso -->
                 <div class="w-100" [ngSwitch]="question.type">
@@ -39,6 +39,7 @@
                     <!-- ----------------------------- Case texto ------------------------------ -->
                     <div *ngSwitchCase="'texto'" class="d-flex flex-column w-100 mb-4"
                     [ngStyle]="question.done ? completed : edit"> <!-- fondo y borde rojo o azul -->
+                        <!-- Cabecera, contiene el número de pregunta e iconos para editar, eliminat, etc -->
                         <div class="d-flex justify-content-between w-100 p-2">
                             <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                             <div class="d-flex gap-1 align-items-center">
@@ -79,6 +80,7 @@
                                 </button>
                             </div>
                         </div>
+                        <!-- cuerpo de la pregunta -->
                         <div class="d-flex flex-column p-3 pt-0">
                             <div class="d-flex flex-column w-100">
                                 <label for="{{question.question}}" class="red mb-0 text-center">{{question.question}}</label>
@@ -90,17 +92,30 @@
                                 <textarea name="" placeholder="Demo..."></textarea>
                             </div>
                         </div>
+                        <!-- footer con switchs de alerta y pregunta obligatoria -->
                         <div class="d-flex justify-content-end align-items-center switch-bg px-3 py-2 mt-3" *ngIf="!question.done">
-                            <div class="d-flex align-items-center check-container rounded-pill "
-                            (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
-                                <div class="check-control rounded-circle"></div>
+                            <!-- <div class="d-flex me-4">
+                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                (click)="setAlert()" [ngStyle]="alert ? right : left">
+                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                    [ngClass]="alert ? 'right' : 'left'"></div>
+                                </div>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
+                            </div> -->
+                            <div class="d-flex">
+                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
+                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                    [ngClass]="check ? 'right' : 'left'"></div>
+                                </div>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Obligatoria</p>
                             </div>
-                            <p class="fs-6 ms-2 mb-0 text-dark">Obligatoria</p>
                         </div>
                     </div>
                     
                     <!-- -------------------------- case calificacion -------------------------- -->
                     <div *ngSwitchCase="'calificacion'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
+                        <!-- ------------------------------ cabecera ------------------------------- -->
                         <div class="d-flex justify-content-between w-100 p-2">
                             <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
                             <div class="d-flex gap-1 align-items-center">
@@ -141,6 +156,7 @@
                                 </button>
                             </div>
                         </div>
+                        <!-- cuerpo -->
                         <div class="p-3 pt-0">
                             <div class="d-flex flex-column w-100 mb-3">
                                 <label for="{{question.question}}" class="red mb-0 text-center">{{question.question}}</label>
@@ -165,12 +181,16 @@
                                 (keyup)="0" value="" [ngStyle]="question.done ? displayNone : displayBlock">
                             </div>
                         </div>
+                        <!-- footer -->
                         <div class="d-flex justify-content-end align-items-center switch-bg px-3 py-2 mt-3" *ngIf="!question.done">
-                            <div class="d-flex align-items-center check-container rounded-pill "
-                            (click)="setRequired()" [ngStyle]="check ? right : left">
-                                <div class="check-control rounded-circle"></div>
+                            <div class="d-flex">
+                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
+                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                    [ngClass]="check ? 'right' : 'left'"></div>
+                                </div>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Obligatoria</p>
                             </div>
-                            <p class="fs-6 ms-2 mb-0 text-dark">Obligatoria</p>
                         </div>
                     </div>
     
@@ -458,7 +478,7 @@
             </div>
     
             <!-- --------------------------- Nueva pregunta ---------------------------- -->
-            <div class="new-q-container p-4" (click)="addQuestion()" id="newQ"
+            <div class="new-q-container p-4 " (click)="addQuestion()" id="newQ"
             [ngStyle]="(disable || editTitle) ? disabled : enabled"> <!-- Deshabilitado si se esta editando el titulo de encuesta o nueva pregunta-->
                 <div class="d-flex justify-content-center align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus me-1 dark-gray" viewBox="0 0 16 16"
@@ -470,7 +490,7 @@
                 </div>
         
                 <!-- Menu de selección de tipo de pregunta -->
-                <div class="w-100 select-type d-flex justify-content-center align-items-center gap-3 flex-wrap text-center"
+                <div class="w-100 select-type d-flex justify-content-center align-items-center gap-3 flex-wrap text-center ease-in-out"
                 [ngStyle]="visible ? show : hide">
                     <p (click)="prototypeQuestion('opcion')">Opción</p>
                     <p (click)="prototypeQuestion('texto')">Texto</p>
@@ -483,6 +503,8 @@
             <!-- botones -->
             <div class="d-flex gap-5 justify-content-end mt-5">
                 <!-- <button class="cancel-btn">Guardar</button> -->
+                <button class="cancel-btn" routerLink="/mis-encuestas">Cancelar</button>
+                <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing">Guardar</button>
                 <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing">Publicar</button>
             </div>
         </div>

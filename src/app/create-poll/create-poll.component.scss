@@ -1,3 +1,4 @@
+
 main {
     min-width: 320px;
     min-height: 100vh; 
@@ -10,6 +11,12 @@ main {
     width: 40px !important;
     border-radius: 8px;
     color: #747474 !important;
+}
+.left {
+    transform: translateX(3px);
+}
+.right {
+    transform: translateX(21px);
 }
 .title:hover {
     background-color: #bac8da;
@@ -93,13 +100,13 @@ th:hover { background-color: #ccc; }
 
 .check-container {
     height: 26px !important;
-    padding: 0px 3px;
+    padding: 0px;
     width: 44px !important;
     cursor: pointer;
 }
 .check-control {
-    height: 19px;
-    width: 19px;
+    height: 20px;
+    width: 20px;
     background-color: rgb(100, 100, 100);
     z-index: 10;
 }
