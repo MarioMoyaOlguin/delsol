@@ -52,6 +52,11 @@ main {
 .bton:hover {
     background-color: #d0def0 !important;
 }
+input, select, button {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
 button {
     appearance: none !important;
     outline: none !important;
@@ -157,7 +162,7 @@ th:hover { background-color: #ccc; }
 .item-container {
     position: relative;
     padding-left: 35px;
-    margin-bottom: 12px;
+    margin-bottom: 0px !important;
     cursor: pointer;
     width: fit-content !important;
     font-size: 20px !important;
@@ -186,11 +191,14 @@ th:hover { background-color: #ccc; }
     background-color: #ccc;
 }
   
-/* On mouse-over, add a grey background color */
-.item-container:hover input ~ .checkmark { background-color: #2196F3; }
-  
+/* On mouse-over, add a light-blue background color */
+.item-container:hover input ~ .checkmark { background-color: #3c9ff0; }
+
+/* On mouse-over and ckecked, add a light-blue background color */
+.item-container:hover input:checked ~ .checkmark { background-color: #3c9ff0; }
+
 /* When the checkbox is checked, add a blue background */
-.item-container input:checked ~ .checkmark { background-color: #2196F3; }
+.item-container input:checked ~ .checkmark { background-color: #258de2; }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
@@ -222,9 +230,121 @@ th:hover { background-color: #ccc; }
     max-width: 220px !important;
     border-right: 0px !important;
 }
+.select {
+    height: 30px !important;
+    width: 135px;
+    outline: none !important;
+}
+.number {
+    height: 30px !important;
+    width: 105px;
+    outline: none !important;
+}
 .input-calificacion {
     height: 30px !important;
 }
+.mostrar {
+    display: block;
+    height: fit-content;
+}
+.ocultar {
+    display: none;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+.optionsLegend p {
+    font-size: 16px;
+    color: black;
+    margin-left: 4px;
+}
+input[type=checkbox]:disabled {
+    background-color: white;
+    pointer-events: none;
+}
+.calendario {
+    width: 180px;
+    height: 48px;
+    padding: 4px;
+    appearance: none !important;
+    border-radius: 8px;
+    outline: none !important;
+}
+::-webkit-calendar-picker-indicator { 
+    width: 40px;
+    height: 40px;
+ }
+ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: 0;
+    padding: 0;
+}
+li {
+    font-size: 1.2rem;
+}
+.day-name {
+    background-color: white;
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+    color: #f4323e;
+}
+.day {
+    width: 30px !important;
+    height: 30px;
+}
+.day:hover {
+    background-color: #ff7c85;
+    color: white;
+}
+.day-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.set-date {
+    background-color: white !important;
+}
+.bg-white {
+    background-color: white !important;
+}
+.header-calendar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.header-calendar h1 {
+    color: #43b5ad;
+}
+.header-calendar button {
+    border: 0;
+}
+.set-date p{
+    font-size: 16px;
+    padding: 2px;
+    display: flex;
+    align-items: flex-end;
+}
+.date-input {
+    width: fit-content;
+    height: 30px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 2px !important;
+    outline: none !important;
+}
+.date-controls {
+    background-color: transparent;
+}
+.date-controls:hover {
+    background-color: #76eee6 !important;
+}
+.bg-date {
+    background-color: #4cc7be !important;
+}
+
 
 
 @media only screen and (max-width: 992px) {

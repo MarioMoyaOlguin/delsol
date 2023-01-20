@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -15,11 +15,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: '',
-      password: ''
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
     this.loginForm.valueChanges.subscribe(console.log);
   }
+  get getEmail() { return this.loginForm.get("email") }
+  get getPassword() { return this.loginForm.get("password") }
 
   empty = '';
   wrongData = '';
@@ -30,9 +32,6 @@ export class LoginComponent implements OnInit {
 
   validateLogin = (e:Event, user:string, pass:string) => {
     e.preventDefault();
-    
-    if(user === '') console.log('vacio');
-    if(pass === '') console.log('vacio');
 
     this.router.navigate(['/home'], {});
   }

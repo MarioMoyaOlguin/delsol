@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs, 'es');
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { PanelComponent } from './users/panel/panel.component';
 import { ModulesComponent } from './modules/modules.component';
+import { registerLocaleData } from '@angular/common';
 
 
 
@@ -62,7 +66,9 @@ import { ModulesComponent } from './modules/modules.component';
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
