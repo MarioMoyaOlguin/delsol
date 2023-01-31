@@ -1,12 +1,12 @@
 import { trigger, state, style, animate, transition, } from '@angular/animations';
 
 export const fade = trigger('fadeInOut', [
-    state('void', style({opacity: 0, transform: 'translateY(-10px)'})),
+    state('void', style({opacity: 0})),
     transition(':enter', [
-      animate(150)
+      animate(100)
     ]),
     transition(':leave', [
-      animate(150, style({opacity: 0}))
+      animate(100)
     ])
 ]);
 

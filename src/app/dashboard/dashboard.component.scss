@@ -36,6 +36,12 @@ p {
 a {
     text-decoration: none;
 }
+.themed-shadow {
+    -webkit-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    -moz-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+}
+
 
 @media only screen and (max-width: 768px) {
     p {

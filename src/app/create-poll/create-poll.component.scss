@@ -1,7 +1,8 @@
 
 main {
     min-width: 320px;
-    min-height: 100vh; 
+    min-height: 100vh;
+    scroll-behavior: smooth;
 }
 .edit {
     cursor: pointer;
@@ -130,15 +131,13 @@ th:hover { background-color: #ccc; }
 .stars-cont input {
     height: 30px !important;
 }
-.border-e-0 {
+.rounded-e-0 {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
-    border-right: 0px !important;
 }
-.border-s-0 {
+.rounded-s-0 {
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
-    border-left: 0px !important;
 }
 .select-type p{
     background-color: #e2e8f0;
@@ -222,6 +221,7 @@ th:hover { background-color: #ccc; }
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
 .new-option {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
@@ -231,14 +231,16 @@ th:hover { background-color: #ccc; }
     border-right: 0px !important;
 }
 .select {
-    height: 30px !important;
+    height: 26px !important;
     width: 135px;
     outline: none !important;
 }
 .number {
     height: 30px !important;
-    width: 105px;
+    width: 90px;
     outline: none !important;
+    border: 0 !important;
+    padding-left: 0px !important
 }
 .input-calificacion {
     height: 30px !important;
@@ -273,6 +275,9 @@ input[type=checkbox]:disabled {
 ::-webkit-calendar-picker-indicator { 
     width: 40px;
     height: 40px;
+ }
+ .w-fit {
+    width: fit-content !important;
  }
 ol {
     list-style: none;
@@ -344,6 +349,55 @@ li {
 .bg-date {
     background-color: #4cc7be !important;
 }
+.view-array {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(246, 191, 51);
+    top: 90px;
+    right: 4px;
+}
+.view-route {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(246, 191, 51);
+    top: 140px;
+    right: 4px;
+}
+select {
+    outline: none !important;
+    height: 26px;
+    border: 0 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.bg-edit {
+    max-width: 300px !important;
+}
+.close-viewer {
+    background-color: #fc5c67;
+    color: white;
+    stroke-width: 6px;
+    position: fixed;
+    top: 4px;
+    right: 18px;
+    border-radius: 9999px;
+    padding: 6px;
+}
+.close-viewer:hover {
+    background-color: #f4323e;
+}
+
+.card-container {
+    width: 250px;
+    // height: 100px;
+}
+.number-container {
+    width: 34px;
+    height: 34px;
+}
+.bg-green-light {
+    background-color: #d6eae1;
+}
 
 
 
@@ -373,5 +427,8 @@ li {
     }
     .stars-cont {
         width: 100% !important;
+    }
+    .view-array {
+        top: 80px;
     }
 }

@@ -78,6 +78,21 @@ table svg {
     font-size: 0.8rem;
     font-weight: 600 !important;
 }
+.close-viewer {
+    background-color: #fc5c67;
+    color: white;
+    stroke-width: 6px;
+    position: fixed;
+    top: 4px;
+    right: 18px;
+    border-radius: 9999px;
+    padding: 6px;
+}
+.close-viewer:hover {
+    background-color: #f4323e;
+}
+
+
 
 @media only screen and (max-width: 768px) {
     th, td {

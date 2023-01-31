@@ -31,6 +31,13 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { PanelComponent } from './users/panel/panel.component';
 import { ModulesComponent } from './modules/modules.component';
 import { registerLocaleData } from '@angular/common';
+import { QuestionTypeComponent } from './questions/question-type/question-type.component';
+import { OpcionComponent } from './questions/opcion/opcion.component';
+import { PollViewerComponent } from './poll-viewer/poll-viewer.component';
+import { RouteSelectorComponent } from './route-selector/route-selector.component';
+import { PollMenuComponent } from './poll-menu/poll-menu.component';
+import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
+import { PollsChartsComponent } from './polls-charts/polls-charts.component';
 
 
 
@@ -59,6 +66,13 @@ import { registerLocaleData } from '@angular/common';
     UsersListComponent,
     PanelComponent,
     ModulesComponent,
+    QuestionTypeComponent,
+    OpcionComponent,
+    PollViewerComponent,
+    RouteSelectorComponent,
+    PollMenuComponent,
+    ModulesMenuComponent,
+    PollsChartsComponent,
   ],
   imports: [
     BrowserModule,

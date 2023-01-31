@@ -33,9 +33,12 @@ export class CreatePollPrototypeComponent implements OnInit {
   disable = false // control para habilitar/desabilitar elementos
   editing = false // controla el modo de edición de pregunta
   editTitle = false // Control de título de encuesta
+
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
   questionsArray:any[] = []; //Array de preguntas
   optionsArray:any[] = [] //Array de opciones, pregunta tipo opcion
+  data:string[] = [];
+
   condicionalOpciones = ''
   cantidadCondicionalOpciones = 0;
 
@@ -63,6 +66,12 @@ export class CreatePollPrototypeComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
+  pushDatos = (datos:string[]) => {
+    this.data = [];
+    this.data = [...datos];
+  }
+
+
   editPollTitle = () => {
     this.editTitle = true;
   }
@@ -105,21 +114,23 @@ export class CreatePollPrototypeComponent implements OnInit {
   }
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
-  createQuestion(qType:string, index:number, data?:Array<string>) {
+  createQuestion(index:number, data?:Array<string>) {
+    console.log("data: ", data);
+
 
     // Validaciones
-    if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
+    if(data![0] === 'opcion' && this.optionsArray.length < 2 || data![0] === 'opcion' && data![1] === '') {
       alert('Rellena todos los campos');
       return;
     }
-    if(data![0] === '' || data![1] === '' || data![2] === '' || data![3] === '') {
+    if(data![1] === '' || data![2] === '' || data![3] === '' || data![4] === '') {
       alert('Rellena todos los campos');
       return;
     }
 
-    switch (qType) {
+    switch (data![0]) {
       case 'texto':
-        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true}));
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![1], required: this.check, done: true}));
         console.log(this.questionsArray);
         break;
 
@@ -155,12 +166,13 @@ export class CreatePollPrototypeComponent implements OnInit {
         this.questionsArray.splice(index, 1, ({type: 'fecha', question: data![0], required: this.check, done: true}));
         break;
     }
-    //Reiniciar controles
+    // Reiniciar controles y arreglos
     this.alert = false;
     this.check = false;
     this.editing = false;
     this.disable = false;
     this.optionsArray = [];
+    this.data =[];
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */

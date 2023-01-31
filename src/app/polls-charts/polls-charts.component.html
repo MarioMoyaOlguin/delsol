@@ -1,0 +1,22 @@
+<div class="main-container gray-bg ">
+    <ng-content></ng-content>
+    
+    <p class="red fs-3 mb-0 mt-4 px-3 text-center">{{nombreEncuesta}}</p>
+    
+    <div class="d-flex flex-wrap justify-content-center flex-wrap gap-4 p-4" #chartsContainer>
+        <div class="themed-shadow chart rounded-2 bg-white d-flex flex-column align-items-center p-1 "
+        *ngFor="let chart of chartsArray; let i = index">
+            <div class="w-100 mb-2">
+                <div class="d-flex gap-2 justify-content-start">
+                    <p class="mb-0 text-success fs-6">Pregunta {{i+1}}</p>
+                    <p class="mb-0 text-primary fs-6">{{chart.type}}</p>
+                </div>
+                <p class="red fs-6 text-center fw-semibold mb-0 mt-2">Respuestas de la pregunta {{i+1}}</p>
+            </div>
+
+            <div>
+                <canvas width="400" height="200"></canvas>    
+            </div>
+        </div>
+    </div>
+</div>

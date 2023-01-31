@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment'
+import * as moment from 'moment';
 
 moment.locale('es');
 
@@ -13,6 +13,7 @@ import { fade } from 'src/app/animations';
     fade
   ],
 })
+
 export class CreatePollComponent implements OnInit {
   
   constructor() { }
@@ -21,7 +22,6 @@ export class CreatePollComponent implements OnInit {
     this.getDaysFromDate('01', '2023');
     this.pushYears();
   }
-
   
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
@@ -29,12 +29,23 @@ export class CreatePollComponent implements OnInit {
   alert = false; //control para el switch de alerta para pregunta
   check = false; //control para el switch de pregunta obligatoria
   visible = true; // control para mostrar/esconder elementos
-  disable = false // control para habilitar/desabilitar elementos
-  editing = false // controla el modo de edición de pregunta
-  editTitle = false // Control de título de encuesta
+  disable = false; // control para habilitar/desabilitar elementos
+  editing = false; // controla el modo de edición de pregunta
+  editTitle = false; // Control de título de encuesta
+  optional = false; // Para indicar que la pregunta es opcional
+  viewer = false; //Controla el visor de preguntas
+  route = false;
+
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
   questionsArray:any[] = []; //Array de preguntas
-  optionsArray:any[] = [] //Array de opciones, pregunta tipo opcion
+  optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
+  optionalQuestionsArray:any[] = [];
+  ordenNormalArray:any[] = [];
+  doneQuestions:any[] = [];
+
+  scoreArray = ['2','3','4','5','6','7','8','9'];
+  starsArray = ['2','3','4'];
+
   condicionalOpciones = ''
   cantidadCondicionalOpciones = 0;
 
@@ -62,14 +73,46 @@ export class CreatePollComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
-  editPollTitle = () => {
+  editPollTitle = () => { //editar titulo de la encuesta
     this.editTitle = true;
   }
-  setPollTitle = (title:string) => {
+  setPollTitle = (title:string) => { //establecer titulo de la encuesta
     if(title == '') { return; }
     this.titulo.pop();
     this.titulo.push(title)
     this.editTitle = false
+  }
+
+  openViewer = () => this.viewer = !this.viewer;
+  routeViewer = () => this.route = !this.route;
+
+  makeOptional = () => { //control pregunta opcional
+    this.optional = !this.optional;
+  }
+
+  getOptionalQuestionsArray = () => { //crear array de preguntas opcionales
+    this.optionalQuestionsArray = [];
+    for (let i = 0; i < this.questionsArray.length; i++) {
+      if(this.questionsArray[i].opcional) {
+        this.optionalQuestionsArray.push(this.questionsArray[i])
+      }
+    }
+  }
+  getOrdenNormalArray = () => { //crear array de preguntas opcionales
+    this.ordenNormalArray = [];
+    for (let i = 0; i < this.questionsArray.length; i++) {
+      if(!this.questionsArray[i].opcional) {
+        this.ordenNormalArray.push(this.questionsArray[i])
+      }
+    }
+  }
+  getDoneQuestions = () => {
+    this.doneQuestions = [];
+    for (let i = 0; i < this.questionsArray.length; i++) {
+      if(this.questionsArray[i].done) {
+        this.doneQuestions.push(this.questionsArray[i])
+      }
+    }
   }
 
   addQuestion() { //Muestra o esconde los botones de selección de tipo de pregunta
@@ -80,6 +123,9 @@ export class CreatePollComponent implements OnInit {
   prototypeQuestion(questionType:string) {
     this.disable = true;
     this.editing = true;
+
+    this.getOptionalQuestionsArray();
+    this.getOrdenNormalArray();
 
     switch (questionType) {
       case 'texto':
@@ -105,61 +151,103 @@ export class CreatePollComponent implements OnInit {
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
   createQuestion(qType:string, index:number, data?:Array<string>) {
+    console.log("data: ", data);
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
       alert('Rellena todos los campos');
       return;
     }
-    if(data![0] === '' || data![1] === '' || data![2] === '' || data![3] === '') {
+    if(data![0] === '') {
       alert('Rellena todos los campos');
       return;
     }
 
     switch (qType) {
       case 'texto':
-        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true}));
-        console.log(this.questionsArray);
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
+          opcional: this.optional, targetQuestion: data![1]}));
         break;
 
       case 'calificacion':
+        if(data![3] !== 'no' && data![4] === 'no'){
+          alert('Seleccione hacia que pregunta se ramifica');
+          return;
+        }
+        if(data![4] !== 'no' && data![3] === 'no'){
+          alert('Seleccione condicion para ramificar pregunta');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'calificacion', question: data![0], low: data![1],
-          high: data![2], required: this.check, done: true}));
-        console.log(this.questionsArray);
+          high: data![2], required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3],
+            targetQuestion: data![4]}));
         break;
 
       case 'opcion':
-        const number = parseInt(data![2]);
+        const number = data![2] === '' ? 0 : parseInt(data![2]);
         if(this.optionsArray.length <= number) {
           alert('La cantidad de opciones no puede ser menor o igual a la cantidad de control');
           return;
         }
-        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true,
-          required: this.check, tipoLimite: data![1], numero: number }));
-        console.log(this.questionsArray);
+        if(data![1] !== 'no' && data![2] === '') {
+          alert('Seleccione cantidad para limitar las opciones');
+          return;
+        }
+        if(data![3] !== 'no' && data![4] === 'no'){
+          alert('Seleccione hacia que pregunta se ramifica');
+          return;
+        }
+        if(data![4] !== 'no' && data![3] === 'no'){
+          alert('Seleccione condicion para ramificar pregunta');
+          return;
+        }
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
+          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3], targetQuestion: data![4] }));
         break;
 
       case 'estrellas':
+        if(data![4] !== 'no' && data![5] === 'no'){
+          alert('Seleccione hacia que pregunta se ramifica');
+          return;
+        }
+        if(data![5] !== 'no' && data![4] === 'no'){
+          alert('Seleccione condicion para ramificar pregunta');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
-          required: this.check, done: true}));
-        console.log(this.questionsArray);
+          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5] }));
         break;
 
       case 'nps':
+        if(data![4] !== 'no' && data![5] === 'no'){
+          alert('Seleccione hacia que pregunta se ramifica');
+          return;
+        }
+        if(data![5] !== 'no' && data![4] === 'no'){
+          alert('Seleccione condicion para ramificar pregunta');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
-          required: this.check, done: true}));
-        console.log(this.questionsArray);
+          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5] }));
         break;
+
       case 'fecha':
-        this.questionsArray.splice(index, 1, ({type: 'fecha', question: data![0], required: this.check, done: true}));
+        this.questionsArray.splice(index, 1, ({type: 'fecha', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
+          opcional: this.optional, targetQuestion: data![1] }));
         break;
     }
+
+    // console.log("array opcionales: ", this.optionalQuestionsArray);
+    console.log("questionsArray: ", this.questionsArray);
+
     //Reiniciar controles
     this.alert = false;
     this.check = false;
     this.editing = false;
     this.disable = false;
+    this.optional = false;
     this.optionsArray = [];
+
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
@@ -169,6 +257,8 @@ export class CreatePollComponent implements OnInit {
     this.optionsArray = [];
     this.check = false;
     this.editing = false;
+    this.getOptionalQuestionsArray();
+    this.getOrdenNormalArray();
   }
 
   /* ----------------------------- Editar pregunta ---------------------------- */
@@ -193,6 +283,8 @@ export class CreatePollComponent implements OnInit {
         this.questionsArray.splice(index, 1, ({type: 'nps', question: `Pregunta`, done: false}));
         break;
     }
+    this.getOptionalQuestionsArray();
+    this.getOrdenNormalArray();
   }
 
   /* --------------------------------- Move up -------------------------------- */
@@ -200,7 +292,8 @@ export class CreatePollComponent implements OnInit {
     const item = this.questionsArray[index]
     this.questionsArray.splice(index, 1);
     this.questionsArray.splice(index -1, 0, item);
-    console.log(this.questionsArray);
+    this.getOptionalQuestionsArray();
+    this.getOrdenNormalArray();
   }
 
   /* -------------------------------- Move down ------------------------------- */
@@ -208,7 +301,8 @@ export class CreatePollComponent implements OnInit {
     const item = this.questionsArray[index]
     this.questionsArray.splice(index, 1);
     this.questionsArray.splice(index +1, 0, item);
-    console.log(this.questionsArray);
+    this.getOptionalQuestionsArray();
+    this.getOrdenNormalArray();
   }
 
   /* --------------------- Switch de pregunta obligatoria --------------------- */
@@ -220,11 +314,12 @@ export class CreatePollComponent implements OnInit {
     this.alert = !this.alert;
   }
 
-  /* ------- Guardar opcion al arreglo y validar que no se guarde texto vacio al arreglo de opciones ------ */
+  /* ------- Guardar opcion al arreglo de opciones y validar que no se guarde texto vacio al arreglo de opciones ------ */
   setOption = (data:string) => {
     if(data === '') return;
     this.optionsArray.push(data);
   }
+  /* ------------- Referencia a checkboxes y aplicar limitaciones ------------- */
   controlCheckboxes = (ref:any, tipo:string, cantidad:number) => {
     // console.log("hijos: ", ref.children.length);
     // console.log("referencia del check: ", ref.children);
@@ -237,7 +332,6 @@ export class CreatePollComponent implements OnInit {
 
     switch (tipo) {
       case 'minimo':
-        console.log("minimo");
         
         break;
       case 'maximo' || 'fija':
@@ -264,13 +358,10 @@ export class CreatePollComponent implements OnInit {
     this.cantidadCondicionalOpciones = numero;
   }
 
-
-
   /* ----------------- Elimina opción del arreglo de opciones ----------------- */
   removeOption = (index:number) => {
     this.optionsArray.splice(index, 1);
   }
-
 
   /* -------------------------------------------------------------------------- */
   /* ------------------------------- Calendario ------------------------------- */
@@ -288,7 +379,6 @@ export class CreatePollComponent implements OnInit {
   }
 
   getDate = (month:string, year:string) => {
-    console.log("month: ", month);
     this.getDaysFromDate(month, year);
   }
 
@@ -333,7 +423,9 @@ export class CreatePollComponent implements OnInit {
     }
     const monthYear = this.dateSelect.format('MM-YYYY');
     const parse = `${day.value}-${monthYear}`;
-    console.log(parse);
   }
+
+
+
 
 }

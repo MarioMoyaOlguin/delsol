@@ -6,6 +6,14 @@ main {
 .edit {
     cursor: pointer;
 }
+.editQuestion {
+    border-top: 5px solid #f87171;
+    background-color: #fef2f2;
+}
+.questionCompleted {
+    border-top: 5px solid #64748b;
+    background-color: #f8fafc;
+}
 .title {
     height: 40px !important;
     width: 40px !important;

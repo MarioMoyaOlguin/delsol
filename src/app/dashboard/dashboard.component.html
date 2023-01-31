@@ -9,13 +9,37 @@
         </div>
     </app-header>
 
+    <div class="d-flex justify-content-center flex-wrap gap-5 p-5 mt-3">
+        <div class="bg-white p-1 themed-shadow rounded-2 ">
+            <canvas id="linesChart" width="400" height="300" #linesChart></canvas>
+        </div>
+        
+        <div class="bg-white p-1 themed-shadow rounded-2 ">
+            <canvas id="doughnutChart" width="400" height="300" #doughnutChart></canvas>
+        </div>
+
+        <div class="bg-white p-1 themed-shadow rounded-2 ">
+            <canvas id="pieChart" width="400" height="300" #pieChart></canvas>
+        </div>
+
+        <div class="bg-white p-1 themed-shadow rounded-2 ">
+            <canvas id="polarAreaChart" width="400" height="300" #polarAreaChart></canvas>
+        </div>
+        
+        <div class="bg-white p-1 themed-shadow rounded-2 ">
+            <canvas id="radarChart" width="400" height="300" #radarChart></canvas>
+        </div>
+    </div>
+    
+    
+
     <div class="p-2 p-md-4 d-flex flex-column flex-md-row gap-4">
 
         <!-- ------------------------ Contenedor izquierdo ------------------------- -->
         <div class="d-flex flex-column align-items-center align-items-md-end flex-wrap gap-4 w-100">
 
             <!-- Pregunta 1 -->
-            <div class="themed-container d-flex flex-column justify-content-between left-card">
+            <div class="themed-container bg-white d-flex flex-column justify-content-between left-card">
                 <div>
                     <p class="red mb-3">Pregunta 1</p>
                     <p class="text-black lh-1">¿Cómo fue tu experiencia en la tienda?</p>
@@ -57,7 +81,7 @@
             </div>
 
             <!-- Pregunta 2 -->
-            <div class="themed-container left-card">
+            <div class="themed-container bg-white left-card">
                 <p class="red mb-1">Pregunta 2</p>
                 <p class="text-black mb-4">¿Qué departamento visitaste?</p>
 
@@ -94,7 +118,7 @@
             </div>
 
             <!-- Segmentación de audiencia -->
-            <div class="themed-container d-flex flex-column justify-content-between left-card">
+            <div class="themed-container bg-white d-flex flex-column justify-content-between left-card">
                 <p class="red">Segmentación de audiencia</p>
 
                 <div>
@@ -124,7 +148,7 @@
 
         <!-- ------------------------- Contenedor derecho -------------------------- -->
         <div class="d-flex justify-content-center justify-content-md-start gap-4 flex-wrap w-100">
-            <div class="themed-container right-card">
+            <div class="themed-container right-card bg-white">
                 <p class="red mb-4 mt-2">Categorías</p>
 
                 <div class="mb-4">
@@ -137,7 +161,7 @@
                 </div>
             </div>
 
-            <div class="themed-container d-flex flex-column right-card align-items-center">
+            <div class="themed-container d-flex flex-column right-card align-items-center bg-white">
                 <p class="red">Segmentación Geográfica</p>
 
                 <img src="/assets/images/mexico.png" alt="" class="map-img">

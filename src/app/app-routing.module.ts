@@ -21,6 +21,8 @@ import { NpsComponent } from './nps/nps.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { PanelComponent } from './users/panel/panel.component';
 import { ModulesComponent } from './modules/modules.component';
+import { PollMenuComponent } from './poll-menu/poll-menu.component';
+import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -42,7 +44,9 @@ const routes: Routes = [
   { path: 'NPS', component: NpsComponent },
   { path: 'usuarios', component: PanelComponent },
   { path: 'lista-usuarios', component: UsersListComponent },
-  { path: 'tiendas', component: ModulesComponent },
+  { path: 'lista-modulos', component: ModulesComponent },
+  { path: 'encuestas', component: PollMenuComponent },
+  { path: 'modulos', component: ModulesMenuComponent },
 ];
 
 @NgModule({
