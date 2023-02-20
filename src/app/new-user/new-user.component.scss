@@ -21,7 +21,7 @@ input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
         font-size: 20px;
         margin-bottom: 0px;
     }
-    input {
+    input, select {
         height: 34px !important;
     }
     .one-input-column {
@@ -33,6 +33,6 @@ input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
         width: 100px !important;
     }
     .themed-form {
-        padding: 24px 30px;
+        padding: 24px;
     }
 }

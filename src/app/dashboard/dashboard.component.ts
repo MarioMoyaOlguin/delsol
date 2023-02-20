@@ -9,10 +9,16 @@ import 'chartjs-plugin-colorschemes';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  
+  @ViewChild('chartsContainer') charts:any;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    this.setInitialChart();
   }
 
   colorOptions = {
@@ -20,135 +26,99 @@ export class DashboardComponent implements OnInit {
       scheme: 'brewer.RdYlGn4'
     }
   }
+  bgColors10 = ["#9e0142","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"];
 
-  linesCtx: any;
-  doughnutCtx:any;
-  pieCtx:any;
-  polarAreaCtx:any;
-  radarCtx:any;
+  pollsArray:any[] = [
+    {checked: false, nombre: 'Encuesta prueba', num: '5', estado: 'activo', respuestas: '134', done: true},
+    {checked: false, nombre: 'Instalaciones', num: '24', estado: 'activo', respuestas: '146', done: true},
+    {checked: false, nombre: 'Encuesta electrónica', num: '31', estado: 'activo', respuestas: '167', done: true},
+    {checked: false, nombre: 'Atención al cliente', num: '46', estado: 'cerrado', respuestas: '200', done: true},
+    {checked: false, nombre: 'Encuesta dto. ropa', num: '20', estado: 'cerrado', respuestas: '200', done: true},
+    {checked: false, nombre: 'Experiencia de compras', num: '23', estado: 'activo', respuestas: '116', done: true}
+  ];
 
-  linesCanvas: any;
-  doughnutCanvas:any;
-  pieCanvas:any;
-  polarAreaCanvas:any;
-  radarCanvas:any;
+  chartsData = [
+    {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+    {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+    {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+    {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+    {type: 'estrellas', data: [3, 20, 40, 50, 43]}
+  ];
+  chartsArray:any = [];
 
-  @ViewChild('linesChart') linesChart: any;
-  @ViewChild('doughnutChart') doughnutChart: any;
-  @ViewChild('pieChart') pieChart: any;
-  @ViewChild('polarAreaChart') polarAreaChart: any;
-  @ViewChild('radarChart') radarChart: any;
+  showCharts = false;
+  tituloEncuesta = '';
+  encuestas:any = [];
 
-  ngAfterViewInit() {
-
-    /* ---------------------------- Grafica de lineas --------------------------- */
-    this.linesCanvas = this.linesChart.nativeElement;
-    this.linesCtx = this.linesCanvas.getContext('2d');
-
-    new Chart(this.linesCtx, {
-      type: 'line',
-      data: {
-          datasets: [{
-              label: 'Current Value',
-              data: [0, 20, 40, 50],
-              fill: true,
-          },
-          {
-              label: 'Invested Amount',
-              data: [0, 20, 40, 60, 80],
-              fill: true,
-          }],
-          labels: ['January 2019', 'February 2019', 'March 2019', 'April 2019']
-      },
-      options: {
-        plugins: this.colorOptions,
-      }
-    });
-
-    /* ----------------------------- Grafica de dona ---------------------------- */
-    this.doughnutCanvas = this.doughnutChart.nativeElement;
-    this.doughnutCtx = this.doughnutCanvas.getContext('2d');
-
-    new Chart(this.doughnutCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Red', 'Melon', 'Light Green'],
-        datasets: [{
-          data: [300, 50, 100]
-        }]
-      },
-      options: {
-        plugins: this.colorOptions,
-      }
-    });
-
-    /* ----------------------------- Grafica de pay ----------------------------- */
-    this.pieCanvas = this.pieChart.nativeElement;
-    this.pieCtx = this.pieCanvas.getContext('2d');
-
-    new Chart(this.pieCtx, {
-      type: 'pie',
-      data: {
-        labels: ['Red', 'Melon', 'Light Green'],
-        datasets: [{
-          data: [300, 50, 100]
-        }]
-      },
-      options: {
-        plugins: this.colorOptions,
-      }
-    });
-
-    /* ------------------------------ Grafica area polar ----------------------------- */
-    this.polarAreaCanvas = this.polarAreaChart.nativeElement;
-    this.polarAreaCtx = this.polarAreaCanvas.getContext('2d');
-
-    new Chart(this.polarAreaCtx, {
-      type: 'polarArea',
-      data: {
-        labels: ['Red', 'Melon', 'Light Green', 'Green', 'Red'],
-        datasets: [{
-          label: 'My First Dataset',
-          data: [11, 16, 7, 3, 14],
-        }]
-      },
-      options: {
-        plugins: this.colorOptions,
-      }
-    });
-
-    /* ---------------------------- Grafica de radar ---------------------------- */
-    this.radarCanvas = this.radarChart.nativeElement;
-    this.radarCtx = this.radarCanvas.getContext('2d');
-
-    new Chart(this.radarCtx, {
-      type: 'radar',
-      data: {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-        datasets: [{
-          label: 'First Dataset',
-          data: [65, 59, 90, 81, 56, 55, 40],
-          fill: true,
-        }, {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 96, 27, 100],
-          fill: true,
-        }, {
-          label: 'third Dataset',
-          data: [45, 42, 17, 20, 52, 86, 98],
-          fill: true,
-        }]
-      },
-      options: {
-        plugins: this.colorOptions,
-        elements: {
-          line: {
-            borderWidth: 2
-          }
-        }
-      }
-    });
+  setModulo = (modulo:string) => {
+    if(modulo === '1') {
+      this.encuestas = [];
+      this.encuestas = ['Encuesta prueba', 'Instalaciones']
+      return;
+    }
+    if(modulo === '2') {
+      this.encuestas = [];
+      this.encuestas = ['Atención al cliente', 'Experiencia de compras']
+      return;
+    }
+    if(modulo === '') { this.encuestas = [] }
   }
+  setEncuesta = (encuesta:string) => {
+    this.showCharts = false;
+    this.tituloEncuesta = encuesta;
+    if(encuesta === 'Encuesta prueba') {
+      this.chartsArray = [
+        {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+        {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+        {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+        {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+      ];
+    }
+    if(encuesta === 'Instalaciones') {
+      this.chartsArray = [
+        {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+        {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+        {type: 'estrellas', data: [3, 20, 40, 50, 43]},
+        {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+        {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+      ];
+    }
+    if(encuesta === 'Atención al cliente') {
+      this.chartsArray = [
+        {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+        {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+        {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+        {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+      ];
+    }
+    if(encuesta === 'Experiencia de compras') {
+      this.chartsArray = [
+        {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+        {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+        {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+        {type: 'estrellas', data: [4, 20, 35, 52, 16]},
+        {type: 'estrellas', data: [3, 20, 40, 50, 43]},
+      ];
+    }
+    setTimeout(() => {
+      this.showCharts = true;
+    }, 100)
+  }
+
+  setInitialChart = () => {
+    this.tituloEncuesta = 'Encuesta prueba';
+    this.chartsArray = [
+      {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+      {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+      {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+      {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+    ];
+    setTimeout(() => {
+      this.showCharts = true;
+    }, 100)
+  }
+  
+  
 
 
 }

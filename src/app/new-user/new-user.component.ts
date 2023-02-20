@@ -16,7 +16,7 @@ export class NewUserComponent implements OnInit {
   ngOnInit(): void {
     this.newUserForm = this.fb.group({
       nombre: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      // correo: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       contraseña: ['', [Validators.required, Validators.minLength(6)]],
       confirmar: ['', [Validators.required]],
       tienda: ['', [Validators.required]],
@@ -29,7 +29,7 @@ export class NewUserComponent implements OnInit {
   }
   get f() { return this.newUserForm.controls;}
   get getNombre() { return this.newUserForm.get("nombre") }
-  get getCorreo() { return this.newUserForm.get("correo") }
+  // get getCorreo() { return this.newUserForm.get("correo") }
   get getContrasena() { return this.newUserForm.get("contraseña") }
   get getConfirmar() { return this.newUserForm.get("confirmar") }
   get getTienda() { return this.newUserForm.get("tienda") }

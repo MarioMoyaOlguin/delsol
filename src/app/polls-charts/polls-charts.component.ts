@@ -19,7 +19,6 @@ export class PollsChartsComponent implements OnInit {
     
   }
   ngAfterViewInit():void {
-    console.log("chartsArray: ", this.chartsArray);
     this.generateCharts();
   }
   

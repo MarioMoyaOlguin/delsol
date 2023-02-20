@@ -47,7 +47,7 @@
         <!-- ------------------------- Editor de encuestas ------------------------- -->
         <div class="themed-container d-flex flex-column p-3 p-md-4 p-lg-5 mx-auto mt-5 bg-white" #alsPoll id="poll">
             <!-- Título de la encuesta -->
-            <div class="d-flex justify-content-between justify-content-md-start w-bold mb-3 mb-md-4 mb-lg-5">
+            <div class="d-flex justify-content-start w-bold mb-3 mb-md-4 mb-lg-5 me-5 me-md-0">
                 <p class="red fs-3 mb-0 me-3 fw-bold lh-1" *ngIf="!editTitle">{{titulo[0]}}</p>
                 <div class="d-flex w-100" *ngIf="editTitle">
                     <input type="text" class="w-100 me-2" #title>
@@ -121,8 +121,9 @@
                         <!-- cuerpo de la pregunta -->
                         <div class="d-flex flex-column p-3 pt-0">
                             <div class="d-flex flex-column w-100">
-                                <label for="{{question.question}}" class="red mb-0 text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
                                 [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
                             </div>
                             <div class="w-100 d-flex flex-column mt-3">
@@ -158,7 +159,7 @@
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
@@ -186,7 +187,8 @@
                                     </svg>
                                 </button>
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('calificacion', i, [textQuestion.value, low.value, high.value, trigger.value, branchTarget.value])"
+                                (click)="createQuestion('calificacion', i, [textQuestion.value, low.value, high.value, trigger.value,
+                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
                                 *ngIf="!question.done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
@@ -195,7 +197,7 @@
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('calificacion', i)"
                                 [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
                                 *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                     </svg>
@@ -217,8 +219,9 @@
                         <!-- cuerpo -->
                         <div class="p-3 pt-0">
                             <div class="d-flex flex-column w-100 mb-3">
-                                <label for="{{question.question}}" class="red mb-0 text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion [ngStyle]="question.done ? displayNone : displayBlock"
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion [ngStyle]="question.done ? displayNone : displayBlock"
                                 placeholder="Escribe tu pregunta aqui...">
                             </div>
                             <table class="table mb-1 bg-white">
@@ -234,12 +237,12 @@
                             </div>
                             <div class="w-100 d-flex justify-content-between flex-wrap gap-2 p-0 px-lg-4">
                                 <input type="text" #low class="input-calificacion" placeholder="Calificación baja..."
-                                (keyup)="0" value="" [ngStyle]="question.done ? displayNone : displayBlock">
+                                (keyup)="0" value="{{question.low}}" [ngStyle]="question.done ? displayNone : displayBlock">
                                 <input type="text" #high class="input-calificacion" placeholder="Calificación alta..."
-                                (keyup)="0" value="" [ngStyle]="question.done ? displayNone : displayBlock">
+                                (keyup)="0" value="{{question.high}}" [ngStyle]="question.done ? displayNone : displayBlock">
                             </div>
                         </div>
-                        <div class="p-3">
+                        <div class="p-3" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                             <!-- Definir condicion para ramificar encuesta -->
                             <div class="w-100 d-flex align-items-center " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                 <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
@@ -256,13 +259,52 @@
                             <!-- Ramificar -->
                             <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
                             [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
                                 <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                    <option value="no">Sin ramificar</option>
+                                    <option value="no">sin ramificar</option>
                                     <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
                                         Pregunta: {{ opcion.numeroPregunta}}
                                     </option>
                                     <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Segunda ramificacion -->
+                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                <select name="" id="" class="select my-0" #secondTrigger>
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let score of scoreArray" [value]="score">
+                                        {{score}} o mas
+                                    </option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                        Pregunta: {{ opcion.numeroPregunta}}
+                                    </option>
+                                    <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Alerta -->
+                            <div class="d-flex my-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <label class="item-container red me-2"> Alerta
+                                    <input type="checkbox" (change)="setAlert()">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                <select name="" id="" class="select my-0" #alertTrigger>
+                                    <option value="no">sin alerta</option>
+                                    <option value="1">1</option>
+                                    <option *ngFor="let score of scoreArray" [value]="score">
+                                        {{score}} o menos
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -282,7 +324,7 @@
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
@@ -311,7 +353,8 @@
                                     </svg>
                                 </button>
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('opcion', i, [textQuestion.value, tipoLimite.value, numero.value, trigger.value, branchTarget.value])"
+                                (click)="createQuestion('opcion', i,[textQuestion.value, tipoLimite.value, numero.value, trigger.value,
+                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value, thirdTrigger.value, thirdTarget.value])"
                                 *ngIf="!question.done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
@@ -320,7 +363,7 @@
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('opcion', i)"
                                 [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
                                 *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                     </svg>
@@ -342,8 +385,9 @@
                         <!-- cuerpo -->
                         <div class="p-3 pt-0">
                             <div class="d-flex flex-column w-100 mb-3">
-                                <label for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="" #textQuestion
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
                                 [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
                             </div>
                             <!-- legenda seleccion de opciones -->
@@ -394,61 +438,126 @@
                                     </small>
                                 </div>
                             </div>
-                            <!-- limitar opciones -->
-                            <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                    <p class="mb-0 fs-6 text-dark">¿Limitar respuestas?</p>
-                                    <select name="" id="" class="select my-0" #tipoLimite>
-                                        <option value="no">No</option>
-                                        <option value="minimo">Mínimo</option>
-                                        <option value="maximo">Máximo</option>
-                                        <option value="fija">Cantidad fija</option>
-                                    </select>
-                                    <input type="number" name="" id="" class="number" #numero placeholder="cantidad">
+                            <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <!-- limitar opciones -->
+                                <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                        <p class="mb-0 fs-6 text-dark">¿Limitar respuestas?</p>
+                                        <select name="" id="" class="select my-0" #tipoLimite>
+                                            <option value="no">No</option>
+                                            <option value="minimo">Mínimo</option>
+                                            <option value="maximo">Máximo</option>
+                                            <option value="fija">Cantidad fija</option>
+                                        </select>
+                                        <input type="number" name="" id="" class="number" min="0" #numero placeholder="cantidad">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Definir condicion para ramificar encuesta -->
-                            <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                    <select name="" id="" class="select my-0" #trigger>
-                                        <option value="no">sin ramificar</option>
+                                <!-- Definir condicion para ramificar encuesta -->
+                                <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                        <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                        <select name="" id="" class="select my-0" #trigger>
+                                            <option value="no">sin ramificar</option>
+                                            <option *ngFor="let opcion of optionsArray" [value]="opcion">
+                                                {{ opcion}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Ramificar -->
+                                <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                    <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <option value="no">Sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- mas opciones de ramificacion -->
+                                <div class="mt-3" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus text-light ease-in-out rounded-circle" viewBox="0 0 16 16"
+                                        [ngClass]="branchOptions ? 'close-icon' : 'plus-icon'" (click)="setBranchOptions()">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                        <p class="mb-0 fs-6 text-dark">Más opciones de ramificación</p>
+                                    </div>
+                                    <div class="mt-2 ps-3 ease-in-out overflow-hidden" [ngClass]="branchOptions ? 'h-fit' : 'h-0'">
+                                        <!-- Segunda ramificacion -->
+                                        <div class="d-flex px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                            <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                            <select name="" id="" class="select my-0" #secondTrigger>
+                                                <option value="no">sin ramificar</option>
+                                                <option *ngFor="let opcion of optionsArray" [value]="opcion">
+                                                    {{ opcion}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                            <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                            <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                                <option value="no">Sin ramificar</option>
+                                                <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                                    Pregunta: {{ opcion.numeroPregunta}}
+                                                </option>
+                                                <option value="finalizar">Finalizar encuesta</option>
+                                            </select>
+                                        </div>
+                                        <!-- tercera ramificacion -->
+                                        <div class="d-flex px-2 mt-3 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                            <p class="mb-0 fs-6 text-dark me-1">3a ramificación:</p>
+                                            <select name="" id="" class="select my-0" #thirdTrigger>
+                                                <option value="no">sin ramificar</option>
+                                                <option *ngFor="let opcion of optionsArray" [value]="opcion">
+                                                    {{ opcion}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                            <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                            <select class="bg-edit" #thirdTarget (click)="getDoneQuestions()">
+                                                <option value="no">Sin ramificar</option>
+                                                <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                                    Pregunta: {{ opcion.numeroPregunta}}
+                                                </option>
+                                                <option value="finalizar">Finalizar encuesta</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Alerta -->
+                                <div class="d-flex my-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <label class="item-container red me-2"> Alerta
+                                        <input type="checkbox" (change)="setAlert()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                    <select name="" id="" class="select my-0" #alertTrigger>
+                                        <option value="no">sin alerta</option>
                                         <option *ngFor="let opcion of optionsArray" [value]="opcion">
                                             {{ opcion}}
                                         </option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- Ramificar -->
-                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                    <option value="no">Sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
-                            </div>
                         </div>
                         <!-- footer -->
                         <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                            <!-- <div class="d-flex me-4">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setAlert()" [ngStyle]="alert ? right : left">
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="alert ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
-                            </div> -->
                             <div class="d-flex me-3">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
                                 (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
@@ -476,7 +585,8 @@
                                     </svg>
                                 </button>
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('estrellas', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerEstrellas.value, branchTarget.value])"
+                                (click)="createQuestion('estrellas', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerEstrellas.value,
+                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
                                 *ngIf="!question.done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
@@ -485,7 +595,7 @@
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('estrellas', i)"
                                 [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
                                 *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                     </svg>
@@ -507,8 +617,9 @@
                         <!-- cuerpo -->
                         <div class="p-3 pt-0">
                             <div class="d-flex flex-column w-100 mb-4">
-                                <label for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="" #textQuestion 
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion 
                                 [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
                             </div>
                             <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
@@ -542,53 +653,86 @@
                                 <p class="mb-0 text-end fs-6">{{good.value}}</p>
                             </div>
                             <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
-                                <input type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input type="text" class="w-100 rounded-0 " #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{question.neutral}}" type="text" class="w-100 rounded-0 " #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{question.good}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
                             </div>
                         </div>
-                        <!-- Definir condicion para ramificar encuesta -->
-                        <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                <select name="" id="" class="select my-0" #triggerEstrellas>
+                        <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                            <!-- Definir condicion para ramificar encuesta -->
+                            <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                    <select name="" id="" class="select my-0" #triggerEstrellas>
+                                        <option value="no" class="option">sin ramificar</option>
+                                        <option value="1" class="option">1</option>
+                                        <option *ngFor="let score of starsArray" [value]="score" class="option">
+                                            {{score}} o ménos
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Ramificar -->
+                            <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                        Pregunta: {{ opcion.numeroPregunta}}
+                                    </option>
+                                    <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Segunda ramificacion -->
+                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                <select name="" id="" class="select my-0" #secondTrigger>
                                     <option value="no" class="option">sin ramificar</option>
-                                    <option value="1" class="option">1</option>
                                     <option *ngFor="let score of starsArray" [value]="score" class="option">
-                                        {{score}} o ménos
+                                        {{score}} o más
+                                    </option>
+                                    <option value="5" class="option">5</option>
+                                </select>
+                            </div>
+                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                        Pregunta: {{ opcion.numeroPregunta}}
+                                    </option>
+                                    <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Alerta -->
+                            <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <label class="item-container red me-2"> Alerta
+                                    <input type="checkbox" (change)="setAlert()">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                <select name="" id="" class="select my-0" #alertTrigger>
+                                    <option value="no">sin alerta</option>
+                                    <option value="1">1</option>
+                                    <option *ngFor="let star of starsArray" [value]="star">
+                                        {{star}} o menos
                                     </option>
                                 </select>
                             </div>
                         </div>
-                        <!-- Ramificar -->
-                        <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                            <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                <option value="no">Sin ramificar</option>
-                                <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                    Pregunta: {{ opcion.numeroPregunta}}
-                                </option>
-                                <option value="finalizar">Finalizar encuesta</option>
-                            </select>
-                        </div>
                         <!-- footer -->
                         <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                            <!-- <div class="d-flex me-4">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setAlert()" [ngStyle]="alert ? right : left">
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="alert ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
-                            </div> -->
                             <div class="d-flex me-3">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
                                 (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
@@ -616,7 +760,8 @@
                                     </svg>
                                 </button>
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('nps', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerNps.value, branchTarget.value])"
+                                (click)="createQuestion('nps', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerNps.value,
+                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
                                 *ngIf="!question.done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
@@ -625,7 +770,7 @@
                                 <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('nps', i)"
                                 [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
                                 *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                     </svg>
@@ -647,8 +792,9 @@
                         <!-- cuerpo -->
                         <div class="p-3 pt-0">
                             <div class="d-flex flex-column w-100 mb-4">
-                                <label for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="" #textQuestion
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
                                 [ngStyle]="question.done ? displayNone : displayBlock">
                             </div>
                             <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
@@ -678,51 +824,83 @@
                                 <p class="mb-0 text-end fs-6">{{good.value}}</p>
                             </div>
                             <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
-                                <input type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input type="text" class="w-100 rounded-0" #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{question.neutral}}" type="text" class="w-100 rounded-0" #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                <input value="{{good.value}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
                             </div>
                         </div>
-                        <!-- Definir condicion para ramificar encuesta -->
-                        <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                <select name="" id="" class="select my-0" #triggerNps>
+                        <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                            <!-- Definir condicion para ramificar encuesta -->
+                            <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                    <select name="" id="" class="select my-0" #triggerNps>
+                                        <option value="no" class="option">sin ramificar</option>
+                                        <option value="1" class="option">Baja</option>
+                                        <option value="2" class="option">Neutral</option>
+                                        <option value="3" class="option">Alta</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Ramificar -->
+                            <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                        Pregunta: {{ opcion.numeroPregunta}}
+                                    </option>
+                                    <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Segunda ramificacion -->
+                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                <select name="" id="" class="select my-0" #secondTrigger>
                                     <option value="no" class="option">sin ramificar</option>
                                     <option value="1" class="option">Baja</option>
                                     <option value="2" class="option">Neutral</option>
+                                    <option value="3" class="option">Alta</option>
+                                </select>
+                            </div>
+                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                    <option value="no">sin ramificar</option>
+                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                        Pregunta: {{ opcion.numeroPregunta}}
+                                    </option>
+                                    <option value="finalizar">Finalizar encuesta</option>
+                                </select>
+                            </div>
+                            <!-- Alerta -->
+                            <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                <label class="item-container red me-2"> Alerta
+                                    <input type="checkbox" (change)="setAlert()">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                <select name="" id="" class="select my-0" #alertTrigger>
+                                    <option value="no" class="option">sin ramificar</option>
+                                    <option value="1" class="option">Baja</option>
+                                    <option value="2" class="option">Neutral</option>
+                                    <option value="3" class="option">Alta</option>
                                 </select>
                             </div>
                         </div>
-                        <!-- Ramificar -->
-                        <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                            <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                <option value="no">Sin ramificar</option>
-                                <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                    Pregunta: {{ opcion.numeroPregunta}}
-                                </option>
-                                <option value="finalizar">Finalizar encuesta</option>
-                            </select>
-                        </div>
                         <!-- footer -->
                         <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                            <!-- <div class="d-flex me-4">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setAlert()" [ngStyle]="alert ? right : left">
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="alert ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
-                            </div> -->
                             <div class="d-flex me-3">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
                                 (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
@@ -757,7 +935,7 @@
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('texto', i)"
+                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('fecha', i)"
                                 [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
                                 *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -782,8 +960,9 @@
                         <!-- cuerpo de la pregunta -->
                         <div class="d-flex flex-column p-3 pt-0">
                             <div class="d-flex flex-column w-100">
-                                <label for="{{question.question}}" class="red mb-0 text-center">{{question.question}}</label>
-                                <input type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
+                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
                                 [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
                             </div>
                             <!-- Calendario -->
@@ -842,21 +1021,13 @@
                         </div>
                         <!-- footer con switchs de alerta y pregunta obligatoria -->
                         <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                            <!-- <div class="d-flex me-4">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setAlert()" [ngStyle]="alert ? right : left">
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="alert ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
-                            </div> -->
                             <div class="d-flex me-3">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
                                 (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
                                     <div class="check-control rounded-circle ease-in-out position-absolute" 
                                     [ngClass]="optional ? 'right' : 'left'"></div>
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Opcional</p>
+                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"

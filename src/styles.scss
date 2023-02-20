@@ -131,6 +131,11 @@ textarea::placeholder, input::placeholder {
     color: #f4323e;
     border-color: #f4323e !important;
 }
+.sticky-element {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 
 
 

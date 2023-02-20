@@ -20,7 +20,6 @@ export class MyPollsComponent implements OnInit {
   showChart = false;
   pollTitle = '';
 
-
   pollsArray:any[] = [
     {checked: false, nombre: 'Encuesta prueba ', num: '5', estado: 'activo', respuestas: '134', done: true},
     {checked: false, nombre: 'Instalaciones ', num: '24', estado: 'activo', respuestas: '146', done: true},

@@ -10,8 +10,8 @@
                 <div class="mb-3">
                     <label for="user">Email o usuario</label>
                     <input type="text" name="" id="user" class="w-100" formControlName="email" #mail required>
-                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.invalid">
-                        Campo requerido
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.errors?.['pattern']">
+                        Email no válido
                     </p>
                 </div>
 
@@ -19,7 +19,7 @@
                     <label for="pass">Contraseña</label>
                     <input type="password" name="" id="password" class="w-100" formControlName="password" #pass required>
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getPassword?.touched && getPassword?.invalid">
-                        Campo requerido
+                        Campo requerido. Mínimo 8 digitos
                     </p>
                 </div>
             </div>

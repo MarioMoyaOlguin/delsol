@@ -34,10 +34,11 @@ export class CreatePollComponent implements OnInit {
   editTitle = false; // Control de título de encuesta
   optional = false; // Para indicar que la pregunta es opcional
   viewer = false; //Controla el visor de preguntas
-  route = false;
+  route = false; //Mostrar simulador
+  branchOptions = false; // Mostrar/ocultar mas opciones de ramificacion
 
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
-  questionsArray:any[] = []; //Array de preguntas
+  questionsArray:any[] = []; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
   optionalQuestionsArray:any[] = [];
   ordenNormalArray:any[] = [];
@@ -85,27 +86,12 @@ export class CreatePollComponent implements OnInit {
 
   openViewer = () => this.viewer = !this.viewer;
   routeViewer = () => this.route = !this.route;
+  setBranchOptions = () => this.branchOptions = !this.branchOptions;
 
   makeOptional = () => { //control pregunta opcional
     this.optional = !this.optional;
   }
 
-  getOptionalQuestionsArray = () => { //crear array de preguntas opcionales
-    this.optionalQuestionsArray = [];
-    for (let i = 0; i < this.questionsArray.length; i++) {
-      if(this.questionsArray[i].opcional) {
-        this.optionalQuestionsArray.push(this.questionsArray[i])
-      }
-    }
-  }
-  getOrdenNormalArray = () => { //crear array de preguntas opcionales
-    this.ordenNormalArray = [];
-    for (let i = 0; i < this.questionsArray.length; i++) {
-      if(!this.questionsArray[i].opcional) {
-        this.ordenNormalArray.push(this.questionsArray[i])
-      }
-    }
-  }
   getDoneQuestions = () => {
     this.doneQuestions = [];
     for (let i = 0; i < this.questionsArray.length; i++) {
@@ -124,27 +110,24 @@ export class CreatePollComponent implements OnInit {
     this.disable = true;
     this.editing = true;
 
-    this.getOptionalQuestionsArray();
-    this.getOrdenNormalArray();
-
     switch (questionType) {
       case 'texto':
-        this.questionsArray.push({type: 'texto', question: `Pregunta`, done: false});
+        this.questionsArray.push({type: 'texto', question: ``, done: false});
         break;
       case 'calificacion':
-        this.questionsArray.push({type: 'calificacion', question: `Pregunta`, low: ' ', high: ' ', done: false});
+        this.questionsArray.push({type: 'calificacion', question: ``, low: '', high: '', done: false});
         break;
       case 'opcion':
-        this.questionsArray.push({type: 'opcion', question: `Pregunta`, done: false, optionsArray: []});
+        this.questionsArray.push({type: 'opcion', question: ``, done: false, optionsArray: []});
         break;
       case 'estrellas':
-        this.questionsArray.push({type: 'estrellas', question: `Pregunta`, bad: '', neutral: '', good: '', done: false});
+        this.questionsArray.push({type: 'estrellas', question: ``, bad: '', neutral: '', good: '', done: false});
         break;
       case 'nps':
-        this.questionsArray.push({type: 'nps', question: `Pregunta`, done: false});
+        this.questionsArray.push({type: 'nps', question: ``, done: false});
         break;
       case 'fecha':
-        this.questionsArray.push({type: 'fecha', question: `Pregunta`, done: false});
+        this.questionsArray.push({type: 'fecha', question: ``, done: false});
         break;
     }
   }
@@ -155,18 +138,18 @@ export class CreatePollComponent implements OnInit {
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
-      alert('Rellena todos los campos');
+      alert('Por favor rellene todos los campos');
       return;
     }
-    if(data![0] === '') {
-      alert('Rellena todos los campos');
+    if(data![0] === '' || data![1] === '' || qType !== 'opcion' && data![2] === '' || data![3] === '' || data![4] === '' || data![5] === '') {
+      alert('Por favor rellene todos los campos');
       return;
     }
 
     switch (qType) {
       case 'texto':
         this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
-          opcional: this.optional, targetQuestion: data![1]}));
+          opcional: this.optional, targetQuestion: data![1], alert: this.alert}));
         break;
 
       case 'calificacion':
@@ -175,12 +158,23 @@ export class CreatePollComponent implements OnInit {
           return;
         }
         if(data![4] !== 'no' && data![3] === 'no'){
-          alert('Seleccione condicion para ramificar pregunta');
+          alert('Seleccione una condicion para ramificar la pregunta');
+          return;
+        }
+        if(this.alert && data![7] === 'no') {
+          alert('Seleccione una condicion para activar la alerta');
+          return;
+        }
+        if(!this.alert && data![7] !== 'no') {
+          this.alert = true;
+        }
+        if(data![3] !== 'no' && parseInt(data![5]) <= parseInt(data![3])){
+          alert('La condición para multiples rutas no puede estar en el mismo rango');
           return;
         }
         this.questionsArray.splice(index, 1, ({type: 'calificacion', question: data![0], low: data![1],
           high: data![2], required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3],
-            targetQuestion: data![4]}));
+            targetQuestion: data![4], ramificar2: data![5], target2: data![6], alert: this.alert, alertTrigger: data![7]}));
         break;
 
       case 'opcion':
@@ -193,7 +187,11 @@ export class CreatePollComponent implements OnInit {
           alert('Seleccione cantidad para limitar las opciones');
           return;
         }
-        if(data![3] !== 'no' && data![4] === 'no'){
+        if(data![3] === 'no' && data![4] !== 'no' || data![5] === 'no' && data![6] !== 'no'){
+          alert('Seleccione condicion para ramificar pregunta');
+          return;
+        }
+        if(data![3] !== 'no' && data![4] === 'no' || data![5] !== 'no' && data![6] === 'no'){
           alert('Seleccione hacia que pregunta se ramifica');
           return;
         }
@@ -201,8 +199,20 @@ export class CreatePollComponent implements OnInit {
           alert('Seleccione condicion para ramificar pregunta');
           return;
         }
+        if(this.alert && data![7] === 'no') {
+          alert('Seleccione una condicion para activar la alerta');
+          return;
+        }
+        if(!this.alert && data![7] !== 'no') {
+          this.alert = true;
+        }
+        if(data![3] !== 'no' && data![3] === data![5] || data![3] !== 'no' && data![3] === data![8] || data![3] !== 'no' && data![8] === data![5]){
+          alert('La condición para multiples rutas no puede ser la misma');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
-          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3], targetQuestion: data![4] }));
+          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3], targetQuestion: data![4],
+          ramificar2: data![5], target2: data![6], alert: this.alert, alertTrigger: data![7]}));
         break;
 
       case 'estrellas':
@@ -214,8 +224,20 @@ export class CreatePollComponent implements OnInit {
           alert('Seleccione condicion para ramificar pregunta');
           return;
         }
+        if(this.alert && data![8] === 'no') {
+          alert('Seleccione una condicion para activar la alerta');
+          return;
+        }
+        if(!this.alert && data![8] !== 'no') {
+          this.alert = true;
+        }
+        if(data![4] !== 'no' && parseInt(data![6]) <= parseInt(data![4])){
+          alert('La condición para multiples rutas no puede estar en el mismo rango');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
-          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5] }));
+          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5],
+          ramificar2: data![6], target2: data![7], alert: this.alert, alertTrigger: data![8]}));
         break;
 
       case 'nps':
@@ -227,13 +249,25 @@ export class CreatePollComponent implements OnInit {
           alert('Seleccione condicion para ramificar pregunta');
           return;
         }
+        if(this.alert && data![8] === 'no') {
+          alert('Seleccione una condicion para activar la alerta');
+          return;
+        }
+        if(!this.alert && data![8] !== 'no') {
+          this.alert = true;
+        }
+        if(data![4] !== 'no' && parseInt(data![6]) <= parseInt(data![4])){
+          alert('La condición para multiples rutas no puede estar en el mismo rango');
+          return;
+        }
         this.questionsArray.splice(index, 1, ({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
-          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5] }));
+          required: this.check, done: true, numeroPregunta: index+1, opcional: this.optional, ramificar: data![4], targetQuestion: data![5],
+          ramificar2: data![6], target2: data![7], alert: this.alert, alertTrigger: data![8]}));
         break;
 
       case 'fecha':
         this.questionsArray.splice(index, 1, ({type: 'fecha', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
-          opcional: this.optional, targetQuestion: data![1] }));
+          opcional: this.optional, targetQuestion: data![1], alert: this.alert}));
         break;
     }
 
@@ -246,45 +280,56 @@ export class CreatePollComponent implements OnInit {
     this.editing = false;
     this.disable = false;
     this.optional = false;
+    this.branchOptions = false;
     this.optionsArray = [];
-
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
   removeQuestion = (e:Event, index:number) => {
     this.questionsArray.splice(index, 1)
-    this.disable = false;
-    this.optionsArray = [];
+    this.alert = false;
     this.check = false;
     this.editing = false;
-    this.getOptionalQuestionsArray();
-    this.getOrdenNormalArray();
+    this.disable = false;
+    this.optional = false;
+    this.branchOptions = false;
+    this.optionsArray = [];
   }
 
   /* ----------------------------- Editar pregunta ---------------------------- */
   editQuestion = (type:string, index:number) => {
-    this.disable = true;
-    this.editing = true;
+    const targetQuestion = this.questionsArray[index];
 
     switch (type) {
       case 'texto':
-        this.questionsArray.splice(index, 1, ({type: 'texto', question: `Pregunta`, done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'texto', question: targetQuestion.question, done: false}));
         break;
       case 'calificacion':
-        this.questionsArray.splice(index, 1, ({type: 'calificacion', question: `Pregunta`, low: ' ', high: ' ', done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'calificacion', question: targetQuestion.question, low: targetQuestion.low,
+          high: targetQuestion.high, done: false}));
         break;
       case 'opcion':
-        this.questionsArray.splice(index, 1, ({type: 'opcion', question: `Pregunta`, done: false, optionsArray: []}));
+        this.optionsArray = targetQuestion.optionsArray;
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: targetQuestion.question, done: false}));
         break;
       case 'estrellas':
-        this.questionsArray.splice(index, 1, ({type: 'estrellas', question: `Pregunta`, bad: '', neutral: '', good: '', done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'estrellas', question: targetQuestion.question, bad: targetQuestion.bad,
+          neutral: targetQuestion.neutral, good: targetQuestion.good, done: false}));
         break;
       case 'nps':
-        this.questionsArray.splice(index, 1, ({type: 'nps', question: `Pregunta`, done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'nps', question: targetQuestion.question, bad: targetQuestion.bad,
+          neutral: targetQuestion.neutral, good: targetQuestion.good, done: false}));
+        break;
+      case 'fecha':
+        this.questionsArray.splice(index, 1, ({type: 'fecha', question: ``, done: false}));
         break;
     }
-    this.getOptionalQuestionsArray();
-    this.getOrdenNormalArray();
+    this.disable = true;
+    this.editing = true;
+  }
+
+  updateQuestionNumber = () => {
+    for (let i = 0; i < this.questionsArray.length; i++) { this.questionsArray[i].numeroPregunta = i + 1 }
   }
 
   /* --------------------------------- Move up -------------------------------- */
@@ -292,8 +337,7 @@ export class CreatePollComponent implements OnInit {
     const item = this.questionsArray[index]
     this.questionsArray.splice(index, 1);
     this.questionsArray.splice(index -1, 0, item);
-    this.getOptionalQuestionsArray();
-    this.getOrdenNormalArray();
+    this.updateQuestionNumber();
   }
 
   /* -------------------------------- Move down ------------------------------- */
@@ -301,18 +345,14 @@ export class CreatePollComponent implements OnInit {
     const item = this.questionsArray[index]
     this.questionsArray.splice(index, 1);
     this.questionsArray.splice(index +1, 0, item);
-    this.getOptionalQuestionsArray();
-    this.getOrdenNormalArray();
+    this.updateQuestionNumber();
   }
 
   /* --------------------- Switch de pregunta obligatoria --------------------- */
-  setRequired = () => {
-    this.check = !this.check;
-  }
+  setRequired = () => { this.check = !this.check }
+
   /* ------------------------------ Switch alerta ----------------------------- */
-  setAlert = () => {
-    this.alert = !this.alert;
-  }
+  setAlert = () => { this.alert = !this.alert }
 
   /* ------- Guardar opcion al arreglo de opciones y validar que no se guarde texto vacio al arreglo de opciones ------ */
   setOption = (data:string) => {
@@ -350,18 +390,15 @@ export class CreatePollComponent implements OnInit {
     }
 
   }
-  setCondicionalOpciones = (condicional:string) => {
-    this.condicionalOpciones = condicional
-  }
+  setCondicionalOpciones = (condicional:string) => { this.condicionalOpciones = condicional }
+
   setCantidadCondicionalOpciones = (cantidad:string) => {
     const numero = parseInt(cantidad);
     this.cantidadCondicionalOpciones = numero;
   }
 
   /* ----------------- Elimina opción del arreglo de opciones ----------------- */
-  removeOption = (index:number) => {
-    this.optionsArray.splice(index, 1);
-  }
+  removeOption = (index:number) => { this.optionsArray.splice(index, 1) }
 
   /* -------------------------------------------------------------------------- */
   /* ------------------------------- Calendario ------------------------------- */

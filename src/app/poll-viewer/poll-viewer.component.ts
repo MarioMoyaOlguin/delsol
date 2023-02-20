@@ -28,13 +28,16 @@ export class PollViewerComponent implements OnInit {
         this.optionalQuestionsArray.push(this.dataArray![i])
       }
     }
+    console.log("this.optionalQuestionsArra: ", this.optionalQuestionsArray);
   }
+    
   getOrdenNormalArray = () => { //crear array de preguntas opcionales
     for (let i = 0; i < this.dataArray!.length; i++) {
       if(!this.dataArray![i].opcional) {
         this.ordenNormalArray.push(this.dataArray![i])
       }
     }
+    console.log("this.ordenNormalArray: ", this.ordenNormalArray);
   }
 
   arregloPruebas = [

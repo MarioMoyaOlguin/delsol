@@ -38,6 +38,7 @@ import { RouteSelectorComponent } from './route-selector/route-selector.componen
 import { PollMenuComponent } from './poll-menu/poll-menu.component';
 import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
 import { PollsChartsComponent } from './polls-charts/polls-charts.component';
+import { NewModuleComponent } from './new-module/new-module.component';
 
 
 
@@ -73,6 +74,7 @@ import { PollsChartsComponent } from './polls-charts/polls-charts.component';
     PollMenuComponent,
     ModulesMenuComponent,
     PollsChartsComponent,
+    NewModuleComponent,
   ],
   imports: [
     BrowserModule,

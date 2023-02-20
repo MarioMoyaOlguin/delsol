@@ -23,6 +23,7 @@ import { PanelComponent } from './users/panel/panel.component';
 import { ModulesComponent } from './modules/modules.component';
 import { PollMenuComponent } from './poll-menu/poll-menu.component';
 import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
+import { NewModuleComponent } from './new-module/new-module.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'lista-modulos', component: ModulesComponent },
   { path: 'encuestas', component: PollMenuComponent },
   { path: 'modulos', component: ModulesMenuComponent },
+  { path: 'nuevo-modulo', component: NewModuleComponent },
 ];
 
 @NgModule({

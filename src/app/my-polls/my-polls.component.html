@@ -5,16 +5,18 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
             </svg>
-            <a routerLink="/encuestas" class="gray">Volver</a>
+            <a routerLink="/home" class="gray">Volver</a>
         </div>
     </app-header>
 
-    <app-polls-charts *ngIf="showChart" [chartsArray]="charts" [nombreEncuesta]="pollTitle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer shadow" viewBox="0 0 16 16"
-        (click)="setShowChart()">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-        </svg>
-    </app-polls-charts>
+    <div class="main-container" *ngIf="showChart">
+        <app-polls-charts [chartsArray]="charts" [nombreEncuesta]="pollTitle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer shadow" viewBox="0 0 16 16"
+            (click)="setShowChart()">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+            </svg>
+        </app-polls-charts>
+    </div>
 
     <div class="px-1 px-sm-4 py-3 py-sm-4 d-flex justify-content-between">
         <h1 class="red mb-0 lh-1 d-flex align-items-center lh-1">Encuestas</h1>

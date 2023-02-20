@@ -1,6 +1,6 @@
 
 main {
-    min-width: 320px;
+    min-width: 480px;
     min-height: 100vh;
     scroll-behavior: smooth;
 }
@@ -355,6 +355,7 @@ li {
     background-color: rgb(246, 191, 51);
     top: 90px;
     right: 4px;
+    z-index: 100;
 }
 .view-route {
     width: 40px;
@@ -362,6 +363,7 @@ li {
     background-color: rgb(246, 191, 51);
     top: 140px;
     right: 4px;
+    z-index: 100;
 }
 select {
     outline: none !important;
@@ -398,6 +400,25 @@ select {
 .bg-green-light {
     background-color: #d6eae1;
 }
+.plus-icon {
+    background-color: #258de2;
+}
+.close-icon {
+    background-color: #f4323e;
+    transform: rotate(45deg);
+}
+.h-0 { height: 0px !important; }
+.h-fit { height: fit-content !important; }
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 
 
@@ -430,5 +451,11 @@ select {
     }
     .view-array {
         top: 80px;
+    }
+    .view-route {
+        top: 130px;
+    }
+    .sticky-element {
+        top: 76px;
     }
 }

@@ -18,11 +18,11 @@
                 <p class="mb-0 mx-auto text-center text-success fs-5 fw-semibold">{{pregunta.type}}</p>
             </div>
             <div class="p-2">
-                <p class="mb-0 fs-6 fw-semibold red text-center mb-2">{{pregunta.question}}</p>
+                <p class="mb-0 fs-6 fw-semibold red text-center mb-2 lh-1">{{pregunta.question}}</p>
                 <p class="mb-0 fs-6" *ngIf="pregunta.required">Obligatoria</p>
                 <p *ngIf="pregunta.ramificar !== 'no' && pregunta.ramificar" class="mb-0 fs-6">Se ramifica al seleccionar: {{pregunta.ramificar}}</p>
                 <p class="mb-0 fs-6" *ngIf="pregunta.targetQuestion !== 'no' && pregunta.targetQuestion">
-                    {{pregunta.targetQuestion}}
+                    Hacia pregunta: {{pregunta.targetQuestion}}
                 </p>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <p class="mb-0 fs-6" *ngIf="pregunta.required">Obligatoria</p>
                 <p *ngIf="pregunta.ramificar !== 'no' && pregunta.ramificar" class="mb-0 fs-6">Se ramifica al seleccionar: {{pregunta.ramificar}}</p>
                 <p class="mb-0 fs-6" *ngIf="pregunta.targetQuestion !== 'no' && pregunta.targetQuestion">
-                    {{pregunta.targetQuestion}}
+                    Hacia pregunta: {{pregunta.targetQuestion}}
                 </p>
             </div>
         </div>

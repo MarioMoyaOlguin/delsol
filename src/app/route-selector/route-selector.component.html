@@ -17,7 +17,7 @@
             <div class="d-flex px-4 py-1 d-flex w-100 gap-3 " >
                 <p class="mb-0 fs-6 text-success" *ngIf="currentQuestion.numeroPregunta">Pregunta {{currentQuestion.numeroPregunta}}</p>
                 <p class="mb-0 fs-6 red" *ngIf="currentQuestion.required">Obligatoria</p>
-                <p class="mb-0 fs-6 text-primary" *ngIf="currentQuestion.opcional">Opcional</p>
+                <p class="mb-0 fs-6 text-primary" *ngIf="currentQuestion.opcional">Alterna</p>
                 <p class="mb-0 fs-6 text-secondary " *ngIf="currentQuestion.ramificar && currentQuestion.ramificar !== 'no'">
                     Se ramifica: {{currentQuestion.ramificar}}
                 </p>
@@ -182,9 +182,9 @@
 
             <!-- ------------------------------- botones ------------------------------- -->
             <div class="d-flex p-4 w-100 bg-white mt-4 "
-            [ngClass]="position === 0 ? 'justify-content-end' : 'justify-content-between'">
-                <button *ngIf="position > 0" class="action-btn " (click)="getPreviousQuestion()">Volver</button>
-                <button *ngIf="arrayFlujoNormal.length > 1 && position < (arrayFlujoNormal.length - 1)" class="action-btn " (click)="getNextQuestion(currentData)">Siguiente</button>
+            [ngClass]="responsesArray.length < 1 ? 'justify-content-end' : 'justify-content-between'">
+                <button *ngIf="responsesArray.length > 0" class="action-btn " (click)="getPreviousQuestion()">Volver</button>
+                <button  class="action-btn " (click)="getNextQuestion(currentData)">Siguiente</button>
             </div>
         </div>
     </div>
