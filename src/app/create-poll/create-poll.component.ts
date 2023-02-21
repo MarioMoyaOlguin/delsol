@@ -40,6 +40,7 @@ export class CreatePollComponent implements OnInit {
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
   questionsArray:any[] = []; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
+  optionsArrayComplete:any[] = []; // Arreglo de objetos con informacion completa de opciones
   optionalQuestionsArray:any[] = [];
   ordenNormalArray:any[] = [];
   doneQuestions:any[] = [];
@@ -133,8 +134,10 @@ export class CreatePollComponent implements OnInit {
   }
 
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
-  createQuestion(qType:string, index:number, data?:Array<string>) {
+  createQuestion(qType:string, index:number, data?:Array<any>) {
     console.log("data: ", data);
+
+    this.optionsArrayComplete = []; //reiniciar el arreglo
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
@@ -179,40 +182,44 @@ export class CreatePollComponent implements OnInit {
 
       case 'opcion':
         const number = data![2] === '' ? 0 : parseInt(data![2]);
-        if(this.optionsArray.length <= number) {
-          alert('La cantidad de opciones no puede ser menor o igual a la cantidad de control');
+        if(this.optionsArray.length < number) {
+          alert('La cantidad de control no puede ser mayor a la cantidad de opciones');
           return;
         }
         if(data![1] !== 'no' && data![2] === '') {
           alert('Seleccione cantidad para limitar las opciones');
           return;
         }
-        if(data![3] === 'no' && data![4] !== 'no' || data![5] === 'no' && data![6] !== 'no'){
-          alert('Seleccione condicion para ramificar pregunta');
-          return;
-        }
-        if(data![3] !== 'no' && data![4] === 'no' || data![5] !== 'no' && data![6] === 'no'){
-          alert('Seleccione hacia que pregunta se ramifica');
-          return;
-        }
-        if(data![4] !== 'no' && data![3] === 'no'){
-          alert('Seleccione condicion para ramificar pregunta');
-          return;
-        }
-        if(this.alert && data![7] === 'no') {
+        if(this.alert && data![3] === 'no') {
           alert('Seleccione una condicion para activar la alerta');
           return;
         }
-        if(!this.alert && data![7] !== 'no') {
+        if(!this.alert && data![3] !== 'no') {
           this.alert = true;
         }
-        if(data![3] !== 'no' && data![3] === data![5] || data![3] !== 'no' && data![3] === data![8] || data![3] !== 'no' && data![8] === data![5]){
-          alert('La condición para multiples rutas no puede ser la misma');
-          return;
+        // for del arreglo de opciones
+        this.optionsArray = [];
+        for (let i = 0; i < data![4].children.length; i++) {
+          let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
+          const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
+          if(branchChecked && targetQuestion === 'no') {
+            alert(`Seleccione hacia que pregunta se ramifica la opción ${i+1}`);
+            return;
+          }
+          if(!branchChecked && targetQuestion !== 'no') {
+            branchChecked = true;
+          }
+          this.optionsArrayComplete.push({
+            opcion: data![4].children[i].children[0].innerText,
+            ramificar: branchChecked,
+            targetQ: targetQuestion
+          })
+          // console.log(data![4].children[i].children[0].innerText);
+          // console.log(data![4].children[i].children[1].children[0].children[0].checked);
+          // console.log(data![4].children[i].children[1].children[1].children[1].value);
         }
-        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
-          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, ramificar: data![3], targetQuestion: data![4],
-          ramificar2: data![5], target2: data![6], alert: this.alert, alertTrigger: data![7]}));
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArrayComplete, done: true, required: this.check,
+          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3]}));
         break;
 
       case 'estrellas':
@@ -282,6 +289,7 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
+    this.optionsArrayComplete = [];
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
@@ -294,6 +302,7 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
+    this.optionsArrayComplete = [];
   }
 
   /* ----------------------------- Editar pregunta ---------------------------- */
@@ -399,6 +408,8 @@ export class CreatePollComponent implements OnInit {
 
   /* ----------------- Elimina opción del arreglo de opciones ----------------- */
   removeOption = (index:number) => { this.optionsArray.splice(index, 1) }
+
+  log = (ref:any) => console.log(ref);
 
   /* -------------------------------------------------------------------------- */
   /* ------------------------------- Calendario ------------------------------- */
