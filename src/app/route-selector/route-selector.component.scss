@@ -203,17 +203,17 @@ li {
     padding: 2px !important;
     outline: none !important;
 }
-.date-controls {
-    background-color: transparent;
-}
-.date-controls:hover {
-    background-color: #76eee6 !important;
-}
-.bg-date {
-    background-color: #4cc7be !important;
-}
-.bg-light-gray {
-    background-color: #fdfdfd;
+.date-controls { background-color: transparent; }
+
+.date-controls:hover { background-color: #76eee6 !important; }
+
+.bg-date { background-color: #4cc7be !important; }
+
+.bg-light-gray { background-color: #fdfdfd !important; }
+
+.disabled {
+    color: #949494 !important;
+    pointer-events: none !important;
 }
 
 

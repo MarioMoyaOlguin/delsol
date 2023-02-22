@@ -26,130 +26,125 @@ export class RouteSelectorComponent implements OnInit {
     this.getCurrentQuestion();
     console.log(this.currentQuestion);
   }
+  
+  dataArray = [
+    {
+      type: 'texto',
+      question: 'pregunta 1 tipo texto',
+      required: false,
+      done: true,
+      numeroPregunta: 1,
+      opcional: false,
+      targetQuestion: 'no'
+    },
+    {
+      type: 'calificacion',
+      question: 'Pregunta 2 tipo calificación',
+      required: true,
+      done: true,
+      numeroPregunta: 2,
+      opcional: false,
+      ramificar: '4',
+      targetQuestion: '7',
+      ramificar2: '9',
+      target2: '8'
+    },
+    {
+      type: 'opcion',
+      numero: '2',
+      question: 'Pregunta 3 opción múltiple',
+      optionsArray: [
+        {opcion: 'Op1', ramificar: true, targetQ: '7'},
+        {opcion: 'Op2', ramificar: false, targetQ: 'no'},
+        {opcion: 'Op3', ramificar: true, targetQ: '9'}
+      ],
+      done: true,
+      required: true,
+      tipoLimite: 'fija',
+      numeroPregunta: 3,
+      opcional: false,
+    },
+    {
+      type: 'estrellas',
+      question: 'Pregunta 4 calificar con estrellas',
+      bad: 'Mala',
+      neutral: 'Neutral',
+      good: 'Excelente',
+      required: true,
+      done: true,
+      numeroPregunta: 4,
+      opcional: false,
+      ramificar: 'no',
+      targetQuestion: 'no',
+      ramificar2: 'no',
+      target2: 'no'
+    },
+    {
+      type: 'nps',
+      question: 'Pregunta 5 NPS',
+      bad: 'Mala',
+      neutral: 'Neutral',
+      good: 'Excelente',
+      required: true,
+      done: true,
+      numeroPregunta: 5,
+      opcional: false,
+      ramificar: '1',
+      targetQuestion: '8',
+      ramificar2: 'no',
+      target2: 'no'
+    },
+    {
+      type: 'fecha',
+      question: 'Selecciona una 6 fecha',
+      required: true,
+      done: true,
+      numeroPregunta: 6,
+      opcional: false,
+      targetQuestion: 'no',
+    },
+    {
+      type: 'texto',
+      question: 'pregunta 7 tipo texto',
+      required: true,
+      done: true,
+      numeroPregunta: 7,
+      opcional: true,
+      targetQuestion: 'no'
+    },
+    {
+      type: 'calificacion',
+      question: 'Pregunta tipo 8 calificación',
+      required: true,
+      done: true,
+      numeroPregunta: 8,
+      opcional: true,
+      ramificar: '4',
+      targetQuestion: '9',
+      ramificar2: 'no',
+      target2: 'no'
+    },
+    {
+      type: 'opcion',
+      numero: 'no',
+      question: 'Pregunta 9 opción múltiple',
+      optionsArray: [
+        {opcion: 'Op1', ramificar: false, targetQ: 'no'},
+        {opcion: 'Op2', ramificar: false, targetQ: 'no'},
+        {opcion: 'Op3', ramificar: false, targetQ: 'no'}
+      ],
+      done: true,
+      required: true,
+      tipoLimite: 'no',
+      numeroPregunta: 9,
+      opcional: true,
+    }
+  ]
 
-  // dataArray = [
-  //   {
-  //     type: 'texto',
-  //     question: 'pregunta 1 tipo texto',
-  //     required: false,
-  //     done: true,
-  //     numeroPregunta: 1,
-  //     opcional: false,
-  //     targetQuestion: 'no',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'calificacion',
-  //     question: 'Pregunta 2 tipo calificación',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 2,
-  //     opcional: false,
-  //     ramificar: '4',
-  //     targetQuestion: '7',
-  //     ramificar2: '9',
-  //     target2: '8'
-  //   },
-  //   {
-  //     type: 'opcion',
-  //     numero: '2',
-  //     question: 'Pregunta 3 opción múltiple',
-  //     optionsArray: ['op1', 'op2', 'opcion3', 'op4'],
-  //     done: true,
-  //     required: true,
-  //     tipoLimite: 'fija',
-  //     numeroPregunta: 3,
-  //     opcional: false,
-  //     ramificar: 'op2',
-  //     targetQuestion: '8',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'estrellas',
-  //     question: 'Pregunta 4 calificar con estrellas',
-  //     bad: 'Mala',
-  //     neutral: 'Neutral',
-  //     good: 'Excelente',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 4,
-  //     opcional: false,
-  //     ramificar: 'no',
-  //     targetQuestion: 'no',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'nps',
-  //     question: 'Pregunta 5 NPS',
-  //     bad: 'Mala',
-  //     neutral: 'Neutral',
-  //     good: 'Excelente',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 5,
-  //     opcional: false,
-  //     ramificar: '1',
-  //     targetQuestion: '8',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'fecha',
-  //     question: 'Selecciona una 6 fecha',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 6,
-  //     opcional: false,
-  //     targetQuestion: 'no',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'texto',
-  //     question: 'pregunta 7 tipo texto',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 7,
-  //     opcional: true,
-  //     targetQuestion: '3',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'calificacion',
-  //     question: 'Pregunta tipo 8 calificación',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 8,
-  //     opcional: true,
-  //     ramificar: '4',
-  //     targetQuestion: '9',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'opcion',
-  //     numero: 'no',
-  //     question: 'Pregunta 9 opción múltiple',
-  //     optionsArray: ['op1', 'op2', 'op3'],
-  //     done: true,
-  //     required: true,
-  //     tipoLimite: 'no',
-  //     numeroPregunta: 9,
-  //     opcional: true,
-  //     ramificar: 'no',
-  //     targetQuestion: 'Finalizar Encuesta',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   }
-  // ]
-
-  @Input() dataArray?:any[] = [];
+  // @Input() dataArray?:any[] = [];
 
   position = 0; //Posicion en el array de flujo normal
+  tempBranch = false //para determinbar si se selecciono opcion que se ramifica
   optionsRef:any; //Referencia opcion multiple
   textAreaRef:any; //Referencia pregunta abierta
 
@@ -168,126 +163,85 @@ export class RouteSelectorComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                         Obtener siguiente pregunta                         */
   /* -------------------------------------------------------------------------- */
-  getNextQuestion = (datos:any[]) => {
-    // Validar que el campo no este vacio si es obligatorio
-    if(this.currentData.length < 1 && this.currentQuestion.required) {
+  nextQuestion = (datos:any[]) => {
+    console.log("datos: ", datos);
+    //Validaciones de datos registrados
+    if(this.currentData.length < 1 && this.currentQuestion.required) { // Validar que el campo no este vacio si es obligatorio
       alert('Por favor rellene los datos');
       return;
     }
-    if(datos.length < 1) {
+    if(datos[0] === undefined) {
       datos = ['sin respuesta'];
     }
-    // Validar si se ramifica la pregunta
-    if(this.currentQuestion.ramificar && this.currentQuestion.ramificar !== 'no') {
-      if(
-        this.currentQuestion.type === 'calificacion' && parseInt(datos[0]) <= parseInt(this.currentQuestion.ramificar) ||
-        this.currentQuestion.type === 'opcion' && datos.includes(this.currentQuestion.ramificar)
-      ) {
-        if(this.currentQuestion.type === 'opcion') {
-          this.responsesArray.push({
-            questionNumber: this.currentQuestion.numeroPregunta,
-            type: this.currentQuestion.type,
-            question: this.currentQuestion.question,
-            response: datos
-          });
-        } else {
-          this.responsesArray.push({
-            questionNumber: this.currentQuestion.numeroPregunta,
-            type: this.currentQuestion.type,
-            question: this.currentQuestion.question,
-            response: datos[0],
-          });
-        }
-        for (let i = 0; i < this.dataArray!.length; i++) {
-          if(this.dataArray![i].numeroPregunta === parseInt(this.currentQuestion.targetQuestion)) {
-            this.currentQuestion = this.dataArray![i];
-            break;
-          }
-        }
-        //reiniciar data
-        this.currentData = [];
-        //Reiniciar arreglos para limpiar elecciones activas
-        this.restartSelected();
-        return
-      }
-    }
+    // Registrar al arreglo de respuestas
+    this.responsesArray.push({
+      questionNumber: this.currentQuestion.numeroPregunta,
+      type: this.currentQuestion.type,
+      question: this.currentQuestion.question,
+      response: this.currentQuestion.type === 'opcion' ? datos : datos[0] // guardar respuesta en forma de arreglo o string
+    });
 
-    // Validar segunda ramificacion
-    if(this.currentQuestion.ramificar2 && this.currentQuestion.ramificar2 !== 'no') {
-      if(
-        this.currentQuestion.type === 'calificacion' && parseInt(datos[0]) >= parseInt(this.currentQuestion.ramificar2) ||
-        this.currentQuestion.type === 'opcion' && datos.includes(this.currentQuestion.ramificar2)
-      ) {
-        if(this.currentQuestion.type === 'opcion') {
-          this.responsesArray.push({
-            questionNumber: this.currentQuestion.numeroPregunta,
-            type: this.currentQuestion.type,
-            question: this.currentQuestion.question,
-            response: datos
-          });
-        } else {
-          this.responsesArray.push({
-            questionNumber: this.currentQuestion.numeroPregunta,
-            type: this.currentQuestion.type,
-            question: this.currentQuestion.question,
-            response: datos[0],
-          });
+    // Manejar ramificaciones de acuerdo al tipo de pregunta contestada
+    switch (this.currentQuestion.type) {
+      case 'texto':
+      case 'fecha':
+        if(this.currentQuestion.targetQuestion !== 'no') { //si redirige a pregunta en especifico
+          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
+          if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1} //si no es pregunta opcional
         }
-        for (let i = 0; i < this.dataArray!.length; i++) {
-          if(this.dataArray![i].numeroPregunta === parseInt(this.currentQuestion.target2)) {
-            this.currentQuestion = this.dataArray![i];
-            break;
-          }
+        else { //si no redirige, se obtiene la siguiente del flujo normal
+          this.position++;
+          this.currentQuestion = this.arrayFlujoNormal[this.position];
         }
-        //reiniciar data
-        this.currentData = [];
-        //Reiniciar arreglos para limpiar elecciones activas
-        this.restartSelected();
-        return
-      }
-    }
+        break;
 
-    // Si la pregunta redirige a otra pregunta
-    if(this.currentQuestion.targetQuestion !== 'no' && !this.currentQuestion.ramificar) {
-      this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
-      if(this.currentQuestion.opcional === false) {
-        this.position = this.currentQuestion.numeroPregunta-1;
+      case 'calificacion':
+      case 'estrellas':
+      case 'nps':
+        const score = parseInt(datos[0]);
+        if(this.currentQuestion.ramificar !== 'no' && score <= parseInt(this.currentQuestion.ramificar)) { //si hay una primera ramificacion
+          this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.targetQuestion) - 1];
+          if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1};
+        } else if(this.currentQuestion.ramificar2 !== 'no' && score >= parseInt(this.currentQuestion.ramificar2)) { //si hay segunda ramifiacion
+          this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.target2) - 1];
+          if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1}
+        } else {
+          this.position++;
+          this.currentQuestion = this.arrayFlujoNormal[this.position];
+        }
+        break;
+
+      case 'opcion':
+        for (let i = 0; i < datos.length; i++) { //comprobar si coinciden las respuestas con el arreglo opciones
+          for (let j = 0; j < this.currentQuestion.optionsArray.length; j++) {
+            if(datos[i] === this.currentQuestion.optionsArray[j].opcion && this.currentQuestion.optionsArray[j].ramificar) { //si coincide y se ramifica
+              this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
+              this.tempBranch = true;
+              break;
+            }
+          }
+          if(this.tempBranch) { break }
+        }
+        if(this.tempBranch) {
+          if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1}
+        } else {
+          this.position++;
+          this.currentQuestion = this.arrayFlujoNormal[this.position];
+        }
+        break;
       }
+      
       //reiniciar data
       this.currentData = [];
+      this.tempBranch = false;
       this.restartSelected();
-      return;
-    }
-
-
-    // Flujo normal
-    this.position++;
-    if(this.currentQuestion.type === 'opcion') {
-      this.responsesArray.push({
-        questionNumber: this.currentQuestion.numeroPregunta,
-        type: this.currentQuestion.type,
-        question: this.currentQuestion.question,
-        response: datos
-      });
-    } else {
-      this.responsesArray.push({
-        questionNumber: this.currentQuestion.numeroPregunta,
-        type: this.currentQuestion.type,
-        question: this.currentQuestion.question,
-        response: datos[0]
-      });
-    }
-    this.currentQuestion = this.arrayFlujoNormal[this.position];
-    console.log("this.responsesArray: ", this.responsesArray);
-    //reiniciar data
-    this.currentData = [];
-    //Reiniciar arreglos para limpiar elecciones activas
-    this.restartSelected();
-    console.log("this.currentQuestion: ", this.currentQuestion);
-    if(this.currentQuestion === undefined) {
-      alert('Fin de la encuesta');
-      return;
-    }
+      console.log("this.position: ", this.position);
+      console.log(this.responsesArray);
+      console.log(this.currentQuestion);
+      
+      if (this.currentQuestion === undefined) {
+        alert('fin de la encuesta');
+      }
   }
 
   /* -------------------------------------------------------------------------- */
@@ -305,31 +259,47 @@ export class RouteSelectorComponent implements OnInit {
   }
 
 
-  // pregunta tipo texto
+  /* ------------------ obtener respuesta pregunta tipo texto ----------------- */
   getTexto = (text:string) => {
     this.currentData = [];
     this.currentData = [text];
   }
-  // Referencia pregunta abierta
+  /* ----------------------- Referencia pregunta abierta ---------------------- */
   getTextRef = (ref:any) => {
     this.textAreaRef = ref;
   }
 
-  // pregunta tipo opcion multiple
-  getOpciones = (ref:any) => {
+  /* ------ obtener casillas seleccionadas pregunta tipo opcion multiple ------ */
+  getOpciones = (ref:any, index:number) => {
     this.currentData = [];
-    for (let i = 0; i < ref.children.length; i++) {
+    for (let i = 0; i < ref.children.length; i++) { //registrar seleccionados
       if(ref.children[i].children[0].children[0].checked) {
         this.currentData.push(ref.children[i].children[0].children[0].value);
       }
     }
+    const selected = this.currentQuestion.optionsArray[index];
+    if(selected.ramificar && ref.children[index].children[0].children[0].checked) { //si se selecciona y se ramifica
+      for (let i = 0; i < ref.children.length; i++) { //deshabilitar todas las opciones que se ramifican
+        if (this.currentQuestion.optionsArray[i].ramificar) {
+          ref.children[i].children[0].classList.add('disabled');
+        }
+      }
+      ref.children[index].children[0].classList.remove('disabled'); //volver a habilitar la opcion seleccionada
+    }
+    if(selected.ramificar && !ref.children[index].children[0].children[0].checked) { //si se selecciona pero no ramifica
+      for (let i = 0; i < ref.children.length; i++) { //habilitar todas las opciones que se ramifican
+        if (this.currentQuestion.optionsArray[i].ramificar) {
+          ref.children[i].children[0].classList.remove('disabled');
+        }
+      }
+    }
   }
-  // Referencia opcion multiple
+  /* ----------------------- Referencia opcion multiple ----------------------- */
   getOptionsRef = (ref:any) => {
     this.optionsRef = ref;
   }
 
-  // Permite seleccionar calificacion
+  /* -------------------- Permite seleccionar calificacion -------------------- */
   fillScoreArray = () => { for (let i = 1; i <= 10; i++) this.scoreArray.push({active: false, number: i.toString()}) };
   setActiveScore = (index:number) => {
     for (let i = 0; i < this.scoreArray.length; i++) {
@@ -340,7 +310,7 @@ export class RouteSelectorComponent implements OnInit {
     this.currentData = [(index+1).toString()];
   }
 
-  // Selecciona calificacion en estrellas
+  /* ------------------ Selecciona calificacion en estrellas ------------------ */
   fillStarsArray = () => { for (let i = 0; i < 5; i++) this.starsArray.push({active: false, number: i+1}) };
   setActiveStars = (index:number) => {
     for (let i = 0; i < this.starsArray.length; i++) {
@@ -351,7 +321,7 @@ export class RouteSelectorComponent implements OnInit {
     this.currentData = [(index+1).toString()];
   }
 
-  // Cambia a activo nps seleccionado
+  /* -------------------- Cambia a activo nps seleccionado -------------------- */
   fillNpsArray = () => { for (let i = 0; i < 3; i++) this.npsArray.push({active: false, nps: '' }) };
   setActiveNps = (index:number) => {
     for (let i = 0; i < this.npsArray.length; i++) {
@@ -362,6 +332,7 @@ export class RouteSelectorComponent implements OnInit {
     this.currentData = [(index+1).toString()];
   }
 
+  /* ------------------------- limpiar las respuestas ------------------------- */
   restartSelected = () => {
     for (let i = 0; i < this.scoreArray.length; i++) { //calificacion
       this.scoreArray[i].active = false;
@@ -369,23 +340,25 @@ export class RouteSelectorComponent implements OnInit {
     for (let i = 0; i < this.starsArray.length; i++) { //estrellas
       this.starsArray[i].active = false;
     }
-    for (let i = 0; i < this.npsArray.length; i++) { //nps
+    for (let i = 0; i < this.npsArray.length; i++) { // nps
       this.npsArray[i].active = false;
     }
-    if(this.optionsRef !== undefined) {
+    if(this.optionsRef !== undefined) { // opciones
       for (let i = 0; i < this.optionsRef.children.length; i++) {
         this.optionsRef.children[i].children[0].children[0].checked = false;
       }
     }
-    if(this.textAreaRef !== undefined) {
+    if(this.textAreaRef !== undefined) { // texto
       this.textAreaRef.value = '';
     }
   }
 
+  /* ------------------------ obtener pregunta inicial ------------------------ */
   getCurrentQuestion = () => {
     this.currentQuestion = this.arrayFlujoNormal[0];
   }
 
+  /* ----- obtener los arreglos de preguntas opcionales y de flujo normal ----- */
   getOpcionalOFlujoNormal = () => {
     for (let i = 0; i < this.dataArray!.length; i++) {
       if(!this.dataArray![i].opcional) {

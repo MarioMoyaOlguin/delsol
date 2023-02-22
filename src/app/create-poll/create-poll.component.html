@@ -34,7 +34,7 @@
     </div>
 
     <!-- selector de rutas -->
-    <app-route-selector *ngIf="route" [dataArray]="questionsArray">
+    <app-route-selector *ngIf="true" >
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer" viewBox="0 0 16 16"
         (click)="routeViewer()">
             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -398,12 +398,13 @@
                             </div>
                             <!-- Arreglo dinamico de opciones -->
                             <div class="" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
-                                <div class="d-flex align-items-center checkbox-container" id="c"
+                                <div class="d-flex justify-content-between align-items-center checkbox-container" id="c"
                                 *ngFor="let option of question.optionsArray">
                                     <label class="item-container text-dark"> {{option.opcion}}
                                         <input type="checkbox" (change)="controlCheckboxes(optionsContainer, question.tipoLimite, question.numero)">
                                         <span class="checkmark"></span>
                                     </label>
+                                    <p *ngIf="option.ramificar" class="mb-0 fs-6 text-dark">ramificar: pregunta {{option.targetQ}}</p>
                                 </div>
                             </div>
                             <!-- Arreglo editor de opciones, Se muestra al editar la pregunta -->
@@ -413,7 +414,7 @@
                                     <div class="d-flex justify-content-between heckbox-container" id=""
                                     *ngFor="let option of optionsArray; let optIndex = index">
                                         <label class="item-container d-flex align-items-center me-2 text-dark">
-                                            {{option}}
+                                            {{option.opcion}}
                                             <input type="checkbox">
                                             <span class="checkmark"></span>
                                         </label>
@@ -421,14 +422,14 @@
                                             <label class="item-container d-flex align-items-center fs-6 text-dark">
                                                 <input type="checkbox">
                                                 <span class="checkmark"></span>
-                                                <p class="mb-0 fs-6 text-dark me-1">ramificar</p>
+                                                <p class="mb-0 fs-6 text-dark">ramificar</p>
                                             </label>
                                             <div class="d-flex align-items-center">
-                                                <p class="mb-0 fs-6 text-dark me-1">pregunta: </p>
+                                                <p class="mb-0 fs-6 text-dark">pregunta: </p>
                                                 <select class="bg-edit bg-transparent" (click)="getDoneQuestions()">
                                                     <option value="no"></option>
                                                     <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                                        Pregunta: {{ opcion.numeroPregunta}}
+                                                        {{ opcion.numeroPregunta}}
                                                     </option>
                                                 </select>
                                             </div>
@@ -481,7 +482,7 @@
                                     <select name="" id="" class="select my-0" #alertTrigger>
                                         <option value="no">sin alerta</option>
                                         <option *ngFor="let opcion of optionsArray" [value]="opcion">
-                                            {{ opcion}}
+                                            {{opcion.opcion}}
                                         </option>
                                     </select>
                                 </div>

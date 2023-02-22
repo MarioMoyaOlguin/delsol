@@ -40,7 +40,6 @@ export class CreatePollComponent implements OnInit {
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
   questionsArray:any[] = []; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
-  optionsArrayComplete:any[] = []; // Arreglo de objetos con informacion completa de opciones
   optionalQuestionsArray:any[] = [];
   ordenNormalArray:any[] = [];
   doneQuestions:any[] = [];
@@ -102,9 +101,8 @@ export class CreatePollComponent implements OnInit {
     }
   }
 
-  addQuestion() { //Muestra o esconde los botones de selección de tipo de pregunta
-    this.visible = !this.visible;
-  }
+  //Muestra o esconde los botones de selección de tipo de pregunta
+  addQuestion() { this.visible = !this.visible; }
   
   /* ---------------------- Entrar al editor de pregunta ---------------------- */
   prototypeQuestion(questionType:string) {
@@ -136,8 +134,6 @@ export class CreatePollComponent implements OnInit {
   /* ------------------ Registrar tipo de pregunta al arreglo ----------------- */
   createQuestion(qType:string, index:number, data?:Array<any>) {
     console.log("data: ", data);
-
-    this.optionsArrayComplete = []; //reiniciar el arreglo
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
@@ -180,7 +176,7 @@ export class CreatePollComponent implements OnInit {
             targetQuestion: data![4], ramificar2: data![5], target2: data![6], alert: this.alert, alertTrigger: data![7]}));
         break;
 
-      case 'opcion':
+      case 'opcion': 
         const number = data![2] === '' ? 0 : parseInt(data![2]);
         if(this.optionsArray.length < number) {
           alert('La cantidad de control no puede ser mayor a la cantidad de opciones');
@@ -197,7 +193,18 @@ export class CreatePollComponent implements OnInit {
         if(!this.alert && data![3] !== 'no') {
           this.alert = true;
         }
-        // for del arreglo de opciones
+        for (let i = 0; i < data![4].children.length; i++) { //validar las opciones de ramificacion del arreglo de opciones
+          let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
+          const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
+          if(branchChecked && targetQuestion === 'no') {
+            alert(`Seleccione hacia que pregunta se ramifica la opción ${i+1}`);
+            return;
+          }
+          if(!branchChecked && targetQuestion !== 'no') {
+            branchChecked = true;
+          }
+        }
+        // for del arreglo de opciones para registrar objetos al optionsArray con datos de las opciones
         this.optionsArray = [];
         for (let i = 0; i < data![4].children.length; i++) {
           let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
@@ -209,16 +216,13 @@ export class CreatePollComponent implements OnInit {
           if(!branchChecked && targetQuestion !== 'no') {
             branchChecked = true;
           }
-          this.optionsArrayComplete.push({
+          this.optionsArray.push({
             opcion: data![4].children[i].children[0].innerText,
             ramificar: branchChecked,
             targetQ: targetQuestion
           })
-          // console.log(data![4].children[i].children[0].innerText);
-          // console.log(data![4].children[i].children[1].children[0].children[0].checked);
-          // console.log(data![4].children[i].children[1].children[1].children[1].value);
         }
-        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArrayComplete, done: true, required: this.check,
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
           tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3]}));
         break;
 
@@ -289,7 +293,6 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
-    this.optionsArrayComplete = [];
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
@@ -302,12 +305,12 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
-    this.optionsArrayComplete = [];
   }
 
   /* ----------------------------- Editar pregunta ---------------------------- */
   editQuestion = (type:string, index:number) => {
     const targetQuestion = this.questionsArray[index];
+    console.log("targetQuestion: ", targetQuestion);
 
     switch (type) {
       case 'texto':
@@ -366,7 +369,11 @@ export class CreatePollComponent implements OnInit {
   /* ------- Guardar opcion al arreglo de opciones y validar que no se guarde texto vacio al arreglo de opciones ------ */
   setOption = (data:string) => {
     if(data === '') return;
-    this.optionsArray.push(data);
+    this.optionsArray.push({
+      opcion: data,
+      ramificar: false,
+      targetQ: ''
+    });
   }
   /* ------------- Referencia a checkboxes y aplicar limitaciones ------------- */
   controlCheckboxes = (ref:any, tipo:string, cantidad:number) => {

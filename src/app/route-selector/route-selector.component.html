@@ -66,8 +66,8 @@
                         <div class="d-flex flex-column w-100 ps-5 gap-2 " #optionsContainer>
                             <div class="d-flex align-items-center checkbox-container" id="c"
                             *ngFor="let option of currentQuestion.optionsArray; let i = index">
-                                <label class="item-container"> {{option}}
-                                    <input type="checkbox" (change)="getOpciones(optionsContainer)" [value]="option"
+                                <label class="item-container text-dark"> {{option.opcion}}
+                                    <input type="checkbox" (change)="getOpciones(optionsContainer, i)" [value]="option.opcion"
                                     (change)="getOptionsRef(optionsContainer)">
                                     <span class="checkmark"></span>
                                 </label>
@@ -174,7 +174,7 @@
                                         {{dia?.value}}
                                     </div>
                                 </li>
-                            </ol> 
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
             <div class="d-flex p-4 w-100 bg-white mt-4 "
             [ngClass]="responsesArray.length < 1 ? 'justify-content-end' : 'justify-content-between'">
                 <button *ngIf="responsesArray.length > 0" class="action-btn " (click)="getPreviousQuestion()">Volver</button>
-                <button  class="action-btn " (click)="getNextQuestion(currentData)">Siguiente</button>
+                <button  class="action-btn " (click)="nextQuestion(currentData)">Siguiente</button>
             </div>
         </div>
     </div>
