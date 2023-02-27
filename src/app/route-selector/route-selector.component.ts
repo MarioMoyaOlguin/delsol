@@ -27,121 +27,121 @@ export class RouteSelectorComponent implements OnInit {
     console.log(this.currentQuestion);
   }
   
-  dataArray = [
-    {
-      type: 'texto',
-      question: 'pregunta 1 tipo texto',
-      required: false,
-      done: true,
-      numeroPregunta: 1,
-      opcional: false,
-      targetQuestion: 'no'
-    },
-    {
-      type: 'calificacion',
-      question: 'Pregunta 2 tipo calificación',
-      required: true,
-      done: true,
-      numeroPregunta: 2,
-      opcional: false,
-      ramificar: '4',
-      targetQuestion: '7',
-      ramificar2: '9',
-      target2: '8'
-    },
-    {
-      type: 'opcion',
-      numero: '2',
-      question: 'Pregunta 3 opción múltiple',
-      optionsArray: [
-        {opcion: 'Op1', ramificar: true, targetQ: '7'},
-        {opcion: 'Op2', ramificar: false, targetQ: 'no'},
-        {opcion: 'Op3', ramificar: true, targetQ: '9'}
-      ],
-      done: true,
-      required: true,
-      tipoLimite: 'fija',
-      numeroPregunta: 3,
-      opcional: false,
-    },
-    {
-      type: 'estrellas',
-      question: 'Pregunta 4 calificar con estrellas',
-      bad: 'Mala',
-      neutral: 'Neutral',
-      good: 'Excelente',
-      required: true,
-      done: true,
-      numeroPregunta: 4,
-      opcional: false,
-      ramificar: 'no',
-      targetQuestion: 'no',
-      ramificar2: 'no',
-      target2: 'no'
-    },
-    {
-      type: 'nps',
-      question: 'Pregunta 5 NPS',
-      bad: 'Mala',
-      neutral: 'Neutral',
-      good: 'Excelente',
-      required: true,
-      done: true,
-      numeroPregunta: 5,
-      opcional: false,
-      ramificar: '1',
-      targetQuestion: '8',
-      ramificar2: 'no',
-      target2: 'no'
-    },
-    {
-      type: 'fecha',
-      question: 'Selecciona una 6 fecha',
-      required: true,
-      done: true,
-      numeroPregunta: 6,
-      opcional: false,
-      targetQuestion: 'no',
-    },
-    {
-      type: 'texto',
-      question: 'pregunta 7 tipo texto',
-      required: true,
-      done: true,
-      numeroPregunta: 7,
-      opcional: true,
-      targetQuestion: 'no'
-    },
-    {
-      type: 'calificacion',
-      question: 'Pregunta tipo 8 calificación',
-      required: true,
-      done: true,
-      numeroPregunta: 8,
-      opcional: true,
-      ramificar: '4',
-      targetQuestion: '9',
-      ramificar2: 'no',
-      target2: 'no'
-    },
-    {
-      type: 'opcion',
-      numero: 'no',
-      question: 'Pregunta 9 opción múltiple',
-      optionsArray: [
-        {opcion: 'Op1', ramificar: false, targetQ: 'no'},
-        {opcion: 'Op2', ramificar: false, targetQ: 'no'},
-        {opcion: 'Op3', ramificar: false, targetQ: 'no'}
-      ],
-      done: true,
-      required: true,
-      tipoLimite: 'no',
-      numeroPregunta: 9,
-      opcional: true,
-    }
-  ]
+  // dataArray = [
+  //   {
+  //     type: 'texto',
+  //     question: 'pregunta 1 tipo texto',
+  //     required: false,
+  //     done: true,
+  //     numeroPregunta: 1,
+  //     opcional: false,
+  //     targetQuestion: 'no'
+  //   },
+  //   {
+  //     type: 'calificacion',
+  //     question: 'Pregunta 2 tipo calificación',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 2,
+  //     opcional: false,
+  //     ramificar: '4',
+  //     targetQuestion: '7',
+  //     ramificar2: '9',
+  //     target2: '8'
+  //   },
+  //   {
+  //     type: 'opcion',
+  //     numero: '2',
+  //     question: 'Pregunta 3 opción múltiple',
+  //     optionsArray: [
+  //       {opcion: 'Op1', ramificar: true, targetQ: '7'},
+  //       {opcion: 'Op2', ramificar: false, targetQ: 'no'},
+  //       {opcion: 'Op3', ramificar: true, targetQ: '9'}
+  //     ],
+  //     done: true,
+  //     required: true,
+  //     tipoLimite: 'fija',
+  //     numeroPregunta: 3,
+  //     opcional: false,
+  //   },
+  //   {
+  //     type: 'estrellas',
+  //     question: 'Pregunta 4 calificar con estrellas',
+  //     bad: 'Mala',
+  //     neutral: 'Neutral',
+  //     good: 'Excelente',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 4,
+  //     opcional: false,
+  //     ramificar: 'no',
+  //     targetQuestion: 'no',
+  //     ramificar2: 'no',
+  //     target2: 'no'
+  //   },
+  //   {
+  //     type: 'nps',
+  //     question: 'Pregunta 5 NPS',
+  //     bad: 'Mala',
+  //     neutral: 'Neutral',
+  //     good: 'Excelente',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 5,
+  //     opcional: false,
+  //     ramificar: '1',
+  //     targetQuestion: '8',
+  //     ramificar2: 'no',
+  //     target2: 'no'
+  //   },
+  //   {
+  //     type: 'fecha',
+  //     question: 'Selecciona una 6 fecha',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 6,
+  //     opcional: false,
+  //     targetQuestion: 'no',
+  //   },
+  //   {
+  //     type: 'texto',
+  //     question: 'pregunta 7 tipo texto',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 7,
+  //     opcional: true,
+  //     targetQuestion: 'no'
+  //   },
+  //   {
+  //     type: 'calificacion',
+  //     question: 'Pregunta tipo 8 calificación',
+  //     required: true,
+  //     done: true,
+  //     numeroPregunta: 8,
+  //     opcional: true,
+  //     ramificar: '4',
+  //     targetQuestion: '9',
+  //     ramificar2: 'no',
+  //     target2: 'no'
+  //   },
+  //   {
+  //     type: 'opcion',
+  //     numero: 'no',
+  //     question: 'Pregunta 9 opción múltiple',
+  //     optionsArray: [
+  //       {opcion: 'Op1', ramificar: false, targetQ: 'no'},
+  //       {opcion: 'Op2', ramificar: false, targetQ: 'no'},
+  //       {opcion: 'Op3', ramificar: false, targetQ: 'no'}
+  //     ],
+  //     done: true,
+  //     required: true,
+  //     tipoLimite: 'no',
+  //     numeroPregunta: 9,
+  //     opcional: true,
+  //   }
+  // ]
 
-  // @Input() dataArray?:any[] = [];
+  @Input() dataArray?:any[] = [];
 
   position = 0; //Posicion en el array de flujo normal
   tempBranch = false //para determinbar si se selecciono opcion que se ramifica
@@ -200,10 +200,10 @@ export class RouteSelectorComponent implements OnInit {
       case 'nps':
         const score = parseInt(datos[0]);
         if(this.currentQuestion.ramificar !== 'no' && score <= parseInt(this.currentQuestion.ramificar)) { //si hay una primera ramificacion
-          this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.targetQuestion) - 1];
+          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1};
         } else if(this.currentQuestion.ramificar2 !== 'no' && score >= parseInt(this.currentQuestion.ramificar2)) { //si hay segunda ramifiacion
-          this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.target2) - 1];
+          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.target2) - 1];
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1}
         } else {
           this.position++;
@@ -215,7 +215,7 @@ export class RouteSelectorComponent implements OnInit {
         for (let i = 0; i < datos.length; i++) { //comprobar si coinciden las respuestas con el arreglo opciones
           for (let j = 0; j < this.currentQuestion.optionsArray.length; j++) {
             if(datos[i] === this.currentQuestion.optionsArray[j].opcion && this.currentQuestion.optionsArray[j].ramificar) { //si coincide y se ramifica
-              this.currentQuestion = this.dataArray[parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
+              this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
               this.tempBranch = true;
               break;
             }

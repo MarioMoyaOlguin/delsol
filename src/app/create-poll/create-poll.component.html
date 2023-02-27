@@ -34,7 +34,7 @@
     </div>
 
     <!-- selector de rutas -->
-    <app-route-selector *ngIf="true" >
+    <app-route-selector *ngIf="route" [dataArray]="questionsArray">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer" viewBox="0 0 16 16"
         (click)="routeViewer()">
             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -68,198 +68,78 @@
             <!--                            Seccion preguntas                            -->
             <!-- ----------------------------------------------------------------------- -->
             <!-- ciclo for para renderizar preguntas de acuerdo al arreglo questionsArray -->
-            <div class="d-flex w-100 gap-5 mb-4 ease-in-out" id="pregunta" *ngFor="let question of questionsArray; let i = index" #seccionPreguntas
-            [ngStyle]="{'pointer-events': editTitle ? 'none' : 'auto'}" @fadeInOut>
+            <div class="d-flex w-100 gap-5 mb-4 ease-in-out fade-in" id="" *ngFor="let question of questionsArray; let i = index"
+            [ngStyle]="{'pointer-events': editTitle ? 'none' : 'auto'}">
     
                 <!-- switch que renderiza el tipo de pregunta segun sea su caso -->
-                <div class="w-100" [ngSwitch]="question.type">
+                <div class="w-100" [ngSwitch]="question.type" @fade-out>
     
                     <!-- ----------------------------- Case texto ------------------------------ -->
-                    <div *ngSwitchCase="'texto'" class="d-flex flex-column w-100 mb-4"
-                    [ngStyle]="question.done ? completed : edit"> <!-- fondo y borde rojo o azul -->
+                    <div *ngSwitchCase="'texto'" class="d-flex flex-column w-100 ease-in-out ">
+                    <!-- [ngStyle]="question.done ? completed : edit"> -->
                         <!-- Cabecera, contiene el número de pregunta e iconos para editar, eliminat, etc -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1 align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
+                            </div>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('texto', i, [textQuestion.value, branchTarget.value])"
-                                *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="createQuestion('texto', i, [textQuestion.value, branchTarget.value])" *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('texto', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
-                        <!-- cuerpo de la pregunta -->
-                        <div class="d-flex flex-column p-3 pt-0">
-                            <div class="d-flex flex-column w-100">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
-                                [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
-                            </div>
-                            <div class="w-100 d-flex flex-column mt-3">
-                                <label class="fs-6">Respuesta</label>
-                                <textarea name="" placeholder="Demo..."></textarea>
-                            </div>
-                        </div>
-                        <!-- Ramificar -->
-                        <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                            <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                <option value="no">Sin ramificar</option>
-                                <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                    Pregunta: {{ opcion.numeroPregunta}}
-                                </option>
-                                <option value="finalizar">Finalizar encuesta</option>
-                            </select>
-                        </div>
-                        <!-- footer con switchs de alerta y pregunta obligatoria -->
-                        <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                            <!-- <div class="d-flex me-4">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setAlert()" [ngStyle]="alert ? right : left">
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="alert ? 'right' : 'left'"></div>
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <!-- cuerpo de la pregunta -->
+                            <div class="d-flex flex-column p-3 pt-0">
+                                <div class="d-flex flex-column w-100">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center mb-0">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center mb-0">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
+                                    [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
                                 </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
-                            </div> -->
-                            <div class="d-flex me-3">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="optional ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
-                            </div>
-                            <div class="d-flex">
-                                <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
-                                    <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                    [ngClass]="check ? 'right' : 'left'"></div>
-                                </div>
-                                <p class="fs-6 ms-1 mb-0 text-dark">Obligatoria</p>
-                            </div>
-                        </div>
-                    </div><!-- --------------------------- Fin case texto ---------------------------- -->
-                    
-                    <!-- -------------------------- case calificacion -------------------------- -->
-                    <div *ngSwitchCase="'calificacion'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
-                        <!-- cabecera -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1 align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                    </svg>
-                                </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('calificacion', i, [textQuestion.value, low.value, high.value, trigger.value,
-                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
-                                *ngIf="!question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                                    </svg>
-                                </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('calificacion', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                    </svg>
-                                </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                                    </svg>
-                                </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- cuerpo -->
-                        <div class="p-3 pt-0">
-                            <div class="d-flex flex-column w-100 mb-3">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion [ngStyle]="question.done ? displayNone : displayBlock"
-                                placeholder="Escribe tu pregunta aqui...">
-                            </div>
-                            <table class="table mb-1 bg-white">
-                                <tbody class="w-100">
-                                    <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th> <th>9</th> <th>10</th>
-                                </tbody>
-                            </table>
-                            <div *ngIf="question.done" class="w-100 d-flex justify-content-between set-container">
-                                <p class="mb-0 fs-6">{{question.low}}</p> <p class="mb-0 fs-6">{{question.high}}</p>
-                            </div>
-                            <div *ngIf="!question.done" class="w-100 d-flex justify-content-between set-container">
-                                <p class="mb-0 fs-6">{{low.value}}</p> <p class="mb-0 fs-6">{{high.value}}</p>
-                            </div>
-                            <div class="w-100 d-flex justify-content-between flex-wrap gap-2 p-0 px-lg-4">
-                                <input type="text" #low class="input-calificacion" placeholder="Calificación baja..."
-                                (keyup)="0" value="{{question.low}}" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input type="text" #high class="input-calificacion" placeholder="Calificación alta..."
-                                (keyup)="0" value="{{question.high}}" [ngStyle]="question.done ? displayNone : displayBlock">
-                            </div>
-                        </div>
-                        <div class="p-3" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <!-- Definir condicion para ramificar encuesta -->
-                            <div class="w-100 d-flex align-items-center " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                    <select name="" id="" class="select my-0" #trigger>
-                                        <option value="no">sin ramificar</option>
-                                        <option value="1">1</option>
-                                        <option *ngFor="let score of scoreArray" [value]="score">
-                                            {{score}} o menos
-                                        </option>
-                                    </select>
+                                <div class="w-100 d-flex flex-column mt-3">
+                                    <label class="fs-6 text-dark">Respuesta</label>
+                                    <textarea name="" placeholder="Demo..."></textarea>
                                 </div>
                             </div>
                             <!-- Ramificar -->
-                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                            <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
                             [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
                                 <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
                                     <option value="no">sin ramificar</option>
                                     <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
@@ -268,44 +148,177 @@
                                     <option value="finalizar">Finalizar encuesta</option>
                                 </select>
                             </div>
-                            <!-- Segunda ramificacion -->
-                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
-                                <select name="" id="" class="select my-0" #secondTrigger>
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let score of scoreArray" [value]="score">
-                                        {{score}} o mas
-                                    </option>
-                                    <option value="10">10</option>
-                                </select>
+                            <!-- footer con switchs de alerta y pregunta obligatoria -->
+                            <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
+                                <!-- <div class="d-flex me-4">
+                                    <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                    (click)="setAlert()" [ngStyle]="alert ? right : left">
+                                        <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                        [ngClass]="alert ? 'right' : 'left'"></div>
+                                    </div>
+                                    <p class="fs-6 ms-1 mb-0 text-dark">Alerta</p>
+                                </div> -->
+                                <div class="d-flex me-3">
+                                    <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                    (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
+                                        <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                        [ngClass]="optional ? 'right' : 'left'"></div>
+                                    </div>
+                                    <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
+                                    (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
+                                        <div class="check-control rounded-circle ease-in-out position-absolute" 
+                                        [ngClass]="check ? 'right' : 'left'"></div>
+                                    </div>
+                                    <p class="fs-6 ms-1 mb-0 text-dark">Obligatoria</p>
+                                </div>
                             </div>
-                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
-                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
+                        </div>
+                    </div><!-- --------------------------- Fin case texto ---------------------------- -->
+                    
+                    <!-- -------------------------- case calificacion -------------------------- -->
+                    <div *ngSwitchCase="'calificacion'" class="w-100 gap-4" >
+                        <!-- cabecera -->
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
                             </div>
-                            <!-- Alerta -->
-                            <div class="d-flex my-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <label class="item-container red me-2"> Alerta
-                                    <input type="checkbox" (change)="setAlert()">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                <select name="" id="" class="select my-0" #alertTrigger>
-                                    <option value="no">sin alerta</option>
-                                    <option value="1">1</option>
-                                    <option *ngFor="let score of scoreArray" [value]="score">
-                                        {{score}} o menos
-                                    </option>
-                                </select>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                    </svg>
+                                </button>
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="createQuestion('calificacion', i, [textQuestion.value, low.value, high.value, trigger.value,
+                                branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
+                                *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                    </svg>
+                                </button>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                    </svg>
+                                </button>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                </button>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- cuerpo -->
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <div class="p-3 pt-0">
+                                <div class="d-flex flex-column w-100 mb-3">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center pb-0">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center pb-0">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion [ngStyle]="question.done ? displayNone : displayBlock"
+                                    placeholder="Escribe tu pregunta aqui...">
+                                </div>
+                                <table class="table mb-1 bg-white">
+                                    <tbody class="w-100">
+                                        <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th> <th>9</th> <th>10</th>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="question.done" class="w-100 d-flex justify-content-between set-container">
+                                    <p class="mb-0 fs-6">{{question.low}}</p> <p class="mb-0 fs-6">{{question.high}}</p>
+                                </div>
+                                <div *ngIf="!question.done" class="w-100 d-flex justify-content-between set-container">
+                                    <p class="mb-0 fs-6">{{low.value}}</p> <p class="mb-0 fs-6">{{high.value}}</p>
+                                </div>
+                                <div class="w-100 d-flex justify-content-between flex-wrap gap-2 p-0 px-lg-4">
+                                    <input type="text" #low class="input-calificacion" placeholder="Calificación baja..."
+                                    (keyup)="0" value="{{question.low}}" [ngStyle]="question.done ? displayNone : displayBlock">
+                                    <input type="text" #high class="input-calificacion" placeholder="Calificación alta..."
+                                    (keyup)="0" value="{{question.high}}" [ngStyle]="question.done ? displayNone : displayBlock">
+                                </div>
+                            </div>
+                            <div class="p-3" [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-3">
+                                <!-- Definir condicion para ramificar encuesta -->
+                                <div class="w-100 d-flex align-items-center " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                        <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                        <select name="" id="" class="select my-0" #trigger>
+                                            <option value="no">sin ramificar</option>
+                                            <option value="1">1</option>
+                                            <option *ngFor="let score of scoreArray" [value]="score">
+                                                {{score}} o menos
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Ramificar -->
+                                <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                    <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Segunda ramificacion -->
+                                <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                    <select name="" id="" class="select my-0" #secondTrigger>
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let score of scoreArray" [value]="score">
+                                            {{score}} o mas
+                                        </option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                    <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Alerta -->
+                                <div class="d-flex my-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <label class="item-container red me-2"> Alerta
+                                        <input type="checkbox" (change)="setAlert()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                    <select name="" id="" class="select my-0" #alertTrigger>
+                                        <option value="no">sin alerta</option>
+                                        <option value="1">1</option>
+                                        <option *ngFor="let score of scoreArray" [value]="score">
+                                            {{score}} o menos
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- footer -->
@@ -339,152 +352,159 @@
     
                     <!-- ----------------------------- case opción ----------------------------- -->
                     <div *ngSwitchCase="'opcion'" class="w-100 gap-4"
-                    [ngStyle]="question.done ? completed : edit">
+                    >
                         <!-- cabecera -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1 align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
+                            </div>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
                                 (click)="createQuestion('opcion', i,[textQuestion.value, tipoLimite.value, numero.value, alertTrigger.value,
                                 editOptionsContainer])"
-                                *ngIf="!question.done">
+                                *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('opcion', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                         <!-- cuerpo -->
-                        <div class="p-3 pt-0">
-                            <div class="d-flex flex-column w-100 mb-3">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
-                                [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
-                            </div>
-                            <!-- legenda seleccion de opciones -->
-                            <div class="optionsLegend">
-                                <p *ngIf="question.tipoLimite == 'fija'">Seleccione {{question.numero}} opciones</p>
-                                <p *ngIf="question.tipoLimite == 'minimo'">Seleccione un mínimo de {{question.numero}} opciones</p>
-                                <p *ngIf="question.tipoLimite == 'maximo'">Seleccione un máximo de {{question.numero}} opciones</p>
-                            </div>
-                            <!-- Arreglo dinamico de opciones -->
-                            <div class="" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
-                                <div class="d-flex justify-content-between align-items-center checkbox-container" id="c"
-                                *ngFor="let option of question.optionsArray">
-                                    <label class="item-container text-dark"> {{option.opcion}}
-                                        <input type="checkbox" (change)="controlCheckboxes(optionsContainer, question.tipoLimite, question.numero)">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <p *ngIf="option.ramificar" class="mb-0 fs-6 text-dark">ramificar: pregunta {{option.targetQ}}</p>
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <div class="p-3 pt-0">
+                                <div class="d-flex flex-column w-100 mb-3">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
+                                    [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
                                 </div>
-                            </div>
-                            <!-- Arreglo editor de opciones, Se muestra al editar la pregunta -->
-                            <div class="d-flex flex-column gap-1" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <!-- Arreglo -->
-                                <div class="" #editOptionsContainer>
-                                    <div class="d-flex justify-content-between heckbox-container" id=""
-                                    *ngFor="let option of optionsArray; let optIndex = index">
-                                        <label class="item-container d-flex align-items-center me-2 text-dark">
-                                            {{option.opcion}}
-                                            <input type="checkbox">
+                                <!-- legenda seleccion de opciones -->
+                                <div class="optionsLegend">
+                                    <p *ngIf="question.tipoLimite == 'fija'">Seleccione {{question.numero}} opciones</p>
+                                    <p *ngIf="question.tipoLimite == 'minimo'">Seleccione un mínimo de {{question.numero}} opciones</p>
+                                    <p *ngIf="question.tipoLimite == 'maximo'">Seleccione un máximo de {{question.numero}} opciones</p>
+                                </div>
+                                <!-- Arreglo dinamico de opciones -->
+                                <div class="" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
+                                    <div class="d-flex justify-content-between align-items-center checkbox-container" id="c"
+                                    *ngFor="let option of question.optionsArray">
+                                        <label class="item-container text-dark"> {{option.opcion}}
+                                            <input type="checkbox" (change)="controlCheckboxes(optionsContainer, question.tipoLimite, question.numero)">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <div class="d-flex gap-3">
-                                            <label class="item-container d-flex align-items-center fs-6 text-dark">
+                                        <p *ngIf="option.ramificar" class="mb-0 fs-6 text-dark">ramificar: pregunta {{option.targetQ}}</p>
+                                    </div>
+                                </div>
+                                <!-- Arreglo editor de opciones, Se muestra al editar la pregunta -->
+                                <div class="d-flex flex-column gap-1" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <!-- Arreglo -->
+                                    <div class="" #editOptionsContainer>
+                                        <div class="d-flex justify-content-between heckbox-container" id=""
+                                        *ngFor="let option of optionsArray; let optIndex = index">
+                                            <label class="item-container d-flex align-items-center me-2 text-dark">
+                                                {{option.opcion}}
                                                 <input type="checkbox">
                                                 <span class="checkmark"></span>
-                                                <p class="mb-0 fs-6 text-dark">ramificar</p>
                                             </label>
-                                            <div class="d-flex align-items-center">
-                                                <p class="mb-0 fs-6 text-dark">pregunta: </p>
-                                                <select class="bg-edit bg-transparent" (click)="getDoneQuestions()">
-                                                    <option value="no"></option>
-                                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                                        {{ opcion.numeroPregunta}}
-                                                    </option>
-                                                </select>
+                                            <div class="d-flex gap-3">
+                                                <label class="item-container d-flex align-items-center fs-6 text-dark">
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                    <p class="mb-0 fs-6 text-dark">ramificar</p>
+                                                </label>
+                                                <div class="d-flex align-items-center">
+                                                    <p class="mb-0 fs-6 text-dark">pregunta: </p>
+                                                    <select class="bg-edit bg-transparent" (click)="getDoneQuestions()">
+                                                        <option value="no"></option>
+                                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                                            {{ opcion.numeroPregunta}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt mt-1" viewBox="0 0 16 16"
+                                                (click)="removeOption(optIndex)">
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                </svg>
                                             </div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt mt-1" viewBox="0 0 16 16"
-                                            (click)="removeOption(optIndex)">
-                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                            </svg>
                                         </div>
                                     </div>
+                                    <!-- Nueva opcion -->
+                                    <div class="d-flex w-100 mt-3">
+                                        <div class="input-calificacion d-flex">
+                                            <input type="text" class="new-option" #newOption placeholder="Nueva opción..." value=""
+                                            (keyup.enter)="setOption(newOption.value)" (keyup.enter)="newOption.value=''">
+                                            <div class="d-flex align-items-center bg-secondary rounded-end px-2 pointer"
+                                            (click)="setOption(newOption.value)" (click)="newOption.value=''">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus text-light" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <small class="text-danger ms-2 d-flex align-items-end">
+                                            {{optionsArray.length < 2 ? 'Mínimo 2 opciones' : ''}}
+                                        </small>
+                                    </div>
                                 </div>
-                                <!-- Nueva opcion -->
-                                <div class="d-flex w-100 mt-3">
-                                    <div class="input-calificacion d-flex">
-                                        <input type="text" class="new-option" #newOption placeholder="Nueva opción..." value=""
-                                        (keyup.enter)="setOption(newOption.value)" (keyup.enter)="newOption.value=''">
-                                        <div class="d-flex align-items-center bg-secondary rounded-end px-2 pointer"
-                                        (click)="setOption(newOption.value)" (click)="newOption.value=''">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus text-light" viewBox="0 0 16 16">
-                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                            </svg>
+                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
+                                    <!-- limitar opciones -->
+                                    <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                        <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                            <p class="mb-0 fs-6 text-dark">¿Limitar respuestas?</p>
+                                            <select name="" id="" class="select my-0" #tipoLimite>
+                                                <option value="no">No</option>
+                                                <option value="minimo">Mínimo</option>
+                                                <option value="maximo">Máximo</option>
+                                                <option value="fija">Cantidad fija</option>
+                                            </select>
+                                            <input type="number" name="" id="" class="number" min="0" #numero placeholder="cantidad">
                                         </div>
                                     </div>
-                                    <small class="text-danger ms-2 d-flex align-items-end">
-                                        {{optionsArray.length < 2 ? 'Mínimo 2 opciones' : ''}}
-                                    </small>
-                                </div>
-                            </div>
-                            <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <!-- limitar opciones -->
-                                <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                        <p class="mb-0 fs-6 text-dark">¿Limitar respuestas?</p>
-                                        <select name="" id="" class="select my-0" #tipoLimite>
-                                            <option value="no">No</option>
-                                            <option value="minimo">Mínimo</option>
-                                            <option value="maximo">Máximo</option>
-                                            <option value="fija">Cantidad fija</option>
+                                    <!-- Alerta -->
+                                    <div class="d-flex mt-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                                    [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                        <label class="item-container red me-2"> Alerta
+                                            <input type="checkbox" (change)="setAlert()">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                        <select name="" id="" class="select my-0" #alertTrigger>
+                                            <option value="no">sin alerta</option>
+                                            <option *ngFor="let opcion of optionsArray" [value]="opcion.opcion">
+                                                {{opcion.opcion}}
+                                            </option>
                                         </select>
-                                        <input type="number" name="" id="" class="number" min="0" #numero placeholder="cantidad">
                                     </div>
-                                </div>
-                                <!-- Alerta -->
-                                <div class="d-flex my-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
-                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                    <label class="item-container red me-2"> Alerta
-                                        <input type="checkbox" (change)="setAlert()">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                    <select name="" id="" class="select my-0" #alertTrigger>
-                                        <option value="no">sin alerta</option>
-                                        <option *ngFor="let opcion of optionsArray" [value]="opcion">
-                                            {{opcion.opcion}}
-                                        </option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -510,157 +530,164 @@
                     </div><!-- --------------------------- Fin case opción --------------------------- -->
     
                     <!-- --------------------------- case estrellas ---------------------------- -->
-                    <div *ngSwitchCase="'estrellas'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
+                    <div *ngSwitchCase="'estrellas'" class="w-100 gap-4" >
                         <!-- cabecera -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1  align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
+                            </div>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
                                 (click)="createQuestion('estrellas', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerEstrellas.value,
                                 branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
-                                *ngIf="!question.done">
+                                *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('estrellas', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                         <!-- cuerpo -->
-                        <div class="p-3 pt-0">
-                            <div class="d-flex flex-column w-100 mb-4">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion 
-                                [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <div class="p-3 pt-0">
+                                <div class="d-flex flex-column w-100 mb-4">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion 
+                                    [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
+                                </div>
+                                <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                    </svg>
+                                </div>
+        
+                                <div class="stars-cont d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
+                                *ngIf="question.done">
+                                    <p class="mb-3 mb-md-0">{{question.bad}}</p>
+                                    <p class="position-absolute top-50 start-50 translate-middle w-100 text-center">{{question.neutral}}</p>
+                                    <p class="mb-0 text-end">{{question.good}}</p>
+                                </div>
+                                <div class="w-100 px-0 px-md-5 d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
+                                *ngIf="!question.done">
+                                    <p class="mb-3 mb-md-0 fs-6">{{bad.value}}</p>
+                                    <p class="position-absolute top-50 start-50 translate-middle w-100 text-center fs-6">{{neutral.value}}</p>
+                                    <p class="mb-0 text-end fs-6">{{good.value}}</p>
+                                </div>
+                                <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
+                                    <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                    <input value="{{question.neutral}}" type="text" class="w-100 rounded-0 " #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                    <input value="{{question.good}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                </svg>
-                            </div>
-    
-                            <div class="stars-cont d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
-                            *ngIf="question.done">
-                                <p class="mb-3 mb-md-0">{{question.bad}}</p>
-                                <p class="position-absolute top-50 start-50 translate-middle w-100 text-center">{{question.neutral}}</p>
-                                <p class="mb-0 text-end">{{question.good}}</p>
-                            </div>
-                            <div class="w-100 px-0 px-md-5 d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
-                            *ngIf="!question.done">
-                                <p class="mb-3 mb-md-0 fs-6">{{bad.value}}</p>
-                                <p class="position-absolute top-50 start-50 translate-middle w-100 text-center fs-6">{{neutral.value}}</p>
-                                <p class="mb-0 text-end fs-6">{{good.value}}</p>
-                            </div>
-                            <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
-                                <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input value="{{question.neutral}}" type="text" class="w-100 rounded-0 " #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input value="{{question.good}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                            </div>
-                        </div>
-                        <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <!-- Definir condicion para ramificar encuesta -->
-                            <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                    <select name="" id="" class="select my-0" #triggerEstrellas>
+                            <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
+                                <!-- Definir condicion para ramificar encuesta -->
+                                <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                        <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                        <select name="" id="" class="select my-0" #triggerEstrellas>
+                                            <option value="no" class="option">sin ramificar</option>
+                                            <option value="1" class="option">1</option>
+                                            <option *ngFor="let score of starsArray" [value]="score" class="option">
+                                                {{score}} o ménos
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Ramificar -->
+                                <div class="d-flex ms-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                    <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Segunda ramificacion -->
+                                <div class="d-flex ms-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                    <select name="" id="" class="select my-0" #secondTrigger>
                                         <option value="no" class="option">sin ramificar</option>
-                                        <option value="1" class="option">1</option>
                                         <option *ngFor="let score of starsArray" [value]="score" class="option">
-                                            {{score}} o ménos
+                                            {{score}} o más
+                                        </option>
+                                        <option value="5" class="option">5</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex ms-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                    <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Alerta -->
+                                <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <label class="item-container red me-2"> Alerta
+                                        <input type="checkbox" (change)="setAlert()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                    <select name="" id="" class="select my-0" #alertTrigger>
+                                        <option value="no">sin alerta</option>
+                                        <option value="1">1</option>
+                                        <option *ngFor="let star of starsArray" [value]="star">
+                                            {{star}} o menos
                                         </option>
                                     </select>
                                 </div>
-                            </div>
-                            <!-- Ramificar -->
-                            <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
-                            </div>
-                            <!-- Segunda ramificacion -->
-                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
-                                <select name="" id="" class="select my-0" #secondTrigger>
-                                    <option value="no" class="option">sin ramificar</option>
-                                    <option *ngFor="let score of starsArray" [value]="score" class="option">
-                                        {{score}} o más
-                                    </option>
-                                    <option value="5" class="option">5</option>
-                                </select>
-                            </div>
-                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
-                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
-                            </div>
-                            <!-- Alerta -->
-                            <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <label class="item-container red me-2"> Alerta
-                                    <input type="checkbox" (change)="setAlert()">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                <select name="" id="" class="select my-0" #alertTrigger>
-                                    <option value="no">sin alerta</option>
-                                    <option value="1">1</option>
-                                    <option *ngFor="let star of starsArray" [value]="star">
-                                        {{star}} o menos
-                                    </option>
-                                </select>
                             </div>
                         </div>
                         <!-- footer -->
@@ -685,150 +712,157 @@
                     </div><!-- ------------------------- Fin case estrellas -------------------------- -->
     
                     <!-- ------------------------------ case NPS ------------------------------- -->
-                    <div *ngSwitchCase="'nps'" class="w-100 gap-4" [ngStyle]="question.done ? completed : edit">
+                    <div *ngSwitchCase="'nps'" class="w-100 gap-4" >
                         <!-- header -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1 align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
+                            </div>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
                                 (click)="createQuestion('nps', i, [textQuestion.value, bad.value, neutral.value, good.value, triggerNps.value,
                                 branchTarget.value, secondTrigger.value, secondTarget.value, alertTrigger.value])"
-                                *ngIf="!question.done">
+                                *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('nps', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                         <!-- cuerpo -->
-                        <div class="p-3 pt-0">
-                            <div class="d-flex flex-column w-100 mb-4">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
-                                [ngStyle]="question.done ? displayNone : displayBlock">
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <div class="p-3 pt-0">
+                                <div class="d-flex flex-column w-100 mb-4">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
+                                    [ngStyle]="question.done ? displayNone : displayBlock">
+                                </div>
+                                <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-expressionless" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm5 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+                                    </svg>
+                                </div>
+                                <div class="stars-cont d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
+                                *ngIf="question.done">
+                                    <p class="mb-3 mb-md-0">{{question.bad}}</p>
+                                    <p class="position-absolute top-50 start-50 translate-middle w-100 text-center">{{question.neutral}}</p>
+                                    <p class="mb-0 text-end">{{question.good}}</p>
+                                </div>
+                                <div class="w-100 px-0 px-md-5 d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
+                                *ngIf="!question.done">
+                                    <p class="mb-3 mb-md-0 fs-6">{{bad.value}}</p>
+                                    <p class="position-absolute top-50 start-50 translate-middle w-100 text-center fs-6">{{neutral.value}}</p>
+                                    <p class="mb-0 text-end fs-6">{{good.value}}</p>
+                                </div>
+                                <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
+                                    <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                    <input value="{{question.neutral}}" type="text" class="w-100 rounded-0" #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                    <input value="{{good.value}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between mb-4 stars-cont mx-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-expressionless" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm5 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-                                </svg>
-                            </div>
-                            <div class="stars-cont d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
-                            *ngIf="question.done">
-                                <p class="mb-3 mb-md-0">{{question.bad}}</p>
-                                <p class="position-absolute top-50 start-50 translate-middle w-100 text-center">{{question.neutral}}</p>
-                                <p class="mb-0 text-end">{{question.good}}</p>
-                            </div>
-                            <div class="w-100 px-0 px-md-5 d-md-flex justify-content-between mx-auto position-relative overflow-hidden"
-                            *ngIf="!question.done">
-                                <p class="mb-3 mb-md-0 fs-6">{{bad.value}}</p>
-                                <p class="position-absolute top-50 start-50 translate-middle w-100 text-center fs-6">{{neutral.value}}</p>
-                                <p class="mb-0 text-end fs-6">{{good.value}}</p>
-                            </div>
-                            <div class="stars-cont d-flex justify-content-between mt-4 mx-auto">
-                                <input value="{{question.bad}}" type="text" class="w-100 rounded-e-0" #bad (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input value="{{question.neutral}}" type="text" class="w-100 rounded-0" #neutral (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                                <input value="{{good.value}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
-                            </div>
-                        </div>
-                        <div [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                            <!-- Definir condicion para ramificar encuesta -->
-                            <div class="w-100 d-flex align-items-center p-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
-                                    <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
-                                    <select name="" id="" class="select my-0" #triggerNps>
+                            <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
+                                <!-- Definir condicion para ramificar encuesta -->
+                                <div class="w-100 d-flex align-items-center px-3 mb-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                        <p class="mb-0 fs-6 text-dark">Ramificar si el usuario selecciona: </p>
+                                        <select name="" id="" class="select my-0" #triggerNps>
+                                            <option value="no" class="option">sin ramificar</option>
+                                            <option value="1" class="option">Baja</option>
+                                            <option value="2" class="option">Neutral</option>
+                                            <option value="3" class="option">Alta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Ramificar -->
+                                <div class="d-flex ms-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                    <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Segunda ramificacion -->
+                                <div class="d-flex ms-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
+                                    <select name="" id="" class="select my-0" #secondTrigger>
                                         <option value="no" class="option">sin ramificar</option>
                                         <option value="1" class="option">Baja</option>
                                         <option value="2" class="option">Neutral</option>
                                         <option value="3" class="option">Alta</option>
                                     </select>
                                 </div>
-                            </div>
-                            <!-- Ramificar -->
-                            <div class="d-flex ms-3 mb-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
-                            </div>
-                            <!-- Segunda ramificacion -->
-                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">2a ramificación:</p>
-                                <select name="" id="" class="select my-0" #secondTrigger>
-                                    <option value="no" class="option">sin ramificar</option>
-                                    <option value="1" class="option">Baja</option>
-                                    <option value="2" class="option">Neutral</option>
-                                    <option value="3" class="option">Alta</option>
-                                </select>
-                            </div>
-                            <div class="d-flex ms-3 mb-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
-                                <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
-                                    <option value="no">sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
-                            </div>
-                            <!-- Alerta -->
-                            <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <label class="item-container red me-2"> Alerta
-                                    <input type="checkbox" (change)="setAlert()">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                <select name="" id="" class="select my-0" #alertTrigger>
-                                    <option value="no" class="option">sin ramificar</option>
-                                    <option value="1" class="option">Baja</option>
-                                    <option value="2" class="option">Neutral</option>
-                                    <option value="3" class="option">Alta</option>
-                                </select>
+                                <div class="d-flex ms-3 mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Hacia pregunta:</p>
+                                    <select class="bg-edit" #secondTarget (click)="getDoneQuestions()">
+                                        <option value="no">sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
+                                </div>
+                                <!-- Alerta -->
+                                <div class="d-flex m-3 px-2 overflow-hidden align-items-end justify-content-start bg-white rounded-pill w-fit"
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <label class="item-container red me-2"> Alerta
+                                        <input type="checkbox" (change)="setAlert()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
+                                    <select name="" id="" class="select my-0" #alertTrigger>
+                                        <option value="no" class="option">sin ramificar</option>
+                                        <option value="1" class="option">Baja</option>
+                                        <option value="2" class="option">Neutral</option>
+                                        <option value="3" class="option">Alta</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- footer -->
@@ -853,109 +887,115 @@
                     </div><!-- ---------------------------- Fin case NPS ----------------------------- -->
 
                     <!-- ----------------------------- Case fecha ------------------------------ -->
-                    <div *ngSwitchCase="'fecha'" class="d-flex flex-column w-100 mb-4"
-                    [ngStyle]="question.done ? completed : edit"> <!-- fondo y borde rojo o azul -->
+                    <div *ngSwitchCase="'fecha'" class="w-100 gap-4" > <!-- fondo y borde rojo o azul -->
                         <!-- Cabecera, contiene el número de pregunta e iconos para editar, eliminat, etc -->
-                        <div class="d-flex justify-content-between w-100 p-2">
-                            <p class="mb-0 fs-6">Pregunta {{i + 1}}</p>
-                            <div class="d-flex gap-1 align-items-center">
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="removeQuestion($event, i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <div class="question-bar d-flex justify-content-between ease-in-out " #header
+                        [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
+                            <div class="d-flex align-items-center gap-2 p-1" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-chevron-right rotate-90 text-dark rounded-circle p-1 bg-white pointer ease-in-out " viewBox="0 0 16 16"
+                                (click)="retract(body, header)">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                <div class="number-container d-flex center-content text-dark fs-4 lh-1 rounded-pill bg-white">{{i + 1}}</div>
+                                <p class="mb-0 text-dark opacity-0">{{question.type}}</p>
+                            </div>
+                            <div class="d-flex gap-2 p-1 align-items-center icons-cont">
+                                <button class="bton delete d-flex center-content p-delete"
+                                (click)="removeQuestion($event, i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"> <!-- active/desactiva eventos del cursor -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center"
-                                (click)="createQuestion('fecha', i, [textQuestion.value, branchTarget.value])"
+                                <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="createQuestion('nps', i, [textQuestion.value, branchTarget.value])"
                                 *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="editQuestion('fecha', i)"
-                                [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs"
-                                *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                (click)="editQuestion('texto', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveDown(i)"
-                                [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                <button class="bton down-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveDown(i)" [ngStyle]="(question.done && editing || i == questionsArray.length - 1) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                     </svg>
                                 </button>
-                                <button class="mb-0 bton d-flex justify-content-center align-items-center" (click)="moveUp(i)"
-                                [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                                <button class="bton up-icon p-px d-flex justify-content-center align-items-center"
+                                (click)="moveUp(i)" [ngStyle]="(question.done && editing || i === 0) ? noPointerEvs : pointerEvs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                         <!-- cuerpo de la pregunta -->
-                        <div class="d-flex flex-column p-3 pt-0">
-                            <div class="d-flex flex-column w-100">
-                                <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
-                                <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
-                                <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
-                                [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
-                            </div>
-                            <!-- Calendario -->
-                            <div class="bg-white mt-3 rounded-1 overflow-hidden">
-                                <div class="d-flex justify-content-center align-items-center py-3 gap-1 bg-date">
-                                    <div class="d-flex set-date border-0 px-3 bg-light rounded-1">
-                                        <p class="mb-0">Fecha:</p>
-                                        <select name="" id="" class="date-input" #month (change)="getDate(month.value, year.value)">
-                                            <option *ngFor="let m of meses; let i = index" [value]="i+1">{{m}}</option>
-                                        </select>
-                                        <select name="" id="" class="date-input" #year (change)="getDate(month.value, year.value)">
-                                            <option value="2023" class="" selected>2023</option>
-                                            <option *ngFor="let year of yearsArray" [value]="year">{{year}}</option>
-                                        </select>
+                        <div class="overflow-hidden ease-in-out pt-3" #body
+                        [ngClass]="question.done ? 'done-body' : 'edit-body'">
+                            <div class="d-flex flex-column p-3 pt-0">
+                                <div class="d-flex flex-column w-100">
+                                    <label *ngIf="!question.done" for="{{question.question}}" class="red text-center mb-0">Pregunta</label>
+                                    <label *ngIf="question.done" for="{{question.question}}" class="red text-center mb-0">{{question.question}}</label>
+                                    <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
+                                    [ngStyle]="question.done ? displayNone : displayBlock"> <!-- oculta/muestra el elemento si la pregunta esta completa -->
+                                </div>
+                                <!-- Calendario -->
+                                <div class="bg-white mt-3 rounded-1 overflow-hidden">
+                                    <div class="d-flex justify-content-center align-items-center py-3 gap-1 bg-date">
+                                        <div class="d-flex set-date border-0 px-3 bg-light rounded-1">
+                                            <p class="mb-0">Fecha:</p>
+                                            <select name="" id="" class="date-input" #month (change)="getDate(month.value, year.value)">
+                                                <option *ngFor="let m of meses; let i = index" [value]="i+1">{{m}}</option>
+                                            </select>
+                                            <select name="" id="" class="date-input" #year (change)="getDate(month.value, year.value)">
+                                                <option value="2023" class="" selected>2023</option>
+                                                <option *ngFor="let year of yearsArray" [value]="year">{{year}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="rounded-1">
+                                        <div class="header-calendar d-flex justify-content-between py-2 px-4">
+                                            <button (click)="changeMonth(-1)" class="date-controls rounded-circle p-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-left text-dark" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                                </svg>
+                                            </button>
+                                            <h1 class="text-center">{{dateSelect | date:'MMMM, yyyy'}}</h1>
+                                            <button (click)="changeMonth(1)" class="date-controls rounded-circle p-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-right text-dark" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <ol class="text-center p-2">
+                                            <li *ngFor="let dia of semana" class="day-name">{{dia | slice:0:3}}</li>
+                                
+                                            <li [style.gridColumnStart]="first ? dia?.indexWeek : 'auto'" class="day-cell" (click)="clickDay(dia)"
+                                            *ngFor="let dia of monthSelect; let first = first">
+                                                <div class="day mx-auto d-flex justify-content-center align-items-center rounded-circle ease-in-out pointer "
+                                                [ngStyle]="dia.active && {'background-color': '#f4323e', 'color': 'white'}">
+                                                    {{dia?.value}}
+                                                </div>
+                                            </li>
+                                        </ol> 
                                     </div>
                                 </div>
-                                <div class="rounded-1">
-                                    <div class="header-calendar d-flex justify-content-between py-2 px-4">
-                                        <button (click)="changeMonth(-1)" class="date-controls rounded-circle p-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-left text-dark" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                            </svg>
-                                        </button>
-                                        <h1 class="text-center">{{dateSelect | date:'MMMM, yyyy'}}</h1>
-                                        <button (click)="changeMonth(1)" class="date-controls rounded-circle p-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-right text-dark" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <ol class="text-center p-2">
-                                        <li *ngFor="let dia of semana" class="day-name">{{dia | slice:0:3}}</li>
-                            
-                                        <li [style.gridColumnStart]="first ? dia?.indexWeek : 'auto'" class="day-cell" (click)="clickDay(dia)"
-                                        *ngFor="let dia of monthSelect; let first = first">
-                                            <div class="day mx-auto d-flex justify-content-center align-items-center rounded-circle ease-in-out pointer "
-                                            [ngStyle]="dia.active && {'background-color': '#f4323e', 'color': 'white'}">
-                                                {{dia?.value}}
-                                            </div>
-                                        </li>
-                                    </ol> 
+                                <!-- Ramificar -->
+                                <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                    <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
+                                    <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <option value="no">Sin ramificar</option>
+                                        <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
+                                            Pregunta: {{ opcion.numeroPregunta}}
+                                        </option>
+                                        <option value="finalizar">Finalizar encuesta</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <!-- Ramificar -->
-                            <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
-                            [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
-                                <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
-                                    <option value="no">Sin ramificar</option>
-                                    <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                        Pregunta: {{ opcion.numeroPregunta}}
-                                    </option>
-                                    <option value="finalizar">Finalizar encuesta</option>
-                                </select>
                             </div>
                         </div>
                         <!-- footer con switchs de alerta y pregunta obligatoria -->
@@ -978,7 +1018,6 @@
                             </div>
                         </div>
                     </div><!-- --------------------------- Fin case fecha ---------------------------- -->
-                
                 </div>
                 <!-- -------------------- Fin de la condicional Switch --------------------- -->
             

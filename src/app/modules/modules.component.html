@@ -12,14 +12,14 @@
     <div class="px-1 px-sm-4 py-3 py-sm-4 d-flex justify-content-between">
         <h1 class="red mb-0 lh-1 d-flex align-items-center lh-1">Tiendas</h1>
 
-        <button routerLink="/nueva-tienda" class="new-poll d-flex justify-content-center align-items-center pe-3 py-2 ease-in-out">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+        <button routerLink="/nueva-tienda" class="new-poll d-flex justify-content-center align-items-center border-0 rounded-pill red-bg pe-3 py-2 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus text-light" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-shop text-dark" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-shop text-light" viewBox="0 0 16 16">
                 <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
             </svg>
-            <p class="mb-0 ms-2 lh-1 font-small">Nueva Tienda</p>
+            <p class="mb-0 ms-2 lh-1 font-small text-light">Nueva Tienda</p>
         </button>
     </div>
 
@@ -30,7 +30,7 @@
                 <th >ID</th>
                 <th >Nombre</th>
                 <th >Ubicación</th>
-                <th>Empleados</th> <th class="w-td"></th> <th class="w-td"></th>
+                <th>Empleados</th> <th class="w-icons"></th> <th class="w-icons"></th>
               </tr>
             </thead>
 
@@ -43,15 +43,15 @@
                     <td *ngIf="store.done">{{store.empleados}}</td>
 
                     <!-- ------------------------ iconos editar, borrar ------------------------ -->
-                    <td *ngIf="store.done && editing === false" class="w-td">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square svg-hover ease-in-out " viewBox="0 0 16 16"
+                    <td *ngIf="store.done && editing === false" class="w-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-pencil-square text-dark rounded-1 ease-in-out p-1 icons pointer " viewBox="0 0 16 16"
                         (click)="edit(i)">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
                     </td>
-                    <td *ngIf="store.done && editing === false" class="w-td">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash-fill svg-hover ease-in-out " viewBox="0 0 16 16">
+                    <td *ngIf="store.done && editing === false" class="w-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-trash-fill text-dark rounded-1 ease-in-out p-1 icons pointer " viewBox="0 0 16 16">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                         </svg>
                     </td>
@@ -60,21 +60,21 @@
                     <td colspan="6" class="" *ngIf="!store.done">
                         <div class="d-flex w-100">
                             <div class="d-flex gap-2 me-2 w-100">
-                                <input type="text" class="bg-edit" #id>
-                                <input type="text" class="bg-edit" #nombre>
-                                <input type="text" class="bg-edit" #ubicacion>
-                                <input type="text" class="bg-edit" #empleados>
+                                <input type="text" class="bg-white" #id>
+                                <input type="text" class="bg-white" #nombre>
+                                <input type="text" class="bg-white" #ubicacion>
+                                <input type="text" class="bg-white" #empleados>
                             </div>
     
                             <!-- ---------------------- iconos cancelar, aceptar ----------------------- -->
                             <div class="d-flex gap-2 align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-square svg-hover ease-in-out" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-x-square svg-hover ease-in-out p-1 pointer" viewBox="0 0 16 16"
                                 (click)="cancelEdit(i)"  *ngIf="editing === true && store.done === false">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
         
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check-square svg-hover ease-in-out" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check-square svg-hover ease-in-out p-1 pointer" viewBox="0 0 16 16"
                                 (click)="setData(i, [id.value, nombre.value, ubicacion.value, empleados.value])"  *ngIf="editing === true && store.done === false">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                                     <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>

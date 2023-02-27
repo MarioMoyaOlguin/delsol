@@ -10,5 +10,11 @@ export const fade = trigger('fadeInOut', [
     ])
 ]);
 
+export const fadeOut = trigger('fade-out', [
+    state('void', style({opacity: 0})),
+    transition(':leave', [
+      animate(200)
+    ])
+]);
 
 

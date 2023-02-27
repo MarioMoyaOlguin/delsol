@@ -15,9 +15,9 @@ export class UsersListComponent implements OnInit {
   editing = false;
 
   usersArray:any[] = [
-    {nombre: 'Juan Perez', tipo: 'Empleado', correo: 'juan-perez@hotmail.com', tienda: 'Tienda 1', puesto: 'Empleado', done: true},
-    {nombre: 'Juan Carlos Lopez Hernandez', tipo: 'Encargado', correo: 'sr.lopez@gmail.com', tienda: 'Tienda 2', puesto: 'Gerente', done: true},
-    {nombre: 'Victor Perez Hernandez', tipo: 'Administrador', correo: 'victor_perez@gmail.com', tienda: 'Tienda 3', puesto: 'Gerente', done: true},
+    {nombre: 'Juan Perez', tipo: 'Empleado', tienda: 'Tienda 1', puesto: 'Empleado', done: true},
+    {nombre: 'Juan Carlos Lopez Hernandez', tipo: 'Encargado', tienda: 'Tienda 2', puesto: 'Gerente', done: true},
+    {nombre: 'Victor Perez Hernandez', tipo: 'Administrador', tienda: 'Tienda 3', puesto: 'Gerente', done: true},
   ];
 
   edit = (index:number) => {

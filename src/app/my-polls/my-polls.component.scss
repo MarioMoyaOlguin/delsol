@@ -19,22 +19,24 @@ input[type=checkbox] {
 .svg-hover:hover {
     color: #f4323e !important;
 }
-button:hover {
-    border-color: rgb(3, 133, 3) !important;
-    -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-    box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-}
+// button:hover {
+//     border-color: rgb(3, 133, 3) !important;
+//     -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
+//     -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
+//     box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
+// }
 .bg-edit {
-    background-color: #ffc0c4;
+    background-color: white;
 }
 .new-poll {
-    border: 2px solid #d0def0 !important;
-    border-radius: 9999px;
-    background-color: white;
-    -webkit-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+    -webkit-box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
+    -moz-box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
+    box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
+}
+.new-poll:hover {
+    -webkit-box-shadow: 0px 2px 8px 2px #fdb3b8;
+    -moz-box-shadow: 0px 2px 8px 2px #fdb3b8;
+    box-shadow: 0px 2px 8px 2px #fdb3b8;
 }
 .icons-container {
     width: 40px;
@@ -60,7 +62,7 @@ input, select {
     background-color: #e7f2ff;
 }
 th, td {
-    padding: 16px 10px !important;
+    padding: 8px 10px !important;
     font-size: 1.1rem;
 }
 th {
@@ -100,6 +102,9 @@ table svg {
     top: 0;
     z-index: 100;
 }
+.icons:hover {
+    background-color: #a7c4ff;
+}
 
 
 
@@ -108,14 +113,14 @@ table svg {
         font-size: 14px !important;
         padding-left: 4px !important;
         padding-right: 4px !important;
-        line-height: 15px;
+        line-height: 15px !important;
     }
     h1 {
-        font-size: 24px;
+        font-size: 24px !important;
     }
 }
 @media only screen and (min-width: 576px) {
     .font-small {
-        font-size: 20px;
+        font-size: 20px !important;
     }
 }

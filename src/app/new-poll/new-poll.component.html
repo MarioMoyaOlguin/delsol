@@ -5,7 +5,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
             </svg>
-            <a routerLink="/mis-encuestas" class="gray">Volver</a>
+            <a routerLink="/mis-encuestas" class="gray pointer">Volver</a>
         </div>
     </app-header>
     
@@ -20,7 +20,7 @@
         
         <div class="mb-4 d-flex flex-column">
             <label for="tienda">Selecciona una tienda</label>
-            <select class="select" #tienda formControlName="tienda" required>
+            <select class="select" #tienda formControlName="tienda" id="tienda" required>
                 <option selected value=""></option>
                 <option value="1">Tienda 1</option>
                 <option value="2">Tienda 2</option>
@@ -34,7 +34,7 @@
             
         <div class="mb-4 d-flex flex-column">
             <label for="departamento">Selecciona un departamento</label>
-            <select class="select" id="departamento" formControlName="departamento" required>
+            <select class="select" id="departamento" formControlName="departamento" id="departamento" required>
                 <option selected value=""></option>
                 <option value="1">Juguetes</option>
                 <option value="2">Electrónica</option>

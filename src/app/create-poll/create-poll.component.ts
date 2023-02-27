@@ -3,14 +3,15 @@ import * as moment from 'moment';
 
 moment.locale('es');
 
-import { fade } from 'src/app/animations';
+import { fade, fadeOut } from 'src/app/animations';
 
 @Component({
   selector: 'app-create-poll',
   templateUrl: './create-poll.component.html',
   styleUrls: ['./create-poll.component.scss'],
   animations: [
-    fade
+    fade,
+    fadeOut
   ],
 })
 
@@ -22,6 +23,15 @@ export class CreatePollComponent implements OnInit {
     this.getDaysFromDate('01', '2023');
     this.pushYears();
   }
+
+  mockQuestions = [
+    {done: true, numeroPregunta: 1, opcional: true, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: false, alertTrigger: 'no', done: true, numero: 0, numeroPregunta: 2, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: false, targetQ: 'no'}, {opcion: 'Electrónica', ramificar: false, targetQ: 'no'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'no', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
+    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 3, opcional: false, ramificar: '2', ramificar2: 'no', required: true, target2: 'no', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
+    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 4, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
+    {done: true, numeroPregunta: 6, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
+  ]
   
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
@@ -38,10 +48,8 @@ export class CreatePollComponent implements OnInit {
   branchOptions = false; // Mostrar/ocultar mas opciones de ramificacion
 
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
-  questionsArray:any[] = []; //Array principal de preguntas
+  questionsArray:any[] = [...this.mockQuestions]; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
-  optionalQuestionsArray:any[] = [];
-  ordenNormalArray:any[] = [];
   doneQuestions:any[] = [];
 
   scoreArray = ['2','3','4','5','6','7','8','9'];
@@ -68,29 +76,40 @@ export class CreatePollComponent implements OnInit {
   displayNone = {'display': 'none'};
   displayBlock = {'display': 'block'};
 
-  edit = {'border-top': '5px solid #f87171', 'background-color': '#fef2f2'};
-  completed = {'border-top': '5px solid #64748b', 'background-color': '#f8fafc'};
+  // edit = {'border-top': '5px solid #f87171', 'background-color': '#fef2f2'};
+  // completed = {'border-top': '5px solid #64748b', 'background-color': '#f8fafc'};
   
   /* -------------------------------------------------------------------------- */
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
-  editPollTitle = () => { //editar titulo de la encuesta
-    this.editTitle = true;
+
+  /* ---------------------- editar titulo de la encuesta ---------------------- */
+  editPollTitle = () => { this.editTitle = true; }
+
+  /* --------------------- Desplegar/replegar la pregunta --------------------- */
+  retract = (ref:any, ref2:any) => {
+    if(ref.classList.contains('h-0')) { ref.classList.remove('h-0') } else { ref.classList.add('h-0') } //replegar
+    if(ref.classList.contains('h-0')) { ref2.classList.add('rounded-pill') } else { ref2.classList.remove('rounded-pill')} //redondear bordes
+    if(ref.classList.contains('h-0')) { //rotar icono
+      ref2.children[0].children[0].classList.remove('rotate-90')
+    } else { ref2.children[0].children[0].classList.add('rotate-90') }
+    if(ref.classList.contains('h-0')) { //Ocultar tipo de pregunta
+      ref2.children[0].children[2].classList.remove('opacity-0')
+    } else { ref2.children[0].children[2].classList.add('opacity-0') }
   }
-  setPollTitle = (title:string) => { //establecer titulo de la encuesta
+
+  /* -------------------- establecer titulo de la encuesta -------------------- */
+  setPollTitle = (title:string) => {
     if(title == '') { return; }
     this.titulo.pop();
-    this.titulo.push(title)
-    this.editTitle = false
+    this.titulo.push(title);
+    this.editTitle = false;
   }
 
   openViewer = () => this.viewer = !this.viewer;
   routeViewer = () => this.route = !this.route;
   setBranchOptions = () => this.branchOptions = !this.branchOptions;
-
-  makeOptional = () => { //control pregunta opcional
-    this.optional = !this.optional;
-  }
+  makeOptional = () => this.optional = !this.optional;
 
   getDoneQuestions = () => {
     this.doneQuestions = [];
@@ -148,7 +167,7 @@ export class CreatePollComponent implements OnInit {
     switch (qType) {
       case 'texto':
         this.questionsArray.splice(index, 1, ({type: 'texto', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
-          opcional: this.optional, targetQuestion: data![1], alert: this.alert}));
+          opcional: this.optional, targetQuestion: data![1]}));
         break;
 
       case 'calificacion':
@@ -278,13 +297,11 @@ export class CreatePollComponent implements OnInit {
 
       case 'fecha':
         this.questionsArray.splice(index, 1, ({type: 'fecha', question: data![0], required: this.check, done: true, numeroPregunta: index+1,
-          opcional: this.optional, targetQuestion: data![1], alert: this.alert}));
+          opcional: this.optional, targetQuestion: data![1]}));
         break;
     }
 
-    // console.log("array opcionales: ", this.optionalQuestionsArray);
     console.log("questionsArray: ", this.questionsArray);
-
     //Reiniciar controles
     this.alert = false;
     this.check = false;
@@ -377,13 +394,10 @@ export class CreatePollComponent implements OnInit {
   }
   /* ------------- Referencia a checkboxes y aplicar limitaciones ------------- */
   controlCheckboxes = (ref:any, tipo:string, cantidad:number) => {
-    // console.log("hijos: ", ref.children.length);
-    // console.log("referencia del check: ", ref.children);
     let checkedCount = 0;
     
     for (let i = 0; i < ref.children.length; i++) {
       if(ref.children[i].children[0].children[0].checked === true) { checkedCount++}
-      // console.log(`hijo ${i+1}:`, ref.children[i].children[0].children[0].checked);
     }
 
     switch (tipo) {
@@ -404,7 +418,6 @@ export class CreatePollComponent implements OnInit {
         }
         break;
     }
-
   }
   setCondicionalOpciones = (condicional:string) => { this.condicionalOpciones = condicional }
 
