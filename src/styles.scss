@@ -14,6 +14,12 @@ button[type="submit"]:disabled {
     background-color: rgb(127, 127, 127) !important;
     border-color: rgb(127, 127, 127) !important;
 }
+.no-pointers-events { pointer-events: none !important; }
+
+.capitalize { text-transform: capitalize !important; }
+
+.word-break { word-break: break-all; }
+
 .red { color: #f4323e !important; }
 
 .gray { color: #949494 !important; }
@@ -27,6 +33,8 @@ button[type="submit"]:disabled {
 .red-bg { background-color: #f4323e !important; }
 
 .text-black { color: black !important; }
+
+.cursor-grab { cursor: grab !important; }
 
 .rotate-90 { transform: rotate(90deg) !important; }
 

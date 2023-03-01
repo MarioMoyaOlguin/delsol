@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 moment.locale('es');
 
@@ -26,9 +27,9 @@ export class CreatePollComponent implements OnInit {
 
   mockQuestions = [
     {done: true, numeroPregunta: 1, opcional: true, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
-    {alert: false, alertTrigger: 'no', done: true, numero: 0, numeroPregunta: 2, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: false, targetQ: 'no'}, {opcion: 'Electrónica', ramificar: false, targetQ: 'no'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'no', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
+    {alert: false, alertTrigger: 'no', done: true, numero: 0, numeroPregunta: 2, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '1'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'no', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
     {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 3, opcional: false, ramificar: '2', ramificar2: 'no', required: true, target2: 'no', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
-    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 4, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 4, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
     {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
     {done: true, numeroPregunta: 6, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
   ]
@@ -75,27 +76,38 @@ export class CreatePollComponent implements OnInit {
 
   displayNone = {'display': 'none'};
   displayBlock = {'display': 'block'};
-
-  // edit = {'border-top': '5px solid #f87171', 'background-color': '#fef2f2'};
-  // completed = {'border-top': '5px solid #64748b', 'background-color': '#f8fafc'};
   
   /* -------------------------------------------------------------------------- */
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
 
+  /* ------------------------------- drag & drop ------------------------------ */
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.questionsArray, event.previousIndex, event.currentIndex);
+    this.updateQuestionNumber();
+    console.log(this.questionsArray);
+  }
+
   /* ---------------------- editar titulo de la encuesta ---------------------- */
   editPollTitle = () => { this.editTitle = true; }
 
   /* --------------------- Desplegar/replegar la pregunta --------------------- */
-  retract = (ref:any, ref2:any) => {
-    if(ref.classList.contains('h-0')) { ref.classList.remove('h-0') } else { ref.classList.add('h-0') } //replegar
-    if(ref.classList.contains('h-0')) { ref2.classList.add('rounded-pill') } else { ref2.classList.remove('rounded-pill')} //redondear bordes
-    if(ref.classList.contains('h-0')) { //rotar icono
-      ref2.children[0].children[0].classList.remove('rotate-90')
-    } else { ref2.children[0].children[0].classList.add('rotate-90') }
-    if(ref.classList.contains('h-0')) { //Ocultar tipo de pregunta
-      ref2.children[0].children[2].classList.remove('opacity-0')
-    } else { ref2.children[0].children[2].classList.add('opacity-0') }
+  retract = (body:any, header:any, questionContainer:any) => {
+    if(body.classList.contains('h-0')) { //Desplegar
+      body.classList.remove('h-0')
+      header.classList.remove('rounded-pill')
+      header.classList.remove('shadow-question')
+      header.children[0].children[0].classList.add('rotate-90')
+      header.children[0].children[2].classList.add('opacity-0')
+      questionContainer.classList.add('shadow-question')
+    } else { //Replegar
+      body.classList.add('h-0')
+      header.classList.add('rounded-pill')
+      header.classList.add('shadow-question')
+      header.children[0].children[0].classList.remove('rotate-90')
+      header.children[0].children[2].classList.remove('opacity-0')
+      questionContainer.classList.remove('shadow-question')
+    }
   }
 
   /* -------------------- establecer titulo de la encuesta -------------------- */
@@ -350,7 +362,7 @@ export class CreatePollComponent implements OnInit {
           neutral: targetQuestion.neutral, good: targetQuestion.good, done: false}));
         break;
       case 'fecha':
-        this.questionsArray.splice(index, 1, ({type: 'fecha', question: ``, done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'fecha', question: targetQuestion.question, done: false}));
         break;
     }
     this.disable = true;

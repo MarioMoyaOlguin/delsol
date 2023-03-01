@@ -12,6 +12,8 @@ main {
     border-radius: 8px;
     color: #747474 !important;
 }
+// .w-question { max-width: 768px !important; }
+
 .bg-light-blue { background-color: #f3f8ff !important; }
 
 .h-fit { height: fit-content !important; }
@@ -35,7 +37,7 @@ main {
     padding-top: 0px !important;
     opacity: 0 !important;
 }
-.delay-150 { animation-delay: 150ms !important; }
+// .delay-150 { animation-delay: 150ms !important; }
 
 .number-container {
     height: 34px;
@@ -51,28 +53,33 @@ main {
     min-width: 34px !important;
     height: 34px !important;
     border-radius: 9999px;
+    background-color: white;
 }
 .bton svg {
-    color: white;
-    transition-property: all;
+    transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
-.delete { background-color: #56a434; }
+.delete-icon { color: #199e4c; }
+.delete-icon:hover { background-color: #199e4c; }
 
-.edit-icon { background-color: #66a6db; }
+.edit-icon { color: #66a6db; }
+.edit-icon:hover { background-color: #66a6db; }
 
-.down-icon { background-color: #9490cf; }
+.down-icon { color: #9490cf; }
+.down-icon:hover { background-color: #9490cf; }
 
-.up-icon { background-color: #eb7200; }
+.up-icon { color: #eb7200; }
+.up-icon:hover { background-color: #eb7200; }
 
-.ok-icon { background-color: #d2a606; }
+.ok-icon { color: #d2a606; }
+.ok-icon:hover { background-color: #d2a606; }
 
-.down-icon:hover svg { transform: translateY(4px); }
+.down-icon:hover svg { transform: translateY(4px); color: white; }
 
-.up-icon:hover svg { transform: translateY(-4px); }
+.up-icon:hover svg { transform: translateY(-4px); color: white; }
 
-.delete:hover svg, .edit-icon:hover svg, .ok-icon:hover svg { transform: scale(1.1); }
+.delete-icon:hover svg, .edit-icon:hover svg, .ok-icon:hover svg { transform: scale(1.1); color: white; }
 
 .p-px { padding: 1px !important; }
 
@@ -107,7 +114,7 @@ main {
 //     background-color: #d0def0 !important;
 // }
 input, select, button {
-    transition-property: all;
+    transition-property: border-color;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
@@ -283,11 +290,6 @@ th:hover { background-color: #ccc; }
     max-width: 220px !important;
     border-right: 0px !important;
 }
-.select {
-    height: 26px !important;
-    width: 135px;
-    outline: none !important;
-}
 .number {
     height: 30px !important;
     width: 90px;
@@ -413,17 +415,21 @@ li {
 .view-route {
     width: 40px;
     height: 40px;
-    background-color: rgb(246, 191, 51);
-    top: 140px;
+    top: 90px;
     right: 4px;
     z-index: 100;
 }
 select {
     outline: none !important;
-    height: 26px;
+    height: 26px !important;
     border: 0 !important;
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
+    padding: 0 4px !important;
+    border-radius: 0px !important;
+}
+.shadow-question {
+    box-shadow: 0 3px 1px -2px rgba(109, 109, 109, 0.2),
+                0 2px 2px 0 rgba(109, 109, 109, 0.2),
+                0 1px 5px 0 rgba(109, 109, 109, 0.2);
 }
 .bg-edit {
     max-width: 300px !important;
@@ -447,7 +453,7 @@ select {
     // height: 100px;
 }
 .number-container {
-    width: 34px;
+    min-width: 34px;
     height: 34px;
 }
 .bg-green-light {
@@ -502,7 +508,7 @@ select {
         top: 80px;
     }
     .view-route {
-        top: 130px;
+        top: 80px;
     }
     .sticky-element {
         top: 76px;

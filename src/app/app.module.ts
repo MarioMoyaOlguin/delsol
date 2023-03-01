@@ -2,6 +2,7 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeEs from '@angular/common/locales/es';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 registerLocaleData(localeEs, 'es');
 
@@ -80,7 +81,8 @@ import { NewModuleComponent } from './new-module/new-module.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DragDropModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' }
