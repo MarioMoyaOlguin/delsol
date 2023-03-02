@@ -12,7 +12,38 @@ main {
     border-radius: 8px;
     color: #747474 !important;
 }
-// .w-question { max-width: 768px !important; }
+.dialog-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.438);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1200;
+}
+.dialog-box {
+    max-width: 600px;
+    background-color: white;
+    padding: 40px;
+    color: #747474;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    border-radius: 8px;
+}
+.dialog-btn {
+    border: 1px solid #f4323e;
+    color: #f4323e !important;
+    border-radius: 4px;
+    background-color: white;
+}
+.dialog-btn:hover {
+    background-color: #f4323e;
+    color: white !important;
+}
 
 .bg-light-blue { background-color: #f3f8ff !important; }
 
@@ -36,6 +67,7 @@ main {
     height: 0px !important;
     padding-top: 0px !important;
     opacity: 0 !important;
+    overflow: hidden !important;
 }
 // .delay-150 { animation-delay: 150ms !important; }
 
@@ -60,8 +92,8 @@ main {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
-.delete-icon { color: #199e4c; }
-.delete-icon:hover { background-color: #199e4c; }
+.delete-icon { color: #f4323e; }
+.delete-icon:hover { background-color: #f4323e; }
 
 .edit-icon { color: #66a6db; }
 .edit-icon:hover { background-color: #66a6db; }
@@ -73,7 +105,7 @@ main {
 .up-icon:hover { background-color: #eb7200; }
 
 .ok-icon { color: #d2a606; }
-.ok-icon:hover { background-color: #d2a606; }
+.ok-icon:hover, .yellow-bg { background-color: #d2a606; }
 
 .down-icon:hover svg { transform: translateY(4px); color: white; }
 
@@ -435,17 +467,20 @@ select {
     max-width: 300px !important;
 }
 .close-viewer {
-    background-color: #fc5c67;
-    color: white;
+    background-color: white;
+    color: #f4323e;
+    border: 2px solid #f4323e;
     stroke-width: 6px;
     position: fixed;
-    top: 4px;
-    right: 18px;
+    top: 8px;
+    right: 26px;
     border-radius: 9999px;
     padding: 6px;
+    cursor: pointer;
 }
 .close-viewer:hover {
     background-color: #f4323e;
+    color: white;
 }
 
 .card-container {
@@ -466,8 +501,6 @@ select {
     background-color: #f4323e;
     transform: rotate(45deg);
 }
-
-.h-fit { height: fit-content !important; }
 
 
 @keyframes spin {

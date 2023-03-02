@@ -26,120 +26,6 @@ export class RouteSelectorComponent implements OnInit {
     this.getCurrentQuestion();
     console.log(this.currentQuestion);
   }
-  
-  // dataArray = [
-  //   {
-  //     type: 'texto',
-  //     question: 'pregunta 1 tipo texto',
-  //     required: false,
-  //     done: true,
-  //     numeroPregunta: 1,
-  //     opcional: false,
-  //     targetQuestion: 'no'
-  //   },
-  //   {
-  //     type: 'calificacion',
-  //     question: 'Pregunta 2 tipo calificación',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 2,
-  //     opcional: false,
-  //     ramificar: '4',
-  //     targetQuestion: '7',
-  //     ramificar2: '9',
-  //     target2: '8'
-  //   },
-  //   {
-  //     type: 'opcion',
-  //     numero: '2',
-  //     question: 'Pregunta 3 opción múltiple',
-  //     optionsArray: [
-  //       {opcion: 'Op1', ramificar: true, targetQ: '7'},
-  //       {opcion: 'Op2', ramificar: false, targetQ: 'no'},
-  //       {opcion: 'Op3', ramificar: true, targetQ: '9'}
-  //     ],
-  //     done: true,
-  //     required: true,
-  //     tipoLimite: 'fija',
-  //     numeroPregunta: 3,
-  //     opcional: false,
-  //   },
-  //   {
-  //     type: 'estrellas',
-  //     question: 'Pregunta 4 calificar con estrellas',
-  //     bad: 'Mala',
-  //     neutral: 'Neutral',
-  //     good: 'Excelente',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 4,
-  //     opcional: false,
-  //     ramificar: 'no',
-  //     targetQuestion: 'no',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'nps',
-  //     question: 'Pregunta 5 NPS',
-  //     bad: 'Mala',
-  //     neutral: 'Neutral',
-  //     good: 'Excelente',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 5,
-  //     opcional: false,
-  //     ramificar: '1',
-  //     targetQuestion: '8',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'fecha',
-  //     question: 'Selecciona una 6 fecha',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 6,
-  //     opcional: false,
-  //     targetQuestion: 'no',
-  //   },
-  //   {
-  //     type: 'texto',
-  //     question: 'pregunta 7 tipo texto',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 7,
-  //     opcional: true,
-  //     targetQuestion: 'no'
-  //   },
-  //   {
-  //     type: 'calificacion',
-  //     question: 'Pregunta tipo 8 calificación',
-  //     required: true,
-  //     done: true,
-  //     numeroPregunta: 8,
-  //     opcional: true,
-  //     ramificar: '4',
-  //     targetQuestion: '9',
-  //     ramificar2: 'no',
-  //     target2: 'no'
-  //   },
-  //   {
-  //     type: 'opcion',
-  //     numero: 'no',
-  //     question: 'Pregunta 9 opción múltiple',
-  //     optionsArray: [
-  //       {opcion: 'Op1', ramificar: false, targetQ: 'no'},
-  //       {opcion: 'Op2', ramificar: false, targetQ: 'no'},
-  //       {opcion: 'Op3', ramificar: false, targetQ: 'no'}
-  //     ],
-  //     done: true,
-  //     required: true,
-  //     tipoLimite: 'no',
-  //     numeroPregunta: 9,
-  //     opcional: true,
-  //   }
-  // ]
 
   @Input() dataArray?:any[] = [];
 
@@ -170,9 +56,8 @@ export class RouteSelectorComponent implements OnInit {
       alert('Por favor rellene los datos');
       return;
     }
-    if(datos[0] === undefined) {
-      datos = ['sin respuesta'];
-    }
+    if(this.currentQuestion.required && datos[0] === '') { return }
+    if(datos[0] === undefined) { datos = ['sin respuesta']; }
     // Registrar al arreglo de respuestas
     this.responsesArray.push({
       questionNumber: this.currentQuestion.numeroPregunta,
@@ -258,6 +143,30 @@ export class RouteSelectorComponent implements OnInit {
     this.restartSelected();
   }
 
+  /* -------------------------- Limitador de opciones ------------------------- */
+  limitChecks = (ref:any) => {
+    // console.log("ref: ", ref.children[0].children[0].children[0].checked);
+    let checkedCounter = 0;
+    for (let i = 0; i < ref.children.length; i++) {
+      if(ref.children[i].children[0].children[0].checked) { checkedCounter++ }
+      
+    }
+    switch (this.currentQuestion.tipoLimite) {
+      case 'fija':
+        if(checkedCounter === this.currentQuestion.numero) {
+          for (let i = 0; i < ref.children.length; i++) {
+            if(ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.remove('disabled') }
+            else { ref.children[i].children[0].classList.add('disabled') }
+          }
+        } else { 
+          for (let i = 0; i < ref.children.length; i++) {
+            ref.children[i].children[0].classList.remove('disabled')
+          }
+        }
+        break;
+    }
+
+  }
 
   /* ------------------ obtener respuesta pregunta tipo texto ----------------- */
   getTexto = (text:string) => {
@@ -265,18 +174,55 @@ export class RouteSelectorComponent implements OnInit {
     this.currentData = [text];
   }
   /* ----------------------- Referencia pregunta abierta ---------------------- */
-  getTextRef = (ref:any) => {
-    this.textAreaRef = ref;
-  }
+  getTextRef = (ref:any) => { this.textAreaRef = ref; }
 
   /* ------ obtener casillas seleccionadas pregunta tipo opcion multiple ------ */
   getOpciones = (ref:any, index:number) => {
+    // Registrar data
     this.currentData = [];
     for (let i = 0; i < ref.children.length; i++) { //registrar seleccionados
       if(ref.children[i].children[0].children[0].checked) {
         this.currentData.push(ref.children[i].children[0].children[0].value);
       }
     }
+
+    //Validar cantidad de opciones que se pueden seleccionar
+    let checkedCounter = 0;
+    let branchedIndex = 0;
+    let branchedSelected = false;
+    for (let i = 0; i < ref.children.length; i++) { //contar opciones seleccionadas
+      if(ref.children[i].children[0].children[0].checked) { checkedCounter++ }
+      if(ref.children[i].children[0].children[0].checked && this.currentQuestion.optionsArray[i].ramificar) {
+        branchedSelected = true;
+        branchedIndex = i;
+      }
+    }
+    switch (this.currentQuestion.tipoLimite) {
+      case 'fija':
+      case 'maximo':
+        if(checkedCounter === this.currentQuestion.numero) {
+          for (let i = 0; i < ref.children.length; i++) {
+            if(!ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.add('disabled') }
+          }
+        }
+        else { 
+          for (let i = 0; i < ref.children.length; i++) {
+            if(!ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.remove('disabled') }
+            //Deshabilitar nuevamente la opcion si ya hay una ramificada seleccionada
+            if(branchedSelected && this.currentQuestion.optionsArray[i].ramificar && i !== branchedIndex) {
+              ref.children[i].children[0].classList.add('disabled')
+            }
+          }
+        }
+        break;
+
+      
+        
+    }
+  }
+
+  temp = (ref:any, index:any) => {
+    //validar que no se seleccionen dos opciones que ramifiquen
     const selected = this.currentQuestion.optionsArray[index];
     if(selected.ramificar && ref.children[index].children[0].children[0].checked) { //si se selecciona y se ramifica
       for (let i = 0; i < ref.children.length; i++) { //deshabilitar todas las opciones que se ramifican
@@ -294,10 +240,11 @@ export class RouteSelectorComponent implements OnInit {
       }
     }
   }
+
+
+
   /* ----------------------- Referencia opcion multiple ----------------------- */
-  getOptionsRef = (ref:any) => {
-    this.optionsRef = ref;
-  }
+  getOptionsRef = (ref:any) => { this.optionsRef = ref; }
 
   /* -------------------- Permite seleccionar calificacion -------------------- */
   fillScoreArray = () => { for (let i = 1; i <= 10; i++) this.scoreArray.push({active: false, number: i.toString()}) };

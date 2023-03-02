@@ -14,15 +14,27 @@
     <div *ngIf="currentQuestion !== undefined" class="d-flex justify-content-center question-container mt-4">
         <div class="themed-container overflow-hidden mt-2 bg-white  " @fadeInOut>
 
-            <div class="d-flex px-4 py-1 d-flex w-100 gap-3 " >
-                <p class="mb-0 fs-6 text-success" *ngIf="currentQuestion.numeroPregunta">Pregunta {{currentQuestion.numeroPregunta}}</p>
+            <div class="d-flex px-4 py-1 d-flex w-100 gap-options flex-wrap ">
+                <div class="question-number mb-0 p-1 fs-3 text-light bg-success lh-1 rounded-pill d-flex center-content"
+                *ngIf="currentQuestion.numeroPregunta">
+                    {{currentQuestion.numeroPregunta}}
+                </div>
                 <p class="mb-0 fs-6 red" *ngIf="currentQuestion.required">Obligatoria</p>
                 <p class="mb-0 fs-6 text-primary" *ngIf="currentQuestion.opcional">Alterna</p>
-                <p class="mb-0 fs-6 text-secondary " *ngIf="currentQuestion.ramificar && currentQuestion.ramificar !== 'no'">
-                    Se ramifica: {{currentQuestion.ramificar}}
+                <p *ngIf="currentQuestion.alert" class="mb-0 fs-6 red">ALERTA: {{currentQuestion.alertTrigger}}
+                    <span *ngIf="currentQuestion.type === 'calificacion' || currentQuestion.type === 'estrellas' || currentQuestion.type === 'nps'"
+                    class="mb-0 fs-6 red">
+                        o menos
+                    </span>
                 </p>
-                <p class="mb-0 fs-6 text-secondary " *ngIf="currentQuestion.ramificar && currentQuestion.ramificar !== 'no'">
-                    a: {{currentQuestion.targetQuestion}}
+                <p class="mb-0 fs-6 text-dark " *ngIf="currentQuestion.ramificar && currentQuestion.ramificar !== 'no'">
+                    {{currentQuestion.ramificar}} o menos redirige a pregunta: {{currentQuestion.targetQuestion}}
+                </p>
+                <p class="mb-0 fs-6 text-dark " *ngIf="currentQuestion.ramificar2 && currentQuestion.ramificar2 !== 'no'">
+                    {{currentQuestion.ramificar2}} o mas redirige a pregunta: {{currentQuestion.target2}}
+                </p>
+                <p class="mb-0 fs-6 text-dark " *ngIf="currentQuestion.type === 'texto' && currentQuestion.targetQuestion !== 'no'">
+                    Redirige a pregunta: {{currentQuestion.targetQuestion}}
                 </p>
             </div>
     
@@ -64,13 +76,14 @@
                             <p *ngIf="currentQuestion.tipoLimite == 'maximo'">Seleccione un máximo de {{currentQuestion.numero}} opciones</p>
                         </div>
                         <div class="d-flex flex-column w-100 ps-5 gap-2 " #optionsContainer>
-                            <div class="d-flex align-items-center checkbox-container" id="c"
+                            <div class="d-flex align-items-center justify-content-between checkbox-container" id="c"
                             *ngFor="let option of currentQuestion.optionsArray; let i = index">
                                 <label class="item-container text-dark"> {{option.opcion}}
                                     <input type="checkbox" (change)="getOpciones(optionsContainer, i)" [value]="option.opcion"
                                     (change)="getOptionsRef(optionsContainer)">
                                     <span class="checkmark"></span>
                                 </label>
+                                <p *ngIf="option.targetQ !== 'no'" class="mb-0 fs-6 text-dark">Redirige a pregunta: {{option.targetQ}}</p>
                             </div>
                         </div>
                     </div>

@@ -40,6 +40,7 @@ import { PollMenuComponent } from './poll-menu/poll-menu.component';
 import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
 import { PollsChartsComponent } from './polls-charts/polls-charts.component';
 import { NewModuleComponent } from './new-module/new-module.component';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 
 
@@ -76,13 +77,14 @@ import { NewModuleComponent } from './new-module/new-module.component';
     ModulesMenuComponent,
     PollsChartsComponent,
     NewModuleComponent,
+    DialogBoxComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' }

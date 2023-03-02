@@ -26,9 +26,9 @@ export class CreatePollComponent implements OnInit {
   }
 
   mockQuestions = [
-    {done: true, numeroPregunta: 1, opcional: true, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
-    {alert: false, alertTrigger: 'no', done: true, numero: 0, numeroPregunta: 2, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '1'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'no', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
-    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 3, opcional: false, ramificar: '2', ramificar2: 'no', required: true, target2: 'no', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
+    {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'maximo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
+    {done: true, numeroPregunta: 2, opcional: false, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 3, opcional: false, ramificar: '2', ramificar2: '10', required: true, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
     {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 4, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
     {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
     {done: true, numeroPregunta: 6, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
@@ -47,6 +47,8 @@ export class CreatePollComponent implements OnInit {
   viewer = false; //Controla el visor de preguntas
   route = false; //Mostrar simulador
   branchOptions = false; // Mostrar/ocultar mas opciones de ramificacion
+  multibranch = false; //Determinar si hay mas de 1 opcion que ramifica en pregunta tipo opcion
+  dialog = false; //para controlar la caja de dialogo
 
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
   questionsArray:any[] = [...this.mockQuestions]; //Array principal de preguntas
@@ -58,6 +60,7 @@ export class CreatePollComponent implements OnInit {
 
   condicionalOpciones = ''
   cantidadCondicionalOpciones = 0;
+  message = "";
 
   /* -------------------------------------------------------------------------- */
   /*                              Estilos dinámicos                             */
@@ -80,6 +83,9 @@ export class CreatePollComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
+
+  /* --------------------------- ventana de dialogo --------------------------- */
+  handleDialog = () => this.dialog = !this.dialog;
 
   /* ------------------------------- drag & drop ------------------------------ */
   drop(event: CdkDragDrop<string[]>) {
@@ -168,11 +174,13 @@ export class CreatePollComponent implements OnInit {
 
     // Validaciones
     if(qType === 'opcion' && this.optionsArray.length < 2 || qType === 'opcion' && data![0] === '') {
-      alert('Por favor rellene todos los campos');
+      this.message = 'Por favor rellene todos los campos';
+      this.handleDialog();
       return;
     }
     if(data![0] === '' || data![1] === '' || qType !== 'opcion' && data![2] === '' || data![3] === '' || data![4] === '' || data![5] === '') {
-      alert('Por favor rellene todos los campos');
+      this.message = 'Por favor rellene todos los campos';
+      this.handleDialog();
       return;
     }
 
@@ -184,22 +192,26 @@ export class CreatePollComponent implements OnInit {
 
       case 'calificacion':
         if(data![3] !== 'no' && data![4] === 'no'){
-          alert('Seleccione hacia que pregunta se ramifica');
+          this.message = 'Seleccione hacia que pregunta se ramifica';
+          this.handleDialog();
           return;
         }
         if(data![4] !== 'no' && data![3] === 'no'){
-          alert('Seleccione una condicion para ramificar la pregunta');
+          this.message = 'Seleccione una condicion para ramificar la pregunta';
+          this.handleDialog();
           return;
         }
         if(this.alert && data![7] === 'no') {
-          alert('Seleccione una condicion para activar la alerta');
+          this.message = 'Seleccione una condicion para activar la alerta';
+          this.handleDialog();
           return;
         }
         if(!this.alert && data![7] !== 'no') {
           this.alert = true;
         }
         if(data![3] !== 'no' && parseInt(data![5]) <= parseInt(data![3])){
-          alert('La condición para multiples rutas no puede estar en el mismo rango');
+          this.message = 'La condición para multiples rutas no puede estar en el mismo rango';
+          this.handleDialog();
           return;
         }
         this.questionsArray.splice(index, 1, ({type: 'calificacion', question: data![0], low: data![1],
@@ -210,15 +222,18 @@ export class CreatePollComponent implements OnInit {
       case 'opcion': 
         const number = data![2] === '' ? 0 : parseInt(data![2]);
         if(this.optionsArray.length < number) {
-          alert('La cantidad de control no puede ser mayor a la cantidad de opciones');
+          this.message = 'La cantidad de control no puede ser mayor a la cantidad de opciones';
+          this.handleDialog();
           return;
         }
         if(data![1] !== 'no' && data![2] === '') {
-          alert('Seleccione cantidad para limitar las opciones');
+          this.message = 'Seleccione cantidad para limitar las opciones';
+          this.handleDialog();
           return;
         }
         if(this.alert && data![3] === 'no') {
-          alert('Seleccione una condicion para activar la alerta');
+          this.message = 'Seleccione una condicion para activar la alerta';
+          this.handleDialog();
           return;
         }
         if(!this.alert && data![3] !== 'no') {
@@ -228,7 +243,8 @@ export class CreatePollComponent implements OnInit {
           let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
           const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
           if(branchChecked && targetQuestion === 'no') {
-            alert(`Seleccione hacia que pregunta se ramifica la opción ${i+1}`);
+            this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
+            this.handleDialog();
             return;
           }
           if(!branchChecked && targetQuestion !== 'no') {
@@ -241,7 +257,8 @@ export class CreatePollComponent implements OnInit {
           let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
           const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
           if(branchChecked && targetQuestion === 'no') {
-            alert(`Seleccione hacia que pregunta se ramifica la opción ${i+1}`);
+            this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
+            this.handleDialog();
             return;
           }
           if(!branchChecked && targetQuestion !== 'no') {
@@ -254,27 +271,32 @@ export class CreatePollComponent implements OnInit {
           })
         }
         this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
-          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3]}));
+          tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3],
+          multibranch: this.multibranch}) );
         break;
 
       case 'estrellas':
         if(data![4] !== 'no' && data![5] === 'no'){
-          alert('Seleccione hacia que pregunta se ramifica');
+          this.message = 'Seleccione hacia que pregunta se ramifica';
+          this.handleDialog();
           return;
         }
         if(data![5] !== 'no' && data![4] === 'no'){
-          alert('Seleccione condicion para ramificar pregunta');
+          this.message = 'Seleccione condicion para ramificar pregunta';
+          this.handleDialog();
           return;
         }
         if(this.alert && data![8] === 'no') {
-          alert('Seleccione una condicion para activar la alerta');
+          this.message = 'Seleccione una condicion para activar la alerta';
+          this.handleDialog();
           return;
         }
         if(!this.alert && data![8] !== 'no') {
           this.alert = true;
         }
         if(data![4] !== 'no' && parseInt(data![6]) <= parseInt(data![4])){
-          alert('La condición para multiples rutas no puede estar en el mismo rango');
+          this.message = 'La condición para multiples rutas no puede estar en el mismo rango';
+          this.handleDialog();
           return;
         }
         this.questionsArray.splice(index, 1, ({type: 'estrellas', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
@@ -284,22 +306,26 @@ export class CreatePollComponent implements OnInit {
 
       case 'nps':
         if(data![4] !== 'no' && data![5] === 'no'){
-          alert('Seleccione hacia que pregunta se ramifica');
+          this.message = 'Seleccione hacia que pregunta se ramifica';
+          this.handleDialog();
           return;
         }
         if(data![5] !== 'no' && data![4] === 'no'){
-          alert('Seleccione condicion para ramificar pregunta');
+          this.message = 'Seleccione condicion para ramificar pregunta';
+          this.handleDialog();
           return;
         }
         if(this.alert && data![8] === 'no') {
-          alert('Seleccione una condicion para activar la alerta');
+          this.message = 'Seleccione una condicion para activar la alerta';
+          this.handleDialog();
           return;
         }
         if(!this.alert && data![8] !== 'no') {
           this.alert = true;
         }
         if(data![4] !== 'no' && parseInt(data![6]) <= parseInt(data![4])){
-          alert('La condición para multiples rutas no puede estar en el mismo rango');
+          this.message = 'La condición para multiples rutas no puede estar en el mismo rango';
+          this.handleDialog();
           return;
         }
         this.questionsArray.splice(index, 1, ({type: 'nps', question: data![0], bad: data![1], neutral: data![2], good: data![3], 
@@ -322,6 +348,7 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
+    this.multibranch = false;
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
@@ -334,6 +361,7 @@ export class CreatePollComponent implements OnInit {
     this.optional = false;
     this.branchOptions = false;
     this.optionsArray = [];
+    this.multibranch = false;
   }
 
   /* ----------------------------- Editar pregunta ---------------------------- */
@@ -351,7 +379,7 @@ export class CreatePollComponent implements OnInit {
         break;
       case 'opcion':
         this.optionsArray = targetQuestion.optionsArray;
-        this.questionsArray.splice(index, 1, ({type: 'opcion', question: targetQuestion.question, done: false}));
+        this.questionsArray.splice(index, 1, ({type: 'opcion', question: targetQuestion.question, optionsArray: targetQuestion.optionsArray, done: false}));
         break;
       case 'estrellas':
         this.questionsArray.splice(index, 1, ({type: 'estrellas', question: targetQuestion.question, bad: targetQuestion.bad,
@@ -367,6 +395,20 @@ export class CreatePollComponent implements OnInit {
     }
     this.disable = true;
     this.editing = true;
+  }
+
+  multibranchOptions = (ref:any) => {
+    let checkedCounter = 0; //contador
+    for (let i = 0; i < ref.children.length; i++) { //Referencia al contenedor de opciones
+      if(ref.children[i].children[1].children[0].children[0].checked) { //si hay opcion con que ramifica
+        checkedCounter++;
+      }
+    }
+    if(checkedCounter >= 2) {
+      this.multibranch = true;
+    } else {
+      this.multibranch = false;
+    }
   }
 
   updateQuestionNumber = () => {
@@ -404,33 +446,7 @@ export class CreatePollComponent implements OnInit {
       targetQ: ''
     });
   }
-  /* ------------- Referencia a checkboxes y aplicar limitaciones ------------- */
-  controlCheckboxes = (ref:any, tipo:string, cantidad:number) => {
-    let checkedCount = 0;
-    
-    for (let i = 0; i < ref.children.length; i++) {
-      if(ref.children[i].children[0].children[0].checked === true) { checkedCount++}
-    }
 
-    switch (tipo) {
-      case 'minimo':
-        
-        break;
-      case 'maximo' || 'fija':
-        if(checkedCount === cantidad) {
-          for (let i = 0; i < ref.children.length; i++) {
-            if(ref.children[i].children[0].children[0].checked === false) {
-              ref.children[i].children[0].children[0].disabled = true;
-            }
-          }
-        } else {
-          for (let i = 0; i < ref.children.length; i++) {
-            ref.children[i].children[0].children[0].disabled = false;
-          }
-        }
-        break;
-    }
-  }
   setCondicionalOpciones = (condicional:string) => { this.condicionalOpciones = condicional }
 
   setCantidadCondicionalOpciones = (cantidad:string) => {
@@ -505,7 +521,8 @@ export class CreatePollComponent implements OnInit {
     const parse = `${day.value}-${monthYear}`;
   }
 
-
-
-
 }
+
+// @Component({
+  
+// })

@@ -74,8 +74,19 @@ th {
     height: 34px;
 }
 .bg-purple { background-color: #4d56a3; }
+
 .bg-purple-light { background-color: #ebedf5; }
+
 .text-purple { color: #4d56a3 !important; }
+
+.question-number {
+    min-width: 34px !important;
+}
+.center-content {
+    justify-content: center !important;
+    align-items: center !important;
+}
+.gap-options { gap: 4px 8px; }
 
 /* The container */
 .item-container {
@@ -212,7 +223,7 @@ li {
 .bg-light-gray { background-color: #fdfdfd !important; }
 
 .disabled {
-    color: #949494 !important;
+    color: #e5e5e5 !important;
     pointer-events: none !important;
 }
 
