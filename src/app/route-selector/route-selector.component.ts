@@ -31,8 +31,12 @@ export class RouteSelectorComponent implements OnInit {
 
   position = 0; //Posicion en el array de flujo normal
   tempBranch = false //para determinbar si se selecciono opcion que se ramifica
+  next = true; //habilitar/deshabilitar boton de siguiente
+  hasSelectedOption = false; //determinar si existe al menos una opcion seleccionada
   optionsRef:any; //Referencia opcion multiple
   textAreaRef:any; //Referencia pregunta abierta
+  dialog = false;
+  message = '';
 
   currentQuestion:any = []; //Datos de la pregunta que se renderizan en pantalla
 
@@ -53,7 +57,8 @@ export class RouteSelectorComponent implements OnInit {
     console.log("datos: ", datos);
     //Validaciones de datos registrados
     if(this.currentData.length < 1 && this.currentQuestion.required) { // Validar que el campo no este vacio si es obligatorio
-      alert('Por favor rellene los datos');
+      this.message = 'Por favor rellene los datos';
+      this.dialog = true;
       return;
     }
     if(this.currentQuestion.required && datos[0] === '') { return }
@@ -65,18 +70,27 @@ export class RouteSelectorComponent implements OnInit {
       question: this.currentQuestion.question,
       response: this.currentQuestion.type === 'opcion' ? datos : datos[0] // guardar respuesta en forma de arreglo o string
     });
-
     // Manejar ramificaciones de acuerdo al tipo de pregunta contestada
     switch (this.currentQuestion.type) {
       case 'texto':
       case 'fecha':
         if(this.currentQuestion.targetQuestion !== 'no') { //si redirige a pregunta en especifico
           this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1} //si no es pregunta opcional
         }
         else { //si no redirige, se obtiene la siguiente del flujo normal
           this.position++;
           this.currentQuestion = this.arrayFlujoNormal[this.position];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
         }
         break;
 
@@ -86,13 +100,28 @@ export class RouteSelectorComponent implements OnInit {
         const score = parseInt(datos[0]);
         if(this.currentQuestion.ramificar !== 'no' && score <= parseInt(this.currentQuestion.ramificar)) { //si hay una primera ramificacion
           this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1};
         } else if(this.currentQuestion.ramificar2 !== 'no' && score >= parseInt(this.currentQuestion.ramificar2)) { //si hay segunda ramifiacion
           this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.target2) - 1];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1}
         } else {
           this.position++;
           this.currentQuestion = this.arrayFlujoNormal[this.position];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
         }
         break;
 
@@ -101,6 +130,11 @@ export class RouteSelectorComponent implements OnInit {
           for (let j = 0; j < this.currentQuestion.optionsArray.length; j++) {
             if(datos[i] === this.currentQuestion.optionsArray[j].opcion && this.currentQuestion.optionsArray[j].ramificar) { //si coincide y se ramifica
               this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
+              if (this.currentQuestion === undefined) {
+                this.message = 'Fin de la encuesta';
+                this.dialog = true;
+                return;
+              }
               this.tempBranch = true;
               break;
             }
@@ -112,10 +146,14 @@ export class RouteSelectorComponent implements OnInit {
         } else {
           this.position++;
           this.currentQuestion = this.arrayFlujoNormal[this.position];
+          if (this.currentQuestion === undefined) {
+            this.message = 'Fin de la encuesta';
+            this.dialog = true;
+            return;
+          }
         }
         break;
       }
-      
       //reiniciar data
       this.currentData = [];
       this.tempBranch = false;
@@ -123,10 +161,8 @@ export class RouteSelectorComponent implements OnInit {
       console.log("this.position: ", this.position);
       console.log(this.responsesArray);
       console.log(this.currentQuestion);
-      
-      if (this.currentQuestion === undefined) {
-        alert('fin de la encuesta');
-      }
+      //habilitar o deshabilitar el boton de siguiente dependiendo si la pregunta es obligatoria o no
+      if (this.currentQuestion.required) { this.next = true } else { this.next = false }
   }
 
   /* -------------------------------------------------------------------------- */
@@ -141,51 +177,37 @@ export class RouteSelectorComponent implements OnInit {
     this.responsesArray.pop();
     //Reiniciar arreglos para limpiar elecciones activas
     this.restartSelected();
+    //habilitar o deshabilitar el boton de siguiente dependiendo si la pregunta es obligatoria o no
+    if (this.currentQuestion.required) { this.next = true } else { this.next = false }
   }
 
-  /* -------------------------- Limitador de opciones ------------------------- */
-  limitChecks = (ref:any) => {
-    // console.log("ref: ", ref.children[0].children[0].children[0].checked);
-    let checkedCounter = 0;
-    for (let i = 0; i < ref.children.length; i++) {
-      if(ref.children[i].children[0].children[0].checked) { checkedCounter++ }
-      
-    }
-    switch (this.currentQuestion.tipoLimite) {
-      case 'fija':
-        if(checkedCounter === this.currentQuestion.numero) {
-          for (let i = 0; i < ref.children.length; i++) {
-            if(ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.remove('disabled') }
-            else { ref.children[i].children[0].classList.add('disabled') }
-          }
-        } else { 
-          for (let i = 0; i < ref.children.length; i++) {
-            ref.children[i].children[0].classList.remove('disabled')
-          }
-        }
-        break;
-    }
-
-  }
+  /* --------------------------- ventana de dialogo --------------------------- */
+  handleDialog = () => this.dialog = !this.dialog;
 
   /* ------------------ obtener respuesta pregunta tipo texto ----------------- */
   getTexto = (text:string) => {
     this.currentData = [];
     this.currentData = [text];
+    //validaciones para el boton de siguiente
+    if(this.currentQuestion.required && text !== '' || this.currentQuestion.required && text !== undefined) {
+      this.next = false;
+    }
+    if(this.currentQuestion.required && text === '' || this.currentQuestion.required && text === undefined) {
+      this.next = true;
+    }
   }
   /* ----------------------- Referencia pregunta abierta ---------------------- */
   getTextRef = (ref:any) => { this.textAreaRef = ref; }
 
-  /* ------ obtener casillas seleccionadas pregunta tipo opcion multiple ------ */
+  /*--- obtener casillas seleccionadas pregunta tipo opcion multiple y aplicar limitaciones ---*/
   getOpciones = (ref:any, index:number) => {
     // Registrar data
     this.currentData = [];
-    for (let i = 0; i < ref.children.length; i++) { //registrar seleccionados
+    for (let i = 0; i < ref.children.length; i++) { //registrar seleccionados al array currentData
       if(ref.children[i].children[0].children[0].checked) {
         this.currentData.push(ref.children[i].children[0].children[0].value);
       }
     }
-
     //Validar cantidad de opciones que se pueden seleccionar
     let checkedCounter = 0;
     let branchedIndex = 0;
@@ -197,15 +219,32 @@ export class RouteSelectorComponent implements OnInit {
         branchedIndex = i;
       }
     }
+    if(checkedCounter > 0) { //validar si existe al menos una opcion seleccionada
+      this.hasSelectedOption = true;
+    } else {
+      this.hasSelectedOption = false;
+    }
     switch (this.currentQuestion.tipoLimite) {
       case 'fija':
       case 'maximo':
         if(checkedCounter === this.currentQuestion.numero) {
+          if(this.currentQuestion.tipoLimite === 'fija' && this.currentQuestion.required) {
+            this.next = false;
+          }
           for (let i = 0; i < ref.children.length; i++) {
             if(!ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.add('disabled') }
           }
         }
-        else { 
+        else {
+          if(this.currentQuestion.tipoLimite === 'maximo' && this.currentQuestion.required && checkedCounter > 0) {
+            this.next = false;
+          }
+          if(this.currentQuestion.tipoLimite === 'maximo' && this.currentQuestion.required && checkedCounter < 1) {
+            this.next = true;
+          }
+          if(this.currentQuestion.tipoLimite === 'fija' && this.currentQuestion.required && checkedCounter < this.currentQuestion.numero) {
+            this.next = true;
+          }
           for (let i = 0; i < ref.children.length; i++) {
             if(!ref.children[i].children[0].children[0].checked) { ref.children[i].children[0].classList.remove('disabled') }
             //Deshabilitar nuevamente la opcion si ya hay una ramificada seleccionada
@@ -215,33 +254,20 @@ export class RouteSelectorComponent implements OnInit {
           }
         }
         break;
-
-      
-        
+      case 'minimo':
+        //Deshabilitar nuevamente la opcion si ya hay una ramificada seleccionada
+        for (let i = 0; i < ref.children.length; i++) {
+          if(branchedSelected && this.currentQuestion.optionsArray[i].ramificar && i !== branchedIndex) {
+            ref.children[i].children[0].classList.add('disabled')
+          }
+          if(!branchedSelected) {
+            ref.children[i].children[0].classList.remove('disabled')
+          }
+        }
+        if(checkedCounter < this.currentQuestion.numero && this.currentQuestion.required) { this.next = true; }
+        else { this.next = false; }
     }
   }
-
-  temp = (ref:any, index:any) => {
-    //validar que no se seleccionen dos opciones que ramifiquen
-    const selected = this.currentQuestion.optionsArray[index];
-    if(selected.ramificar && ref.children[index].children[0].children[0].checked) { //si se selecciona y se ramifica
-      for (let i = 0; i < ref.children.length; i++) { //deshabilitar todas las opciones que se ramifican
-        if (this.currentQuestion.optionsArray[i].ramificar) {
-          ref.children[i].children[0].classList.add('disabled');
-        }
-      }
-      ref.children[index].children[0].classList.remove('disabled'); //volver a habilitar la opcion seleccionada
-    }
-    if(selected.ramificar && !ref.children[index].children[0].children[0].checked) { //si se selecciona pero no ramifica
-      for (let i = 0; i < ref.children.length; i++) { //habilitar todas las opciones que se ramifican
-        if (this.currentQuestion.optionsArray[i].ramificar) {
-          ref.children[i].children[0].classList.remove('disabled');
-        }
-      }
-    }
-  }
-
-
 
   /* ----------------------- Referencia opcion multiple ----------------------- */
   getOptionsRef = (ref:any) => { this.optionsRef = ref; }
@@ -249,21 +275,29 @@ export class RouteSelectorComponent implements OnInit {
   /* -------------------- Permite seleccionar calificacion -------------------- */
   fillScoreArray = () => { for (let i = 1; i <= 10; i++) this.scoreArray.push({active: false, number: i.toString()}) };
   setActiveScore = (index:number) => {
+    //validar si hay una calificacion seleccionada
+    let hasActive = false;
     for (let i = 0; i < this.scoreArray.length; i++) {
       this.scoreArray[i].active = false;
-      if(i == index) this.scoreArray[i].active = true
+      if(i == index) {this.scoreArray[i].active = true }
+      if(this.scoreArray[i].active === true) { hasActive = true; }
     }
+    if(this.currentQuestion.required && hasActive) { this.next = false }
     this.currentData = [];
     this.currentData = [(index+1).toString()];
+
   }
 
   /* ------------------ Selecciona calificacion en estrellas ------------------ */
   fillStarsArray = () => { for (let i = 0; i < 5; i++) this.starsArray.push({active: false, number: i+1}) };
   setActiveStars = (index:number) => {
+    let hasActive = false;
     for (let i = 0; i < this.starsArray.length; i++) {
       this.starsArray[i].active = false;
       if(i <= index) this.starsArray[i].active = true;
+      if(this.starsArray[i].active === true) { hasActive = true; }
     }
+    if(this.currentQuestion.required && hasActive) { this.next = false }
     this.currentData = [];
     this.currentData = [(index+1).toString()];
   }
@@ -271,10 +305,13 @@ export class RouteSelectorComponent implements OnInit {
   /* -------------------- Cambia a activo nps seleccionado -------------------- */
   fillNpsArray = () => { for (let i = 0; i < 3; i++) this.npsArray.push({active: false, nps: '' }) };
   setActiveNps = (index:number) => {
+    let hasActive = false;
     for (let i = 0; i < this.npsArray.length; i++) {
       this.npsArray[i].active = false;
       if(i == index) this.npsArray[i].active = true;
+      if(this.npsArray[i].active === true) { hasActive = true; }
     }
+    if(this.currentQuestion.required && hasActive) { this.next = false }
     this.currentData = [];
     this.currentData = [(index+1).toString()];
   }
@@ -303,6 +340,7 @@ export class RouteSelectorComponent implements OnInit {
   /* ------------------------ obtener pregunta inicial ------------------------ */
   getCurrentQuestion = () => {
     this.currentQuestion = this.arrayFlujoNormal[0];
+    if (this.currentQuestion.required) { this.next = true } else { this.next = false }
   }
 
   /* ----- obtener los arreglos de preguntas opcionales y de flujo normal ----- */
@@ -367,9 +405,11 @@ export class RouteSelectorComponent implements OnInit {
   }
 
   clickDay = (day:any) => {
+    let hasSelected = false;
     for (let i = 0; i < this.monthSelect.length; i++) {
       if(this.monthSelect[i].name === day.name && this.monthSelect[i].value === day.value) {
         this.monthSelect[i].active = true;
+        if(this.monthSelect[i].active) { this.next = false; }
       } else {
         this.monthSelect[i].active = false;
       }

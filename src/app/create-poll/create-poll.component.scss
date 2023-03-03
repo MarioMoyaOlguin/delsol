@@ -467,10 +467,8 @@ select {
     max-width: 300px !important;
 }
 .close-viewer {
-    background-color: white;
-    color: #f4323e;
-    border: 2px solid #f4323e;
-    stroke-width: 6px;
+    background-color: #f4323e;
+    color: white;
     position: fixed;
     top: 8px;
     right: 26px;
@@ -479,10 +477,8 @@ select {
     cursor: pointer;
 }
 .close-viewer:hover {
-    background-color: #f4323e;
-    color: white;
+    transform: scale(1.1);
 }
-
 .card-container {
     width: 250px;
     // height: 100px;

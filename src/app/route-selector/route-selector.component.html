@@ -1,3 +1,11 @@
+<div class="dialog-container" @fadeInOut
+*ngIf="dialog">
+    <div class="dialog-box position-relative">
+        {{message}}
+        <button class="dialog-btn ease-in-out py-1" (click)="handleDialog()">Cerrar</button>
+    </div>
+</div>
+
 <div class="main-window gray-bg d-flex flex-column pb-4 px-0 px-ms-4">
 
     <ng-content></ng-content>
@@ -197,7 +205,7 @@
             <div class="d-flex p-4 w-100 bg-white mt-4 "
             [ngClass]="responsesArray.length < 1 ? 'justify-content-end' : 'justify-content-between'">
                 <button *ngIf="responsesArray.length > 0" class="action-btn " (click)="getPreviousQuestion()">Volver</button>
-                <button  class="action-btn " (click)="nextQuestion(currentData)">Siguiente</button>
+                <button  class="action-btn " (click)="nextQuestion(currentData)" [disabled]="next">Siguiente</button>
             </div>
         </div>
     </div>

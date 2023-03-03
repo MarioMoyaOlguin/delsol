@@ -52,6 +52,7 @@ button[type="submit"]:disabled {
     cursor: grabbing !important;
     box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
 }
+/* -------------------------------------------------------------------------- */
 
 .rotate-90 { transform: rotate(90deg) !important; }
 
@@ -143,6 +144,11 @@ textarea::placeholder, input::placeholder {
 .action-btn {
     background-color: #f4323e;
     color: white;
+}
+.action-btn:disabled {
+    background-color: #949494;
+    border-color: #949494;
+    pointer-events: none;
 }
 .cancel-btn {
     background-color: white;
