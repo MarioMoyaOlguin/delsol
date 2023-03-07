@@ -18,7 +18,8 @@ export class NewPollComponent implements OnInit {
     this.pollForm = this.fb.group({
       titulo: ['', [Validators.required]],
       tienda: ['', [Validators.required, Validators.pattern('[^ ]')]],
-      departamento: ['', [Validators.required, Validators.pattern('[^ ]')]]
+      departamento: ['', [Validators.required, Validators.pattern('[^ ]')]],
+      tiempo: ['']
     });
   }
   /* --------------------------------- Getters -------------------------------- */

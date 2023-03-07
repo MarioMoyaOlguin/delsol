@@ -487,17 +487,14 @@ select {
     min-width: 34px;
     height: 34px;
 }
-.bg-green-light {
-    background-color: #d6eae1;
-}
-.plus-icon {
-    background-color: #258de2;
-}
+.bg-green-light { background-color: #d6eae1; }
+
+.plus-icon { background-color: #258de2; }
+
 .close-icon {
     background-color: #f4323e;
     transform: rotate(45deg);
 }
-
 
 @keyframes spin {
   from { transform: rotate(0deg); }

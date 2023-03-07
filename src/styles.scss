@@ -41,6 +41,8 @@ button[type="submit"]:disabled {
 
 .red-bg { background-color: #f4323e !important; }
 
+.pink-bg { background-color: #fcd5d8 !important; }
+
 .text-black { color: black !important; }
 
 .cursor-grab { cursor: grab !important; }
@@ -48,10 +50,9 @@ button[type="submit"]:disabled {
 .cursor-grab:active { cursor: grabbing !important; }
 
 /* --------------------- Angular CDK drag & drop styles --------------------- */
-.cdk-drop-list-dragging {
-    cursor: grabbing !important;
-    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
-}
+.cdk-drag { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }
+
+.cdk-drag-animating { transition: transform 300ms cubic-bezier(0, 0, 0.2, 1); }
 /* -------------------------------------------------------------------------- */
 
 .rotate-90 { transform: rotate(90deg) !important; }
@@ -138,22 +139,32 @@ textarea::placeholder, input::placeholder {
     color: #949494;
     background-color: white;
 }
-.action-btn, .cancel-btn {
-    border: 1px solid #f4323e;
-}
 .action-btn {
-    background-color: #f4323e;
+    // background-color: #f4323e;
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 210% auto;
     color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.action-btn:hover {
+    // animation: background 0.2s linear both;
+    background-position: 0% 50%;
 }
 .action-btn:disabled {
-    background-color: #949494;
-    border-color: #949494;
+    // background-color: #949494 !important;
+    background: linear-gradient(45deg, #949494, #949494 100%) !important;
     pointer-events: none;
 }
 .cancel-btn {
     background-color: white;
     color: #f4323e;
     border-color: #f4323e !important;
+    cursor: pointer;
 }
 .sticky-element {
     position: sticky;
@@ -172,5 +183,10 @@ textarea::placeholder, input::placeholder {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-  }
+}
+
+@keyframes background {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 

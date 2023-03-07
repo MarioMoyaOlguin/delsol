@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeEs from '@angular/common/locales/es';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 registerLocaleData(localeEs, 'es');
 
@@ -41,6 +43,7 @@ import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
 import { PollsChartsComponent } from './polls-charts/polls-charts.component';
 import { NewModuleComponent } from './new-module/new-module.component';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { LoginGuardian } from './start/login/login.guardian';
 
 
 
@@ -85,9 +88,12 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     DragDropModule,
+    HttpClientModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    CookieService,
+    LoginGuardian
   ],
   bootstrap: [AppComponent]
 })

@@ -8,8 +8,11 @@
         
             <div class="d-flex flex-column login-inputs-container">
                 <div class="mb-3">
-                    <label for="user">Email o usuario</label>
+                    <label for="user">Usuario</label>
                     <input type="text" name="" id="user" class="w-100" formControlName="email" #mail required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.invalid">
+                        Campo requerido
+                    </p>
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.errors?.['pattern']">
                         Email no válido
                     </p>
@@ -24,8 +27,12 @@
                 </div>
             </div>
 
+            <div class="pink-bg p-2 rounded-1 mt-3 w-100">
+                <p class="mb-0 fs-6 red text-center">Usuario o contraseña invalidos</p>
+            </div>
+
             <button class="mt-5 action-btn" type="submit" [disabled]="loginForm.invalid"
-            (click)="validateLogin($event, mail.value, pass.value)">
+            (click)="submitForm($event)">
                 Ingresar
             </button>
         </form>
