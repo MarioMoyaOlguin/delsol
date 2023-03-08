@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Chart } from 'chart.js';
 import 'chartjs-plugin-colorschemes';
 
 @Component({
@@ -20,13 +19,6 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit() {
     this.setInitialChart();
   }
-
-  colorOptions = {
-    colorschemes: {
-      scheme: 'brewer.RdYlGn4'
-    }
-  }
-  bgColors10 = ["#9e0142","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"];
 
   pollsArray:any[] = [
     {checked: false, nombre: 'Encuesta prueba', num: '5', estado: 'activo', respuestas: '134', done: true},
@@ -118,7 +110,8 @@ export class DashboardComponent implements OnInit {
     }, 100)
   }
   
-  
+  /* --------------- servicio login, determinar tipo de usuariox -------------- */
+  user = 'coordinado'
 
 
 }

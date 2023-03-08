@@ -29,13 +29,21 @@ export class LoginComponent implements OnInit {
 
   submitForm = (e:Event) => {
     e.preventDefault();
+
     if(this.loginForm.invalid) { return }
+
     const user = { email: this.getEmail!.value, password: this.getPassword!.value };
+
     this.loginUser.login(user)
     .subscribe( data => {
       console.log(data);
         this.loginUser.setToken(data.token);
-        this.router.navigate(['/home'], {});
+        if(data.user === 'normal') {
+          this.router.navigate(['/mis-encuestas'], {});
+        }
+        else {
+          this.router.navigate(['/home'], {});
+        }
       })
   }
 

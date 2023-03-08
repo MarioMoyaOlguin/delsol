@@ -21,7 +21,8 @@
     <div class="px-1 px-sm-4 py-3 py-sm-4 d-flex justify-content-between">
         <h1 class="red mb-0 lh-1 d-flex align-items-center lh-1">Encuestas</h1>
 
-        <button routerLink="/nueva-encuesta" class="border-0 new-poll rounded-pill d-flex justify-content-center align-items-center pe-3 py-2 ease-in-out red-bg">
+        <button routerLink="/nueva-encuesta" class="action-btn border-0 d-flex justify-content-center align-items-center pe-3 py-2 "
+        [ngClass]="user === 'normal' ? 'remove' : '' ">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus text-light ms-1" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
             </svg>
@@ -44,22 +45,28 @@
         <table class="table table-hover fw-semibold">
             <thead>
                 <tr>
-                    <th *ngIf="editing === false" class="checkbox-column">
+                    <th *ngIf="editing === false" class="checkbox-column"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
                         <input type="checkbox" name="" id="" class="pointer" #selectAll (change)="setAll(selectAll.checked)">
                     </th>
                     <th >Nombre de encuesta</th>
                     <th *ngIf="editing === false"># Preguntas</th>
                     <th >Estado</th>
                     <th *ngIf="editing === false">Respuestas</th>
-                    <th *ngIf="editing === false">Exportar</th>
-                    <th></th>
+                    <!-- <th *ngIf="editing === false">Exportar</th> -->
+                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr *ngFor="let poll of pollsArray; let i = index">
+                <tr *ngFor="let poll of pollsArray; let i = index"
+                [ngClass]="user === 'normal' && poll.estado !== 'activa' ? 'remove' : '' ">
                     <!-- ---------------------------- Data mostrada ---------------------------- -->
-                    <td *ngIf="poll.done && editing == false" class="checkbox-column">
+                    <td *ngIf="poll.done && editing == false" class="checkbox-column"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
                         <input  type="checkbox" name="" id="checkbox{{i}}" class="pointer" [checked]="poll.checked" (change)="setChecked(i)">
                     </td>
                     <td *ngIf="poll.done">{{poll.nombre}}</td>
@@ -67,11 +74,16 @@
 
                     <td *ngIf="poll.done">{{poll.estado}}</td>
                     <td *ngIf="poll.done && editing == false">{{poll.respuestas}}</td>
-                    <td *ngIf="poll.done && editing == false">
+                    <!-- ----------------- iconos exportar, visualizar grafica ----------------- -->
+                    <td *ngIf="poll.done && editing == false"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-spreadsheet pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16">
                             <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z"/>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-eye-fill pointer p-1 rounded-1 icons ms-3 text-dark ease-in-out" viewBox="0 0 16 16"
+                    </td>
+                    <td *ngIf="poll.done && editing == false"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-eye-fill pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16"
                         (click)="viewCharts(i)">
                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -79,13 +91,17 @@
                     </td>
 
                     <!-- ------------------------ iconos editar, borrar ------------------------ -->
-                    <td *ngIf="poll.done && editing === false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-pencil-square pointer p-1 rounded-1 icons text-dark ease-in-out " viewBox="0 0 16 16"
+                    <td *ngIf="poll.done && editing === false"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-pencil-square pointer p-1 rounded-1 icons text-dark ease-in-out ms-3 " viewBox="0 0 16 16"
                         (click)="edit(i)">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-trash-fill pointer p-1 rounded-1 icons text-dark ease-in-out ms-3 " viewBox="0 0 16 16">
+                    </td>
+                    <td *ngIf="poll.done && editing === false"
+                    [ngClass]="user === 'normal' ? 'remove' : '' ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-trash-fill pointer p-1 rounded-1 icons text-dark ease-in-out " viewBox="0 0 16 16">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                         </svg>
                     </td>

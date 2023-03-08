@@ -17,10 +17,10 @@ export class NewUserComponent implements OnInit {
     this.newUserForm = this.fb.group({
       nombre: ['', [Validators.required]],
       // correo: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      // puesto: ['', [Validators.required]],
       contraseña: ['', [Validators.required, Validators.minLength(6)]],
       confirmar: ['', [Validators.required]],
       tienda: ['', [Validators.required]],
-      puesto: ['', [Validators.required]],
       tipoUsuario: ['', [Validators.required]]
     },{
       validators:this.MustMatch("contraseña", "confirmar")
@@ -56,7 +56,7 @@ export class NewUserComponent implements OnInit {
   }
 
   newUser = () => {
-    this.router.navigate(['/usuarios'], {});
+    this.router.navigate(['/lista-usuarios'], {});
   }
 
 }

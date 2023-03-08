@@ -12,16 +12,6 @@ h1 {
 .svg-hover:hover {
     color: #f4323e !important;
 }
-.new-poll {
-    -webkit-box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
-    -moz-box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
-    box-shadow: 0px 2px 8px 2px rgb(210, 210, 210);
-}
-.new-poll:hover {
-    -webkit-box-shadow: 0px 2px 8px 2px #fdb3b8;
-    -moz-box-shadow: 0px 2px 8px 2px #fdb3b8;
-    box-shadow: 0px 2px 8px 2px #fdb3b8;
-}
 .icons:hover {
     background-color: #a7c4ff;
 }
@@ -30,11 +20,6 @@ h1 {
 }
 button {
     padding-left: 0px !important;
-}
-button:hover {
-    -webkit-box-shadow: 0px 2px 8px 2px #fdb3b8;
-    -moz-box-shadow: 0px 2px 8px 2px #fdb3b8;
-    box-shadow: 0px 2px 8px 2px #fdb3b8;
 }
 .icons-container {
     width: 40px;
@@ -64,6 +49,9 @@ td {
 }
 .icons:hover {
     background-color: #a7c4ff;
+}
+.action-btn {
+    width: fit-content !important;
 }
 
 

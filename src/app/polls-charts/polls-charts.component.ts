@@ -16,7 +16,7 @@ export class PollsChartsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    
+    console.log(this.chartsArray)
   }
   ngAfterViewInit():void {
     this.generateCharts();
@@ -84,7 +84,7 @@ export class PollsChartsComponent implements OnInit {
                   }]
               },
               legend: {
-                display: false //This will do the task
+                display: false //Esconder etiqueta de datasets
               }
             }
           }); 

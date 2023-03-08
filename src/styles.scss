@@ -61,6 +61,8 @@ button[type="submit"]:disabled {
     height: 120px;
     width: 120px;
 }
+.remove { display: none !important; }
+
 .pointer { cursor: pointer !important; }
 
 .font-small { font-size: 16px; }
@@ -129,6 +131,7 @@ textarea::placeholder, input::placeholder {
     display: none;
 }
 .gray-btn, .action-btn, .cancel-btn {
+    appearance: none;
     border-radius: 9999px;
     font-size: 1.1rem;
     width: 150px !important;
@@ -149,7 +152,7 @@ textarea::placeholder, input::placeholder {
     background-position: 100% 50%;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 250ms;
+    transition-duration: 150ms;
 }
 .action-btn:hover {
     // animation: background 0.2s linear both;
@@ -163,8 +166,7 @@ textarea::placeholder, input::placeholder {
 .cancel-btn {
     background-color: white;
     color: #f4323e;
-    border-color: #f4323e !important;
-    cursor: pointer;
+    border: 1px solid #f4323e;
 }
 .sticky-element {
     position: sticky;

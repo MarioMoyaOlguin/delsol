@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-my-polls',
@@ -9,10 +10,12 @@ import { Component, OnInit } from '@angular/core';
 
 export class MyPollsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public loginUser:LoginService) {  }
 
   ngOnInit(): void {
+
   }
+
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
   /* -------------------------------------------------------------------------- */
@@ -21,12 +24,12 @@ export class MyPollsComponent implements OnInit {
   pollTitle = '';
 
   pollsArray:any[] = [
-    {checked: false, nombre: 'Encuesta prueba ', num: '5', estado: 'activo', respuestas: '134', done: true},
-    {checked: false, nombre: 'Instalaciones ', num: '24', estado: 'activo', respuestas: '146', done: true},
-    {checked: false, nombre: 'Encuesta electrónica ', num: '31', estado: 'activo', respuestas: '167', done: true},
-    {checked: false, nombre: 'Atención al cliente ', num: '46', estado: 'cerrado', respuestas: '200', done: true},
-    {checked: false, nombre: 'Encuesta dto. ropa ', num: '20', estado: 'cerrado', respuestas: '200', done: true},
-    {checked: false, nombre: 'Experiencia de compras ', num: '23', estado: 'activo', respuestas: '116', done: true}
+    {checked: false, nombre: 'Encuesta prueba ', num: '5', estado: 'activa', respuestas: '134', done: true},
+    {checked: false, nombre: 'Instalaciones ', num: '24', estado: 'activa', respuestas: '146', done: true},
+    {checked: false, nombre: 'Encuesta electrónica ', num: '31', estado: 'inactiva', respuestas: '0', done: true},
+    {checked: false, nombre: 'Atención al cliente ', num: '46', estado: 'cerrada', respuestas: '200', done: true},
+    {checked: false, nombre: 'Encuesta dto. ropa ', num: '20', estado: 'cerrada', respuestas: '200', done: true},
+    {checked: false, nombre: 'Experiencia de compras ', num: '23', estado: 'inactiva', respuestas: '0', done: true}
   ];
 
   charts = [
@@ -81,5 +84,7 @@ export class MyPollsComponent implements OnInit {
     }
   }
 
+  /* ------------- servicio login, identificar el tipo de usuario ------------- */
+  user = 'normal';
 
 }
