@@ -49,7 +49,7 @@ input, select {
     background-color: #e7f2ff;
 }
 th, td {
-    padding: 8px 10px !important;
+    padding: 8px 4px !important;
     font-size: 1.1rem;
 }
 th {
@@ -101,8 +101,6 @@ table svg {
 @media only screen and (max-width: 768px) {
     th, td {
         font-size: 14px !important;
-        padding-left: 4px !important;
-        padding-right: 4px !important;
         line-height: 15px !important;
     }
     h1 {

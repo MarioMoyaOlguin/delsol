@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit {
   }
   
   /* --------------- servicio login, determinar tipo de usuariox -------------- */
-  user = 'coordinado'
+  user = 'coordinador'
 
 
 }

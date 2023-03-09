@@ -15,8 +15,8 @@ export class UsersListComponent implements OnInit {
   editing = false;
 
   usersArray:any[] = [
-    {nombre: 'Juan Perez', tipo: 'Empleado', tienda: 'Tienda 1', puesto: 'Empleado', done: true},
-    {nombre: 'Juan Carlos Lopez Hernandez', tipo: 'Encargado', tienda: 'Tienda 2', puesto: 'Gerente', done: true},
+    {nombre: 'Juan Perez', tipo: 'Normal', tienda: 'Tienda 1', puesto: 'Empleado', done: true},
+    {nombre: 'Juan Carlos Lopez Hernandez', tipo: 'Normal', tienda: 'Tienda 2', puesto: 'Gerente', done: true},
     {nombre: 'Victor Perez Hernandez', tipo: 'Administrador', tienda: 'Tienda 3', puesto: 'Gerente', done: true},
   ];
 
@@ -47,5 +47,8 @@ export class UsersListComponent implements OnInit {
     this.usersArray[index].done = true;
     this.editing = false;
   }
+
+  /* --------------- Servicio login, determinar tipo de usuario --------------- */
+  user = 'administrador';
 
 }

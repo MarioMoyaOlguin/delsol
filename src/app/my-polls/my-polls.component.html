@@ -1,3 +1,11 @@
+<!-- <app-route-selector *ngIf="route" [dataArray]="questionsArray" [nonTesting]="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer ease-in-out shadow" viewBox="0 0 16 16"
+    (click)="routeViewer()">
+        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+    </svg>
+</app-route-selector> -->
+
+
 <main class="gray-bg ">
     
     <app-header>
@@ -53,17 +61,18 @@
                     <th *ngIf="editing === false"># Preguntas</th>
                     <th >Estado</th>
                     <th *ngIf="editing === false">Respuestas</th>
-                    <!-- <th *ngIf="editing === false">Exportar</th> -->
-                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
-                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
-                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
-                    <th [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th *ngIf="editing === false && user == 'normal'">Activar</th>
+                    <th *ngIf="editing === false">Iniciar</th>
+                    <th *ngIf="editing === false" [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th *ngIf="editing === false" [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th *ngIf="editing === false" [ngClass]="user === 'normal' ? 'remove' : '' "></th>
+                    <th *ngIf="editing === false" [ngClass]="user === 'normal' ? 'remove' : '' "></th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let poll of pollsArray; let i = index"
-                [ngClass]="user === 'normal' && poll.estado !== 'activa' ? 'remove' : '' ">
+                [ngClass]="user === 'normal' && poll.estado === 'cerrada' ? 'remove' : '' ">
                     <!-- ---------------------------- Data mostrada ---------------------------- -->
                     <td *ngIf="poll.done && editing == false" class="checkbox-column"
                     [ngClass]="user === 'normal' ? 'remove' : '' ">
@@ -71,9 +80,23 @@
                     </td>
                     <td *ngIf="poll.done">{{poll.nombre}}</td>
                     <td *ngIf="poll.done && editing == false">{{poll.num}}</td>
-
                     <td *ngIf="poll.done">{{poll.estado}}</td>
                     <td *ngIf="poll.done && editing == false">{{poll.respuestas}}</td>
+                    <!-- iconos activar, iniciar -->
+                    <td *ngIf="poll.done && editing == false && user == 'normal'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-toggle-on pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16"
+                        *ngIf="pollsArray[i].estado == 'inactiva'" (click)="activatePoll(i)">
+                            <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                        </svg>
+                    </td>
+                    <td *ngIf="poll.done && editing == false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-box-arrow-up-right pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16"
+                        *ngIf="pollsArray[i].estado == 'activa'" (click)="routeViewer()">
+                            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                        </svg>
+                    </td>
+
                     <!-- ----------------- iconos exportar, visualizar grafica ----------------- -->
                     <td *ngIf="poll.done && editing == false"
                     [ngClass]="user === 'normal' ? 'remove' : '' ">
@@ -113,8 +136,9 @@
                                 <input type="text" class="bg-edit" #nombre>
                                 <select class="bg-edit" #tipo>
                                     <option value=""></option>
-                                    <option value="Publicada">Publicada</option>
-                                    <option value="Guardada">Guardada</option>
+                                    <option value="activa">Activa</option>
+                                    <option value="inactiva">Inactiva</option>
+                                    <option value="cerrada">Cerrada</option>
                                 </select>
                             </div>
     

@@ -18,17 +18,10 @@ import { NewUserComponent } from './new-user/new-user.component';
 import { NewStoreComponent } from './new-store/new-store.component';
 import { NewPollComponent } from './new-poll/new-poll.component';
 import { MyPollsComponent } from './my-polls/my-polls.component';
-import { PollWelcomeComponent } from './poll-welcome/poll-welcome.component';
-import { UserExperienceComponent } from './user-experience/user-experience.component';
-import { ChooseDepComponent } from './choose-dep/choose-dep.component';
-import { CommentsComponent } from './comments/comments.component';
-import { ThanksScreenComponent } from './thanks-screen/thanks-screen.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { CreatePollPrototypeComponent } from './create-poll-prototype/create-poll-prototype.component';
 import { EncuestaCreadaComponent } from './encuesta-creada/encuesta-creada.component';
-import { CalificacionComponent } from './calificacion/calificacion.component';
-import { NpsComponent } from './nps/nps.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { PanelComponent } from './users/panel/panel.component';
@@ -43,7 +36,12 @@ import { ModulesMenuComponent } from './modules-menu/modules-menu.component';
 import { PollsChartsComponent } from './polls-charts/polls-charts.component';
 import { NewModuleComponent } from './new-module/new-module.component';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
-import { LoginGuardian } from './start/login/login.guardian';
+
+import { LoginService } from './services/login.service';
+import { LoginGuardian } from './guardians/login.guardian';
+import { SuperadminGuardian } from './guardians/superadmin.guardian';
+import { AdminGuardian } from './guardians/admin.guardian';
+import { AdminSuperadminGuardian } from './guardians/admin-superadmin.guardian';
 
 
 
@@ -58,17 +56,10 @@ import { LoginGuardian } from './start/login/login.guardian';
     NewStoreComponent,
     NewPollComponent,
     MyPollsComponent,
-    PollWelcomeComponent,
-    UserExperienceComponent,
-    ChooseDepComponent,
-    CommentsComponent,
-    ThanksScreenComponent,
     DashboardComponent,
     CreatePollComponent,
     CreatePollPrototypeComponent,
     EncuestaCreadaComponent,
-    CalificacionComponent,
-    NpsComponent,
     UsersListComponent,
     PanelComponent,
     ModulesComponent,
@@ -92,8 +83,12 @@ import { LoginGuardian } from './start/login/login.guardian';
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
+    LoginService,
     CookieService,
-    LoginGuardian
+    LoginGuardian,
+    AdminGuardian,
+    SuperadminGuardian,
+    AdminSuperadminGuardian,
   ],
   bootstrap: [AppComponent]
 })

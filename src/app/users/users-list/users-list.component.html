@@ -29,11 +29,11 @@
                     <th >Usuario</th>
                     <th >Tipo</th>
                     <th >Tienda</th>
-                    <th >Puesto</th>
+                    <!-- <th >Puesto</th> -->
                     <th class="w-icons"></th> <th class="w-icons"></th>
                 </tr>
             </thead>
-
+ 
             <tbody>
                 <tr *ngFor="let user of usersArray; let i = index">
                     <!-- ---------------------------- data mostrada ---------------------------- -->
@@ -41,7 +41,7 @@
 
                     <td *ngIf="user.done">{{user.tipo}}</td>
                     <td *ngIf="user.done">{{user.tienda}}</td>
-                    <td *ngIf="user.done">{{user.puesto}}</td>
+                    <!-- <td *ngIf="user.done">{{user.puesto}}</td> -->
 
                     <!-- ----------------------- iconos editar, eliminar ----------------------- -->
                     <td *ngIf="user.done && editing === false" class="w-icons">

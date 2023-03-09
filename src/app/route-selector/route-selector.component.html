@@ -1,12 +1,36 @@
 <div class="dialog-container" @fadeInOut
-*ngIf="dialog">
+*ngIf="dialog" [ngClass]="testing ? '' : 'remove' ">
     <div class="dialog-box position-relative">
         {{message}}
         <button class="dialog-btn ease-in-out py-1" (click)="handleDialog()">Cerrar</button>
     </div>
 </div>
 
-<div class="main-window gray-bg d-flex flex-column pb-4 px-0 px-ms-4">
+<div class="welcome-container red-bg d-flex p-3 flex-column align-items-center justify-content-center"
+*ngIf="welcome">
+    <div class="welcome px-5 pb-2 pt-3 bg-white d-flex flex-column align-items-center">
+        <img src="/assets/images/Delsol-logo-simple.webp" alt="" >
+        <h1 class="my-5 text-center px-2 fw-bold">Ayúdanos a mejorar tu experiencia respondiendo unas preguntas breves</h1>
+        <div class="py-1">
+            <button class="action-btn mb-3 mb-sm-5" (click)="setWelcome()">Iniciar</button>
+        </div>
+    </div>
+</div>
+
+<div class="welcome-container red-bg"
+*ngIf="currentQuestion == undefined">
+    <div class="d-flex flex-column fw-bold mx-auto text-center">
+        <img src="/assets/images/Delsol-logo-simple.webp" alt="" class="mx-auto my-5">
+        <h1 class="text-white display-3 fw-bold mb-4">¡Gracias!</h1>
+        <p class="text-white h3">Tus respuestas ayudan a mejorar nuestro servicio</p>
+        <a >
+            <button class="gray-btn mx-auto text-black mt-5 border-0" (click)="registerAnswers()">Volver</button>
+        </a>
+    </div>
+</div>
+
+<div class="main-window gray-bg d-flex flex-column pb-4 px-0 px-ms-4"
+*ngIf="!welcome">
 
     <ng-content></ng-content>
 
@@ -22,7 +46,8 @@
     <div *ngIf="currentQuestion !== undefined" class="d-flex justify-content-center question-container mt-4">
         <div class="themed-container overflow-hidden mt-2 bg-white  " @fadeInOut>
 
-            <div class="d-flex px-4 py-1 d-flex w-100 gap-options flex-wrap ">
+            <div class="d-flex px-4 py-1 d-flex w-100 gap-options flex-wrap "
+            [ngClass]="testing ? '' : 'remove' ">
                 <div class="question-number mb-0 p-1 fs-3 text-light bg-success lh-1 rounded-pill d-flex center-content"
                 *ngIf="currentQuestion.numeroPregunta">
                     {{currentQuestion.numeroPregunta}}
@@ -78,20 +103,24 @@
                     <div class="bg-white p-3 p-sm-4 mx-auto d-flex flex-column align-items-center gradient">
                         <h1 class="red text-center mb-4 mb-sm-5">{{currentQuestion.question}}</h1>
     
-                        <div class="optionsLegend ps-5 w-100">
+                        <div class="optionsLegend px-3 w-100">
                             <p *ngIf="currentQuestion.tipoLimite == 'fija'">Seleccione {{currentQuestion.numero}} opciones</p>
                             <p *ngIf="currentQuestion.tipoLimite == 'minimo'">Seleccione un mínimo de {{currentQuestion.numero}} opciones</p>
                             <p *ngIf="currentQuestion.tipoLimite == 'maximo'">Seleccione un máximo de {{currentQuestion.numero}} opciones</p>
                         </div>
-                        <div class="d-flex flex-column w-100 ps-5 gap-2 " #optionsContainer>
-                            <div class="d-flex align-items-center justify-content-between checkbox-container" id="c"
+                        <div class="d-flex flex-wrap w-100 px-3 " #optionsContainer>
+                            <div class="d-flex align-items-center justify-content-between checkbox-container"
+                            [ngClass]="testing ? 'w-100' : 'double-col' "
                             *ngFor="let option of currentQuestion.optionsArray; let i = index">
                                 <label class="item-container text-dark"> {{option.opcion}}
                                     <input type="checkbox" (change)="getOpciones(optionsContainer, i)" [value]="option.opcion"
                                     (change)="getOptionsRef(optionsContainer)">
                                     <span class="checkmark"></span>
                                 </label>
-                                <p *ngIf="option.targetQ !== 'no'" class="mb-0 fs-6 text-dark">Redirige a pregunta: {{option.targetQ}}</p>
+                                <p *ngIf="option.targetQ !== 'no'" class="mb-0 fs-6 text-dark"
+                                [ngClass]="testing ? '' : 'remove' ">
+                                    Redirige a pregunta: {{option.targetQ}}
+                                </p>
                             </div>
                         </div>
                     </div>

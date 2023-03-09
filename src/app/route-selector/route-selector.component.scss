@@ -1,11 +1,27 @@
 .main-window {
     width: 100%;
+    min-width: 500px;
     height: 100vh;
     scroll-behavior: smooth;
     overflow-y: scroll;
     z-index: 110;
     top: 0;
     position:fixed;
+}
+.welcome-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1000;
+}
+.welcome {
+    border-radius: 30px;
+    height: fit-content;
+    max-width: 760px;
+    -webkit-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    -moz-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
 }
 .star:hover {
     color: #ffc107;
@@ -87,6 +103,11 @@ th {
     align-items: center !important;
 }
 .gap-options { gap: 4px 8px; }
+
+.double-col {
+    width: 50% !important;
+    // padding: 0px 4px;
+}
 
 /* The container */
 .item-container {

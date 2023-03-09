@@ -23,9 +23,7 @@ export class PollsChartsComponent implements OnInit {
   }
   
   colorOptions = {
-    colorschemes: {
-      scheme: 'brewer.RdYlGn4'
-    }
+    colorschemes: { scheme: 'brewer.RdYlGn4' }
   }
   bgColors10 = ["#9e0142","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]
   
@@ -34,7 +32,6 @@ export class PollsChartsComponent implements OnInit {
   generateCharts = () => {
     for (let i = 0; i < this.chartsArray.length; i++) {
       const chartContext = this.charts.nativeElement.children[i].children[1].children[0].getContext('2d');
-
       switch (this.chartsArray[i].type) {
         case 'estrellas':
           new Chart(chartContext, {

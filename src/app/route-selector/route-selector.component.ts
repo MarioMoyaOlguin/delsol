@@ -28,6 +28,7 @@ export class RouteSelectorComponent implements OnInit {
   }
 
   @Input() dataArray?:any[] = [];
+  @Input() testing?:boolean;
 
   position = 0; //Posicion en el array de flujo normal
   tempBranch = false //para determinbar si se selecciono opcion que se ramifica
@@ -37,6 +38,7 @@ export class RouteSelectorComponent implements OnInit {
   textAreaRef:any; //Referencia pregunta abierta
   dialog = false;
   message = '';
+  welcome = true;
 
   currentQuestion:any = []; //Datos de la pregunta que se renderizan en pantalla
 
@@ -352,6 +354,15 @@ export class RouteSelectorComponent implements OnInit {
         this.arrayOpcionales.push({...this.dataArray![i], contestada: false});
       }
     }
+  }
+
+  setWelcome = () => { this.welcome = !this.welcome }
+
+  registerAnswers = () => {
+    this.responsesArray = [];
+    this.position = 0;
+    this.welcome = true;
+    this.getCurrentQuestion();
   }
 
   /* -------------------------------------------------------------------------- */

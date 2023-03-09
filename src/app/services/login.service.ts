@@ -24,4 +24,16 @@ export class LoginService {
   }
 
   isLogedIn = () => { return this.cookies.get("token") }
+
+  isAdmin = () => {
+    return false
+  }
+
+  isSuperadmin = () => {
+    return false;
+  }
+
+  isAdminOrSuperadmin = () => {
+    return true;
+  }
 }
