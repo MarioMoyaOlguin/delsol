@@ -30,7 +30,7 @@ export class LoginService {
   }
 
   isSuperadmin = () => {
-    return false;
+    return true;
   }
 
   isAdminOrSuperadmin = () => {
