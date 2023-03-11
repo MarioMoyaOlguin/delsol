@@ -32,7 +32,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/html2canvas/dist/js/html2canvas.min.js",
+              "node_modules/jspdf/dist/js/jspdf.min.js"
             ]
           },
           "configurations": {

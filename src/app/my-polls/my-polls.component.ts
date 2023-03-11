@@ -38,7 +38,15 @@ export class MyPollsComponent implements OnInit {
     {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
     {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
     {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
-    {type: 'estrellas', data: [3, 20, 40, 50, 43]}
+    {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+    {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+    {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+    {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+    {type: 'estrellas', data: [4, 20, 40, 50, 43]},
+    {type: 'opcion', data: [56, 20, 40, 50], labels: ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']},
+    {type: 'nps', data: [2, 25, 55], labels: ['Mala', 'Neutral', 'Buena']},
+    {type: 'calificacion', data: [3,2,4,5,13,20,40,50,36,14]},
+    {type: 'estrellas', data: [4, 20, 40, 50, 43]},
   ];
 
   /* -------------------------------------------------------------------------- */
@@ -102,6 +110,6 @@ export class MyPollsComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
 
   /* ------------- servicio login, identificar el tipo de usuario ------------- */
-  user = 'normal';
+  user = 'administrador';
 
 }

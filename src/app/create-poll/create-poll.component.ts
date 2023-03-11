@@ -27,11 +27,12 @@ export class CreatePollComponent implements OnInit {
 
   mockQuestions = [
     {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: false, tipoLimite: 'minimo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
-    {done: true, numeroPregunta: 2, opcional: false, required: false, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
-    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 3, opcional: false, ramificar: '2', ramificar2: '10', required: false, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
-    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 4, opcional: false, ramificar: 'no', ramificar2: 'no', required: false, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
-    {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: false, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
-    {done: true, numeroPregunta: 6, opcional: false, required: false, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
+    {alert: true, alertTrigger: 'no', done: true, numeroPregunta: 2, opcional: false, optionsArray: ['Tienda 1','Tienda 2','Tienda 3','Tienda 4','Tienda 5','Tienda 6',], required: false, targetQuestion: 'no', type: 'lista', question: '¿Que tienda visitó?'},
+    {done: true, numeroPregunta: 3, opcional: false, required: false, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 4, opcional: false, ramificar: '2', ramificar2: '10', required: false, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
+    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: false, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
+    {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 6, opcional: false, ramificar: 'no', ramificar2: 'no', required: false, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
+    {done: true, numeroPregunta: 7, opcional: false, required: false, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
   ]
   
   /* -------------------------------------------------------------------------- */
@@ -156,6 +157,9 @@ export class CreatePollComponent implements OnInit {
       case 'opcion':
         this.questionsArray.push({type: 'opcion', question: ``, done: false, optionsArray: []});
         break;
+      case 'lista':
+        this.questionsArray.push({type: 'lista', question: ``, done: false, optionsArray: []});
+        break;
       case 'estrellas':
         this.questionsArray.push({type: 'estrellas', question: ``, bad: '', neutral: '', good: '', done: false});
         break;
@@ -178,7 +182,7 @@ export class CreatePollComponent implements OnInit {
       this.handleDialog();
       return;
     }
-    if(data![0] === '' || data![1] === '' || qType !== 'opcion' && data![2] === '' || data![3] === '' || data![4] === '' || data![5] === '') {
+    if(data![0] === '' || data![1] === '' || qType !== 'opcion' && data![2] === '' || data![3] === '' || data![4] === '' || data![5] === '' || data![6] === '' || data![7] === '') {
       this.message = 'Por favor rellene todos los campos';
       this.handleDialog();
       return;
@@ -272,6 +276,12 @@ export class CreatePollComponent implements OnInit {
         }
         this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
           tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3],
+          multibranch: this.multibranch}) );
+        break;
+
+      case 'lista': 
+        this.questionsArray.splice(index, 1, ({type: 'lista', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
+          numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3],
           multibranch: this.multibranch}) );
         break;
 
@@ -381,6 +391,10 @@ export class CreatePollComponent implements OnInit {
         this.optionsArray = targetQuestion.optionsArray;
         this.questionsArray.splice(index, 1, ({type: 'opcion', question: targetQuestion.question, optionsArray: targetQuestion.optionsArray, done: false}));
         break;
+      case 'lista':
+        this.optionsArray = targetQuestion.optionsArray;
+        this.questionsArray.splice(index, 1, ({type: 'lista', question: targetQuestion.question, optionsArray: targetQuestion.optionsArray, done: false}));
+        break;
       case 'estrellas':
         this.questionsArray.splice(index, 1, ({type: 'estrellas', question: targetQuestion.question, bad: targetQuestion.bad,
           neutral: targetQuestion.neutral, good: targetQuestion.good, done: false}));
@@ -438,13 +452,17 @@ export class CreatePollComponent implements OnInit {
   setAlert = () => { this.alert = !this.alert }
 
   /* ------- Guardar opcion al arreglo de opciones y validar que no se guarde texto vacio al arreglo de opciones ------ */
-  setOption = (data:string) => {
+  setOption = (data:string, type:string) => {
     if(data === '') return;
-    this.optionsArray.push({
-      opcion: data,
-      ramificar: false,
-      targetQ: ''
-    });
+    if(type === 'opcion') {
+      this.optionsArray.push({
+        opcion: data,
+        ramificar: false,
+        targetQ: ''
+      })
+    } else {
+      this.optionsArray.push(data);
+    }
   }
 
   setCondicionalOpciones = (condicional:string) => { this.condicionalOpciones = condicional }
