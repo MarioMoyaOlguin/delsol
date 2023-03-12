@@ -544,7 +544,7 @@
                                         <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
                                         [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
                                     </div>
-                                    <!-- Arreglo dinamico de opciones -->
+                                    <!-- Lista dinamica -->
                                     <div class="d-flex flex-wrap" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
                                         <select name="" id="" class="" #optionsList>
                                             <option value=""></option>
@@ -559,7 +559,7 @@
                                         <div class="d-flex flex-wrap" #editOptionsContainer>
                                             <div class="d-flex " id=""
                                             *ngFor="let option of optionsArray; let optIndex = index">
-                                                <p class="mb-0 fs-6 text-dark me-1">{{option}}</p>
+                                                <p class="mb-0 fs-6 text-dark me-1 p-1 bg-info">{{option}}</p>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt" viewBox="0 0 16 16"
                                                 (click)="removeOption(optIndex)">
                                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
