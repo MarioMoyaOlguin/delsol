@@ -1,15 +1,6 @@
 <ng-content></ng-content>
 
 <div class="gray-bg charts-container">
-    <div class="d-flex flex-wrap w-100 p-2 title-bar shadow-sm">
-        <!-- <p class="red fs-3 mb-0 px-3 text-center me-2">{{nombreEncuesta}}</p> -->
-        <button class="action-btn ms-3 rounded-1 d-flex justify-content-center align-items-center px-2 "
-        (click)="generateCanvas()">
-            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" @fadeInOut
-            [ngClass]="loading ? '' : 'remove'"></span>
-            Descargar PDF
-        </button>
-    </div>
     
     <div class="p-3 bg-gray" id="charts">
         
@@ -17,8 +8,16 @@
             
             <div class="w-100 d-flex flex-wrap justify-content-center flex-wrap gap-4 mt-4" id="page{{i}}"
             *ngFor="let chunk of chartsBySectionsArray; let i = index">
-            
-                <p *ngIf="i == 0" class="red fs-3 mb-0 px-3 text-center me-2 w-100">{{nombreEncuesta}}</p>
+
+                <div class="poll-name w-100 sticky d-flex py-1">
+                    <button class="action-btn pdf-btn rounded-1 d-flex justify-content-center align-items-center px-2 "
+                    (click)="generateCanvas()">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" @fadeInOut
+                        [ngClass]="loading ? '' : 'remove'"></span>
+                        Descargar PDF
+                    </button>
+                    <p *ngIf="i == 0" class="red fs-3 mb-0 px-3 text-center me-2 w-100">{{nombreEncuesta}}</p>
+                </div>
             
                 <div class="themed-shadow chart rounded-2 bg-white d-flex flex-column align-items-center p-1 "
                 *ngFor="let chart of chunk; let i = index">

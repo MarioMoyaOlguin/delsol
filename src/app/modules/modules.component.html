@@ -29,8 +29,8 @@
               <tr>
                 <th >ID</th>
                 <th >Nombre</th>
-                <th >Ubicación</th>
-                <th>Empleados</th> <th class="w-icons"></th> <th class="w-icons"></th>
+                <th >Estado</th>
+                <th>Ciudad</th> <th class="w-icons"></th> <th class="w-icons"></th>
               </tr>
             </thead>
 
@@ -39,8 +39,8 @@
                     <!-- ---------------------------- Data mostrada ---------------------------- -->
                     <td *ngIf="store.done">{{store.id}}</td>
                     <td *ngIf="store.done">{{store.nombre}}</td>
-                    <td *ngIf="store.done">{{store.ubicacion}}</td>
-                    <td *ngIf="store.done">{{store.empleados}}</td>
+                    <td *ngIf="store.done">{{store.estado}}</td>
+                    <td *ngIf="store.done">{{store.ciudad}}</td>
 
                     <!-- ------------------------ iconos editar, borrar ------------------------ -->
                     <td *ngIf="store.done && editing === false" class="w-icons">

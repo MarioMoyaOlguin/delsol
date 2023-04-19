@@ -2,7 +2,7 @@
     (click)="routeViewer()">
 
     <!-- selector de rutas -->
-<app-route-selector *ngIf="route" [dataArray]="questionsArray" [testing]="true">
+<app-route-selector *ngIf="route" [dataArray]="pollData" [testing]="true">
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer ease-in-out shadow" viewBox="0 0 16 16"
     (click)="routeViewer()">
         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -56,20 +56,29 @@
         <!-- ------------------------- Editor de encuestas ------------------------- -->
         <div class="themed-container d-flex flex-column p-3 p-md-4 p-lg-5 mx-auto mt-5 bg-white" #alsPoll id="poll">
             <!-- Título de la encuesta -->
-            <div class="d-flex justify-content-start w-bold mb-3 mb-md-4 mb-lg-5 me-5 me-md-0">
-                <p class="red fs-3 mb-0 me-3 fw-bold lh-1" *ngIf="!editTitle">{{titulo[0]}}</p>
-                <div class="d-flex w-100" *ngIf="editTitle">
-                    <input type="text" class="w-100 me-2" #title>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check title" viewBox="0 0 16 16"
-                    (click)="setPollTitle(title.value)">
-                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                    </svg>
+            <div class="d-flex flex-column gap-2 justify-content-start w-bold mb-3 mb-md-4 mb-lg-5 me-5 me-md-0 w-100 ">
+                <p *ngIf="!editTitle" class="red fs-3 mb-0 me-3 fw-bold lh-1">{{titulo[0]}}</p>
+                <div *ngIf="!editTitle" class="d-flex gap-2">
+                    <p class="mb-0 fs-5">Temporizador:
+                        <span *ngIf="pollData.timer==0" class="fs-6 text-dark">sin temporizador</span>
+                        <span *ngIf="pollData.timer>0" class="fs-6 text-dark">{{pollData.timer}} minutos</span>
+                    </p>
+                    <div class="d-flex align-items-center edit" (click)="editPollTitle()" *ngIf="!editTitle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill " viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                        <p class="mb-0 ms-1 sm-text fw-semibold">Editar</p>
+                    </div>
                 </div>
-                <div class="d-flex align-items-center edit" (click)="editPollTitle()" *ngIf="!editTitle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill " viewBox="0 0 16 16">
-                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                    </svg>
-                    <p class="mb-0 ms-1 sm-text fw-semibold">Editar</p>
+                <div class="d-flex flex-column flex-sm-row w-100 gap-2" *ngIf="editTitle">
+                    <input type="text" class="w-100 " placeholder="Titulo de la encuesta" #title>
+                    <div class="d-flex gap-2">
+                        <input type="number" class=" timer-input" min="1" placeholder="Temporizador" #timer>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check set-title-icon" viewBox="0 0 16 16"
+                        (click)="setPollTitle(title.value, timer.value)">
+                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
@@ -88,7 +97,7 @@
                     <div class="w-100" [ngSwitch]="question.type" >
         
                         <!-- ----------------------------- Case texto ------------------------------ -->
-                        <div *ngSwitchCase="'texto'" class="d-flex flex-column shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'texto'" class="d-flex flex-column   w-question" #questionContainer cdkDrag>
                             <!-- Cabecera, contiene el número de pregunta e iconos para editar, eliminat, etc -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -178,7 +187,7 @@
                         </div><!-- --------------------------- Fin case texto ---------------------------- -->
                         
                         <!-- -------------------------- case calificacion -------------------------- -->
-                        <div *ngSwitchCase="'calificacion'" class=" shadow-question gap-4 w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'calificacion'" class="   gap-4 w-question" #questionContainer cdkDrag>
                             <!-- cabecera -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -324,7 +333,7 @@
                         </div><!-- ------------------------ Fin case calificacion ------------------------ -->
         
                         <!-- ----------------------------- case opción ----------------------------- -->
-                        <div *ngSwitchCase="'opcion'" class=" gap-4 shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'opcion'" class=" gap-4  w-question" #questionContainer cdkDrag>
                             <!-- cabecera -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -414,7 +423,7 @@
                                                         <select class="bg-edit bg-transparent" (click)="getDoneQuestions()">
                                                             <option value="no"></option>
                                                             <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
-                                                                {{ opcion.numeroPregunta}}
+                                                                {{opcion.numeroPregunta}}
                                                             </option>
                                                         </select>
                                                     </div>
@@ -426,18 +435,16 @@
                                             </div>
                                         </div>
                                         <!-- Nueva opcion -->
-                                        <div class="d-flex w-100 mt-3">
-                                            <div class="input-calificacion d-flex">
+                                        <div class="d-flex w-fit mt-3 bg-white">
+                                            <div class="input-calificacion ease-in-out d-flex">
                                                 <input type="text" class="new-option" #newOption placeholder="Nueva opción..." value=""
                                                 (keyup.enter)="setOption(newOption.value, question.type)" (keyup.enter)="newOption.value=''">
-                                                <div class="d-flex align-items-center bg-secondary rounded-end px-2 pointer"
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus text-light add-option-icon pointer ease-in-out" viewBox="0 0 16 16"
                                                 (click)="setOption(newOption.value, question.type)" (click)="newOption.value=''">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus text-light" viewBox="0 0 16 16">
-                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                                    </svg>
-                                                </div>
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
                                             </div>
-                                            <small class="text-danger ms-2 d-flex align-items-end">
+                                            <small class="text-danger ps-2 d-flex align-items-end edit-body">
                                                 {{optionsArray.length < 2 ? 'Mínimo 2 opciones' : ''}}
                                             </small>
                                         </div>
@@ -453,7 +460,7 @@
                                                     <option value="maximo">Máximo</option>
                                                     <option value="fija">Cantidad fija</option>
                                                 </select>
-                                                <input type="number" name="" id="" class="number" min="0" #numero placeholder="cantidad">
+                                                <input type="number" name="" id="" class="number" min="1" #numero placeholder="cantidad">
                                             </div>
                                         </div>
                                         <!-- Alerta, alterna, obligatoria -->
@@ -487,7 +494,7 @@
                         </div><!-- --------------------------- Fin case opción --------------------------- -->
 
                         <!-- ----------------------- case lista desplegable ------------------------ -->
-                        <div *ngSwitchCase="'lista'" class=" gap-4 shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'lista'" class=" gap-4   w-question" #questionContainer cdkDrag>
                             <!-- cabecera -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -507,14 +514,13 @@
                                         </svg>
                                     </button>
                                     <button class="bton ok-icon p-px d-flex justify-content-center align-items-center"
-                                    (click)="createQuestion('lista', i,[textQuestion.value, alertTrigger.value,
-                                    editOptionsContainer])"
+                                    (click)="createQuestion('lista', i,[textQuestion.value])"
                                     *ngIf="!question.done"> <!-- renderiza el elemento si la pregunta no esta completada -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                             <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                         </svg>
                                     </button>
-                                    <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
+                                    <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center disabled"
                                     (click)="editQuestion('lista', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
@@ -544,58 +550,35 @@
                                         <input value="{{question.question}}" type="text" name="" id="{{question.question}}" class="" #textQuestion
                                         [ngStyle]="question.done ? displayNone : displayBlock" placeholder="Escribe tu pregunta aqui...">
                                     </div>
-                                    <!-- Lista dinamica -->
-                                    <div class="d-flex flex-wrap" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
-                                        <select name="" id="" class="" #optionsList>
-                                            <option value=""></option>
-                                            <option *ngFor="let item of question.optionsArray" [value]="item">
-                                                {{item}}
-                                            </option>
-                                        </select>
+                                    <!-- Arreglo estados, ciudades -->
+                                    <div class="d-flex gap-4 ">
+                                        <label for="estado" class="d-flex flex-column w-100 align-items-center">
+                                            Estado
+                                            <select name="" id="estado" #estado class="w-100 fs-6 select"
+                                            (change)="getCities(estado.value)">
+                                                <option value=""></option>
+                                                <option *ngFor="let state of states; let i = index" [value]="state" class="text-center fs-6">
+                                                    {{state}}
+                                                </option>
+                                            </select>
+                                        </label>
+                                        <label for="ciudad" class="d-flex flex-column w-100 align-items-center"
+                                        [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
+                                            Ciudad
+                                            <select name="" id="ciudad" #ciudad class="w-100 fs-6 select">
+                                                <option value=""></option>
+                                                <option *ngFor="let city of tempCities; let j = index" [value]="city" class="text-center fs-6">
+                                                    {{city}}
+                                                </option>
+                                            </select>
+                                        </label>
                                     </div>
-                                    <!-- Arreglo editor de opciones, Se muestra al editar la pregunta -->
-                                    <div class="d-flex flex-column gap-1" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                        <!-- Arreglo -->
-                                        <div class="d-flex flex-wrap" #editOptionsContainer>
-                                            <div class="d-flex " id=""
-                                            *ngFor="let option of optionsArray; let optIndex = index">
-                                                <p class="mb-0 fs-6 text-dark me-1 p-1 bg-info">{{option}}</p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt" viewBox="0 0 16 16"
-                                                (click)="removeOption(optIndex)">
-                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <!-- Nueva opcion -->
-                                        <div class="d-flex w-100 mt-3">
-                                            <div class="input-calificacion d-flex">
-                                                <input type="text" class="new-option" #newOption placeholder="Nueva opción..." value=""
-                                                (keyup.enter)="setOption(newOption.value, question.type)" (keyup.enter)="newOption.value=''">
-                                                <div class="d-flex align-items-center bg-secondary rounded-end px-2 pointer"
-                                                (click)="setOption(newOption.value, question.type)" (click)="newOption.value=''">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus text-light" viewBox="0 0 16 16">
-                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <!-- footer -->
                                     <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
                                         <!-- Alerta, alterna, obligatoria -->
                                         <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                         [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                             <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                                <label class="item-container red"> Alerta
-                                                    <input type="checkbox" (change)="setAlert()">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                                <select name="" id="" class="" #alertTrigger>
-                                                    <option value="no">sin alerta</option>
-                                                    <option *ngFor="let item of optionsArray" [value]="item">
-                                                        {{item}}
-                                                    </option>
-                                                </select>
                                                 <label class="item-container text-dark"> Alterna
                                                     <input type="checkbox" (change)="makeOptional()">
                                                     <span class="checkmark"></span>
@@ -612,7 +595,7 @@
                         </div><!-- --------------------- Fin case lista desplegable ---------------------- -->
         
                         <!-- --------------------------- case estrellas ---------------------------- -->
-                        <div *ngSwitchCase="'estrellas'" class=" gap-4 shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'estrellas'" class=" gap-4   w-question" #questionContainer cdkDrag>
                             <!-- cabecera -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -775,7 +758,7 @@
                         </div><!-- ------------------------- Fin case estrellas -------------------------- -->
         
                         <!-- ------------------------------ case NPS ------------------------------- -->
-                        <div *ngSwitchCase="'nps'" class=" gap-4 shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'nps'" class=" gap-4   w-question" #questionContainer cdkDrag>
                             <!-- header -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -929,7 +912,7 @@
                         </div><!-- ---------------------------- Fin case NPS ----------------------------- -->
     
                         <!-- ----------------------------- Case fecha ------------------------------ -->
-                        <div *ngSwitchCase="'fecha'" class=" gap-4 shadow-question w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'fecha'" class=" gap-4   w-question" #questionContainer cdkDrag>
                             <!-- Cabecera, contiene el número de pregunta e iconos para editar, eliminat, etc -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -1089,6 +1072,7 @@
                     <p (click)="prototypeQuestion('estrellas')">Estrellas</p>
                     <p (click)="prototypeQuestion('nps')">NPS</p>
                     <p (click)="prototypeQuestion('fecha')">Fecha</p>
+                    <p (click)="prototypeQuestion('lista')">Lista</p>
                 </div>
             </div>
     

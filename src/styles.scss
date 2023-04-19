@@ -18,6 +18,13 @@ button[type="submit"]:disabled {
 }
 .visible { opacity: 1 !important; }
 
+.sticky { position: sticky !important; }
+
+.disabled {
+    pointer-events: none !important;
+    color: #bababa !important;
+}
+
 .invisible { opacity: 0 !important; }
 
 .text-orange { color: rgb(255, 145, 0); }

@@ -108,7 +108,7 @@ export class MyPollsComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   
   /* ---------------------------- Exportar a excel ---------------------------- */
-  exportToExcel = (index:number) => {
+  exportToExcel = (index:number[]) => {
     // const data = [...this.data ]
     // const jsonData = JSON.stringify(data);
     // const propertyNames = Object.values(this.data[2].response[0]).join('');
@@ -119,78 +119,97 @@ export class MyPollsComponent implements OnInit {
     let workbook:Workbook = new Workbook();
     workbook.creator = 'DelSol';
 
-    const sheet = workbook.addWorksheet(this.pollsArray[index].nombre);
-    //ancho de columnas, alineacion y confinar texto
-    sheet.getColumn("A").width = 20;
-    for (let i = 0; i < this.data.length; i++) {
-      const column = sheet.getColumn(i+2);
-      column.width = 50;
-      column.alignment = {horizontal: 'center', wrapText: true}
-    }
-    //agregar imagen con titulo
-    const logoId = workbook.addImage({
-      base64: LOGO,
-      extension: 'png',
-    })
-    sheet.addImage(logoId, {tl: {col:0, row:0}, ext: {width:128, height:128}});
-    const titleCell = sheet.getCell("B3");
-    titleCell.value = this.pollsArray[index].nombre;
-    titleCell.style.font = {bold: true, size: 24, color: {argb: 'f4323f'}};
-    //Agregar columna de cabecera
-    const headerColumn = sheet.getColumn(1);
-    headerColumn.values = ['','','','','','','', 'Tipo', 'Pregunta'];
-    const questionNumberCell = sheet.getCell("A8")
-    questionNumberCell.font = {bold: true, size: 14,};
-    const questionCell = sheet.getCell("A9")
-    questionCell.font = {bold: true, size: 14,};
-    headerColumn.alignment = {vertical: 'middle'}
-    for (let i = 0; i < this.data[0].response.length; i++) {
-      const responseNumberCell = sheet.getCell(`A${10+i}`);
-      responseNumberCell.value = `Respuesta ${i+1}`;
-      responseNumberCell.style.font = {bold: true, size: 11};
-    }
-    //iterar datos de las preguntas
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < this.data.length; j++) {
-        const questionNumberCell = sheet.getCell(7, 2+j);
-        const typeCell = sheet.getCell(8, 2+j);
-        const questionCell = sheet.getCell(9, 2+j);
-        questionNumberCell.value = "Pregunta "+this.data[j].questionNumber;
-        questionNumberCell.style.font = {bold: true, size: 14};
-        typeCell.value = this.data[j].type;
-        questionCell.value = this.data[j].question;
-        questionCell.style.font = {bold: true};
-        questionCell.style.fill = {type: 'pattern', pattern:'solid', fgColor:{ argb:'f8cbad'}}
-      }
-    }
-    //Respuestas
-    for (let i = 0; i < this.data.length; i++) {
-      for (let j = 0; j < this.data[i].response.length; j++) {
-        const responseCell = sheet.getCell(10+j, 2+i)
-        responseCell.style.fill = {type: 'pattern', pattern:'solid', fgColor:{ argb:'fff2e9'}}
-        if(this.data[i].type === 'opcion') {
-          const propertyNames = Object.values(this.data[i].response[j]).join(', ');
-          responseCell.value = propertyNames;
-        } 
-        if(this.data[i].type === 'calificacion' || this.data[i].type === 'estrellas' || this.data[i].type === 'nps') {
-          const propertyNames = Object.values(this.data[i].response[j]).join('');
-          const parsedToInt = parseInt(propertyNames);
-          responseCell.value = parsedToInt;
-        }
-        if(this.data[i].type === 'fecha' || this.data[i].type === 'texto') {
-          const propertyNames = Object.values(this.data[i].response[j]).join('');
-          responseCell.value = propertyNames;
-        }
-      }
-    }
+    this.createExcelSheets(workbook, index) //crear hojas de excel con la data
+
     //Guardar archivo
     workbook.xlsx.writeBuffer().then( (data) => {
       const blob = new Blob([data]);
-      FileSaver.saveAs(blob, this.pollsArray[index].nombre+".xlsx")
+      // FileSaver.saveAs(blob, this.pollsArray[index].nombre+".xlsx")
+      FileSaver.saveAs(blob, "Encuestas.xlsx")
     })
   }
 
+  createExcelSheets = (workbook:any, index:number[]) => {
+    for (let i = 0; i < index.length; i++) {
+      
+      const sheet = workbook.addWorksheet(this.pollsArray[index[i]].nombre);
+      //ancho de columnas, alineacion y confinar texto
+      sheet.getColumn("A").width = 20;
+      for (let i = 0; i < this.data.length; i++) {
+        const column = sheet.getColumn(i+2);
+        column.width = 50;
+        column.alignment = {horizontal: 'center', wrapText: true}
+      }
+      //agregar imagen con titulo
+      const logoId = workbook.addImage({
+        base64: LOGO,
+        extension: 'png',
+      })
+      sheet.addImage(logoId, {tl: {col:0, row:0}, ext: {width:128, height:128}});
+      const titleCell = sheet.getCell("B3");
+      titleCell.value = this.pollsArray[index[i]].nombre;
+      titleCell.style.font = {bold: true, size: 24, color: {argb: 'f4323f'}};
+      //Agregar columna de cabecera
+      const headerColumn = sheet.getColumn(1);
+      headerColumn.values = ['','','','','','','', 'Tipo', 'Pregunta'];
+      const questionNumberCell = sheet.getCell("A8")
+      questionNumberCell.font = {bold: true, size: 14,};
+      const questionCell = sheet.getCell("A9")
+      questionCell.font = {bold: true, size: 14,};
+      headerColumn.alignment = {vertical: 'middle'}
+      for (let i = 0; i < this.data[0].response.length; i++) {
+        const responseNumberCell = sheet.getCell(`A${10+i}`);
+        responseNumberCell.value = `Respuesta ${i+1}`;
+        responseNumberCell.style.font = {bold: true, size: 11};
+      }
+      //iterar datos de las preguntas
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < this.data.length; j++) {
+          const questionNumberCell = sheet.getCell(7, 2+j);
+          const typeCell = sheet.getCell(8, 2+j);
+          const questionCell = sheet.getCell(9, 2+j);
+          questionNumberCell.value = "Pregunta "+this.data[j].questionNumber;
+          questionNumberCell.style.font = {bold: true, size: 14};
+          typeCell.value = this.data[j].type;
+          questionCell.value = this.data[j].question;
+          questionCell.style.font = {bold: true};
+          questionCell.style.fill = {type: 'pattern', pattern:'solid', fgColor:{ argb:'f8cbad'}}
+        }
+      }
+      //Respuestas
+      for (let i = 0; i < this.data.length; i++) {
+        for (let j = 0; j < this.data[i].response.length; j++) {
+          const responseCell = sheet.getCell(10+j, 2+i)
+          responseCell.style.fill = {type: 'pattern', pattern:'solid', fgColor:{ argb:'fff2e9'}}
+          if(this.data[i].type === 'opcion') {
+            const propertyNames = Object.values(this.data[i].response[j]).join(', ');
+            responseCell.value = propertyNames;
+          } 
+          if(this.data[i].type === 'calificacion' || this.data[i].type === 'estrellas' || this.data[i].type === 'nps') {
+            const propertyNames = Object.values(this.data[i].response[j]).join('');
+            const parsedToInt = parseInt(propertyNames);
+            responseCell.value = parsedToInt;
+          }
+          if(this.data[i].type === 'fecha' || this.data[i].type === 'texto') {
+            const propertyNames = Object.values(this.data[i].response[j]).join('');
+            responseCell.value = propertyNames;
+          }
+        }
+      }
+    }
+  }
 
+  multisheetToExcel = () => {
+    const indexes = [];
+    for (let i = 0; i < this.pollsArray.length; i++) {
+      if(this.pollsArray[i].checked) { indexes.push(i) }
+    }
+    console.log(indexes);
+
+    this.exportToExcel(indexes);
+  }
+
+  /* ------------------ control mostrar pantalal de graficas ------------------ */
   setShowChart = () => { this.showChart = !this.showChart };
 
   setPollTitle = (index:number) => { this.pollTitle = this.pollsArray[index].nombre };

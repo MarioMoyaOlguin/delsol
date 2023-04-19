@@ -31,20 +31,22 @@ export class LoginComponent implements OnInit {
     e.preventDefault();
 
     if(this.loginForm.invalid) { return }
+    else { this.router.navigate(['/home'], {}); }
 
-    const user = { email: this.getEmail!.value, password: this.getPassword!.value };
 
-    this.loginUser.login(user)
-    .subscribe( data => {
-      console.log(data);
-        this.loginUser.setToken(data.token);
-        if(data.user === 'normal') {
-          this.router.navigate(['/mis-encuestas'], {});
-        }
-        else {
-          this.router.navigate(['/home'], {});
-        }
-      })
+    // const user = { email: this.getEmail!.value, password: this.getPassword!.value };
+
+    // this.loginUser.login(user)
+    // .subscribe( data => {
+    //   console.log(data);
+    //     this.loginUser.setToken(data.token);
+    //     if(data.user === 'normal') {
+    //       this.router.navigate(['/mis-encuestas'], {});
+    //     }
+    //     else {
+    //       this.router.navigate(['/home'], {});
+    //     }
+    //   })
   }
 
 }

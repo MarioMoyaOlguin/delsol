@@ -17,13 +17,15 @@ export class NewStoreComponent implements OnInit {
     this.storeForm = this.fb.group({
       id: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-      // ubicacion: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      ciudad: ['', [Validators.required]],
     });
   }
   /* --------------------------------- Getters -------------------------------- */
   get getId() { return this.storeForm.get("id") }
   get getNombre() { return this.storeForm.get("nombre") }
-  // get getUbicacion() { return this.storeForm.get("ubicacion") }
+  get getEstado() { return this.storeForm.get("estado") }
+  get getCiudad() { return this.storeForm.get("ciudad") }
   
   data:any[] = []
 

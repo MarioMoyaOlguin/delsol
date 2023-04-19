@@ -1,4 +1,3 @@
-<main class="pb-5">
 
     <app-header>
         <div class="d-flex align-items-center">
@@ -9,45 +8,92 @@
         </div>
     </app-header>
     
-    <form action="" class="themed-container mx-auto mt-4 d-flex flex-column py-4 px-5" [formGroup]="pollForm" (submit)="newPoll()">
+<div class="p-1 p-sm-3 p-md-5">
+    <form action="" class="themed-container mx-auto mt-4 d-flex flex-column py-4 px-5 bg-white" [formGroup]="pollForm" (submit)="newPoll()">
         <h1 class="text-center red mb-4">Nueva Encuesta</h1>
 
-        <div class="mb-4 d-flex flex-column">
-            <label for="id">Título de la encuesta</label>
-            <input type="text" name="" id="id" class="" formControlName="titulo" required>
-            <p class="text-danger text-center mb-0 font-small" *ngIf="getTitulo?.touched && getTitulo?.invalid">Campo requerido</p>
+        <div class="mb-4 d-flex flex-column flex-md-row gap-4">
+            <div class="d-flex flex-column w-100">
+                <label for="id">Título de la encuesta</label>
+                <input type="text" name="" id="id" class="" formControlName="titulo" required>
+                <p class="text-danger text-center mb-0 font-small" *ngIf="getTitulo?.touched && getTitulo?.invalid">Campo requerido</p>
+            </div>
+            <!-- <div class="timer-container d-flex flex-column">
+                <label for="espera">Temporizador (minutos)</label>
+                <input type="number" name="" id="espera" class="" formControlName="tiempo" >
+            </div> -->
         </div>
         
         <div class="mb-4 d-flex flex-column">
-            <label for="tienda">Selecciona una tienda</label>
-            <select class="select" #tienda formControlName="tienda" id="tienda" required>
-                <option selected value=""></option>
-                <option value="1">Tienda 1</option>
-                <option value="2">Tienda 2</option>
-                <option value="3">Tienda 3</option>
-                <option value="4">Tienda 4</option>
-            </select>
-            <p class="text-danger text-center mb-0 font-small" *ngIf="getTienda?.touched && getTienda?.invalid">
-                Porfavor seleccione una tienda
-            </p>
-        </div>
-            
-        <div class="mb-4 d-flex flex-column">
-            <label for="departamento">Selecciona un departamento</label>
-            <select class="select" id="departamento" formControlName="departamento" id="departamento" required>
-                <option selected value=""></option>
-                <option value="1">Juguetes</option>
-                <option value="2">Electrónica</option>
-                <option value="3">Ropa</option>
-            </select>
-            <p class="text-danger text-center mb-0 font-small" *ngIf="getDepartamento?.touched && getDepartamento?.invalid">
-                Porfavor seleccione un departamento
-            </p>
-        </div>
+            <p class="mb-0">Seleccionar alcance</p>
 
-        <div class="mb-4 d-flex flex-column">
-            <label for="espera">Tiempo de espera (minutos)</label>
-            <input type="number" name="" id="espera" class="" formControlName="tiempo" >
+            <div class="d-flex flex-column mt-1 gap-2 rounded-1">
+                <!-- seleccionar estados -->
+                <div class="d-flex flex-column bg-light-blue p-2 gap-2 rounded-1">
+                    <div class="d-flex gap-2 align-items-end w-100">
+                        <p class="mb-0 fs-6 text-dark">Aplicar a:</p>
+                        <div class="d-flex">
+                            <select name="" id="">
+                                <option value=""></option>
+                                <option value="">Todas las tiendas</option>
+                                <option value="">Una o varias tiendas</option>
+                                <option value="">Uno o varios estados</option>
+                            </select>
+                            <select class="inner-select" name="" id="" #selectState
+                            (change)="addState(selectState.value)">
+                                <option selected value=""></option>
+                                <option value="nacional" class="text-info fs-6">Todas las tiendas</option>
+                                <option *ngFor="let state of states" class="fs-6" [value]="state">
+                                    {{state}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 w-100">
+                        <div *ngFor="let state of selectedStates" class="list-item">
+                            <p class="mb-0 text-dark fs-6">{{state}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x red p-0 pointer" viewBox="0 0 16 16"
+                            (click)="removeState(state)">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- seleccionar ciudades -->
+                <!-- <div class="d-flex flex-column bg-light-blue p-2 gap-2 rounded-1">
+                    <div class="d-flex flex-column flex-sm-row gap-2  w-100">
+                        <div class="d-flex gap-2 states-container">
+                            <p class="mb-0 fs-6 text-dark">Ciudades:</p>
+                            <select class="inner-select" name="" id="" placeholder="Estado" #stateCity
+                            (change)="getTempCities(stateCity.value)">
+                                <option selected value=""></option>
+                                <option *ngFor="let state of states" [value]="state">
+                                    {{state}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <select class="inner-select city-select" name="" id="" #selectCity
+                            (change)="addCity(selectCity.value, stateCity.value)">
+                                <option selected value=""></option>
+                                <option *ngFor="let city of tempCities" [value]="city">
+                                    {{city}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 w-100">
+                        <div *ngFor="let city of selectedCities" class="list-item">
+                            <p class="mb-0 text-dark fs-6">{{city}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x red p-0" viewBox="0 0 16 16"
+                            (click)="removeCity(city, stateCity.value)">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
         </div>
         
         <div class="d-flex gap-5 justify-content-end mt-5">
@@ -59,6 +105,6 @@
         </div>
     </form>
 
-</main>
+</div>
 
 

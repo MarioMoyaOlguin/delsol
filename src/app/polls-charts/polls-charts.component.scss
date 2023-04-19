@@ -1,12 +1,11 @@
-// .main-container {
-//     width: 100%;
-//     height: 100vh;
-//     overflow-y: scroll;
-//     scroll-behavior: smooth;
-//     position: fixed;
-//     top: 0;
-//     z-index: 100;
-// }
+.poll-name {
+    background-color: #f9fafcf3;
+    top: 86px;
+    backdrop-filter: blur(4px);
+}
+.pdf-btn {
+    min-width: fit-content !important;
+}
 .action-btn {
     width: fit-content !important;
 }

@@ -3,6 +3,7 @@ import * as moment from 'moment';
 moment.locale('es');
 
 import { fade } from '../animations';
+import { estadosCiudadesMexico } from './../data';
 
 @Component({
   selector: 'app-route-selector',
@@ -22,12 +23,14 @@ export class RouteSelectorComponent implements OnInit {
     this.fillScoreArray();
     this.fillStarsArray();
     this.fillNpsArray();
-    this.getOpcionalOFlujoNormal();
-    this.getCurrentQuestion();
+    this.timer();
+    // this.getOpcionalOFlujoNormal();
+    // this.getCurrentQuestion();
+    this.getQuestions();
     console.log(this.currentQuestion);
   }
 
-  @Input() dataArray?:any[] = [];
+  @Input() dataArray?:any;
   @Input() testing?:boolean;
 
   position = 0; //Posicion en el array de flujo normal
@@ -42,15 +45,40 @@ export class RouteSelectorComponent implements OnInit {
 
   currentQuestion:any = []; //Datos de la pregunta que se renderizan en pantalla
 
+  questionsArray:any[] = [] //preguntas extraidas del dataArray
   scoreArray:any = []; //Para seleccionar una respuesta al hacer click
   starsArray:any = []; //Para seleccionar una respuesta al hacer click
   npsArray:any = []; //Para seleccionar una respuesta al hacer click
+  states = Object.keys(estadosCiudadesMexico);
+  cities = Object.values(estadosCiudadesMexico);
+  tempCities:any = [];
 
   currentData:any = []; //Array de respuestas de usuario antes de registrarse a responsesArray
   responsesArray:any = []; //Array principal que guarda las respuestas de usuario
 
   arrayFlujoNormal:any = [];
   arrayOpcionales:any = [];
+
+  /* -------------------------- Procesar data inicial ------------------------- */
+  getQuestions = () => {
+    this.questionsArray = [];
+    this.arrayFlujoNormal = [];
+    this.arrayOpcionales = [];
+    this.currentQuestion = {};
+    this.questionsArray = this.dataArray!.questions; //array de preguntas
+    console.log("this.questionsArray: ", this.questionsArray);
+    // Arrays opcionales, flujo normal
+    for (let i = 0; i < this.questionsArray!.length; i++) {
+      if(!this.questionsArray![i].opcional) {
+        this.arrayFlujoNormal.push({...this.questionsArray![i], contestada: false});
+      } else {
+        this.arrayOpcionales.push({...this.questionsArray![i], contestada: false});
+      }
+    }
+    // obtener primera pregunta
+    this.currentQuestion = this.arrayFlujoNormal[0];
+    if (this.currentQuestion.required) { this.next = true } else { this.next = false }
+  }
 
   /* -------------------------------------------------------------------------- */
   /*                         Obtener siguiente pregunta                         */
@@ -76,8 +104,9 @@ export class RouteSelectorComponent implements OnInit {
     switch (this.currentQuestion.type) {
       case 'texto':
       case 'fecha':
+      case 'lista':
         if(this.currentQuestion.targetQuestion !== 'no') { //si redirige a pregunta en especifico
-          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
+          this.currentQuestion = this.questionsArray![parseInt(this.currentQuestion.targetQuestion) - 1];
           if (this.currentQuestion === undefined) {
             this.message = 'Fin de la encuesta';
             this.dialog = true;
@@ -101,7 +130,7 @@ export class RouteSelectorComponent implements OnInit {
       case 'nps':
         const score = parseInt(datos[0]);
         if(this.currentQuestion.ramificar !== 'no' && score <= parseInt(this.currentQuestion.ramificar)) { //si hay una primera ramificacion
-          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.targetQuestion) - 1];
+          this.currentQuestion = this.questionsArray![parseInt(this.currentQuestion.targetQuestion) - 1];
           if (this.currentQuestion === undefined) {
             this.message = 'Fin de la encuesta';
             this.dialog = true;
@@ -109,7 +138,7 @@ export class RouteSelectorComponent implements OnInit {
           }
           if(!this.currentQuestion.opcional) { this.position = this.currentQuestion.numeroPregunta - 1};
         } else if(this.currentQuestion.ramificar2 !== 'no' && score >= parseInt(this.currentQuestion.ramificar2)) { //si hay segunda ramifiacion
-          this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.target2) - 1];
+          this.currentQuestion = this.questionsArray![parseInt(this.currentQuestion.target2) - 1];
           if (this.currentQuestion === undefined) {
             this.message = 'Fin de la encuesta';
             this.dialog = true;
@@ -131,7 +160,7 @@ export class RouteSelectorComponent implements OnInit {
         for (let i = 0; i < datos.length; i++) { //comprobar si coinciden las respuestas con el arreglo opciones
           for (let j = 0; j < this.currentQuestion.optionsArray.length; j++) {
             if(datos[i] === this.currentQuestion.optionsArray[j].opcion && this.currentQuestion.optionsArray[j].ramificar) { //si coincide y se ramifica
-              this.currentQuestion = this.dataArray![parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
+              this.currentQuestion = this.questionsArray![parseInt(this.currentQuestion.optionsArray[j].targetQ) - 1];
               if (this.currentQuestion === undefined) {
                 this.message = 'Fin de la encuesta';
                 this.dialog = true;
@@ -172,7 +201,7 @@ export class RouteSelectorComponent implements OnInit {
   /* -------------------------------------------------------------------------- */
   getPreviousQuestion = () => {
     const previous = this.responsesArray[this.responsesArray.length -1].questionNumber;
-    this.currentQuestion = this.dataArray![previous-1];
+    this.currentQuestion = this.questionsArray![previous-1];
     if(this.currentQuestion.opcional === false) {
       this.position = this.currentQuestion.numeroPregunta-1;
     }
@@ -266,7 +295,10 @@ export class RouteSelectorComponent implements OnInit {
             ref.children[i].children[0].classList.remove('disabled')
           }
         }
-        if(checkedCounter < this.currentQuestion.numero && this.currentQuestion.required) { this.next = true; }
+        if(checkedCounter < this.currentQuestion.numero) {
+          if(this.currentQuestion.required){ this.next = true; }
+          else { this.next = false; }
+        }
         else { this.next = false; }
     }
   }
@@ -340,29 +372,60 @@ export class RouteSelectorComponent implements OnInit {
   }
 
   /* ------------------------ obtener pregunta inicial ------------------------ */
-  getCurrentQuestion = () => {
-    this.currentQuestion = this.arrayFlujoNormal[0];
-    if (this.currentQuestion.required) { this.next = true } else { this.next = false }
-  }
+  // getCurrentQuestion = () => {
+  //   this.currentQuestion = this.arrayFlujoNormal[0];
+  //   if (this.currentQuestion.required) { this.next = true } else { this.next = false }
+  // }
 
   /* ----- obtener los arreglos de preguntas opcionales y de flujo normal ----- */
-  getOpcionalOFlujoNormal = () => {
-    for (let i = 0; i < this.dataArray!.length; i++) {
-      if(!this.dataArray![i].opcional) {
-        this.arrayFlujoNormal.push({...this.dataArray![i], contestada: false});
-      } else {
-        this.arrayOpcionales.push({...this.dataArray![i], contestada: false});
-      }
-    }
+  // getOpcionalOFlujoNormal = () => {
+  //   for (let i = 0; i < this.questionsArray!.length; i++) {
+  //     if(!this.questionsArray![i].opcional) {
+  //       this.arrayFlujoNormal.push({...this.questionsArray![i], contestada: false});
+  //     } else {
+  //       this.arrayOpcionales.push({...this.questionsArray![i], contestada: false});
+  //     }
+  //   }
+  // }
+
+  setWelcome = () => {
+    this.welcome = !this.welcome;
+    this.timer();
   }
 
-  setWelcome = () => { this.welcome = !this.welcome }
-
+  /* -------------------------- Registrar respuestas -------------------------- */
   registerAnswers = () => {
     this.responsesArray = [];
     this.position = 0;
     this.welcome = true;
-    this.getCurrentQuestion();
+    this.getQuestions();
+  }
+
+  /* ---------------------------- obtener ciudades ---------------------------- */
+  getCities = (state:string) => {
+    const stateIndex = this.states.indexOf(state)
+    const stateCities = this.cities[stateIndex];
+    this.tempCities = [];
+    this.tempCities = [...stateCities];
+  }
+  citySelected = (city:string) => {
+    console.log("city: ", city);
+    this.currentData = [city];
+    if(city !== '') { this.next = false }
+    else { this.next = true }
+  }
+
+  /* ------------------------------ Temporizador ------------------------------ */
+  timer = () => {
+    const timeLimit = this.dataArray.timer;
+    setTimeout(() => {
+      this.responsesArray = [];
+      this.position = 0;
+      this.welcome = true;
+      this.currentQuestion = {};
+      this.currentQuestion = this.arrayFlujoNormal[0];
+      if (this.currentQuestion.required) { this.next = true } else { this.next = false }
+    }, timeLimit*60000);
   }
 
   /* -------------------------------------------------------------------------- */

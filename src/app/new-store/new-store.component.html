@@ -26,21 +26,19 @@
                 </div>
             </div>
             
-            <!-- <div class="d-flex gap-5 w-100">
-                <div class="d-flex flex-column w-100">
-                    <label for="ubica">Ubicación</label>
-                    <input type="text" name="" id="ubica" class="w-100" formControlName="ubicacion">
-                    <p class="text-danger text-center mb-2 font-small" *ngIf="getUbicacion?.touched && getUbicacion?.invalid">Campo requerido</p>
-                    <div class="mt-1">
-                        <a href="https://www.google.com.mx/maps/@23.5540767,-102.6205,5z" class="text-dark" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map mx-2 red" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98 4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z"/>
-                            </svg>
-                            Ubicar en Mapa
-                        </a>
-                    </div>
+            <div class="d-flex flex-column flex-sm-row gap-sm-5">
+                <div class="d-flex flex-column w-100 mb-4">
+                    <label for="estado">Estado</label>
+                    <input type="text" name="" id="estado" class="" formControlName="estado">
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEstado?.touched && getEstado?.invalid">Campo requerido</p>
                 </div>
-            </div> -->
+                <div class="d-flex flex-column w-100 mb-4">
+                    <label for="ciudad">Ciudad</label>
+                    <input type="text" name="" id="ciudad" class="" formControlName="ciudad">
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getCiudad?.touched && getCiudad?.invalid">Campo requerido</p>
+                </div>
+            </div>
+            
     
             <div class="d-flex gap-4 gap-sm-5 justify-content-end mt-5">
                 <button routerLink="/modulos" class="cancel-btn">Cancelar</button>

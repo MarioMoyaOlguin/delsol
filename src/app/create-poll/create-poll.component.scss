@@ -4,6 +4,9 @@ main {
     min-height: 100vh;
     scroll-behavior: smooth;
 }
+label {
+    color: black;
+}
 .edit { cursor: pointer; }
 
 .title {
@@ -11,6 +14,23 @@ main {
     width: 40px !important;
     border-radius: 8px;
     color: #747474 !important;
+}
+.timer-input {
+    width: 120px;
+}
+.set-title-icon {
+    height: 40px;
+    min-width: 40px;
+    color: #bababa;
+    background-color: white;
+    border-radius: 9999px;
+    transition-property: background-color, color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+.set-title-icon:hover {
+    color: white;
+    background-color: #5587c8;
 }
 .dialog-container {
     position: fixed;
@@ -44,6 +64,10 @@ main {
 .dialog-btn:hover {
     background-color: #f4323e;
     color: white !important;
+}
+.top-86 {
+    top: 86px;
+    z-index: 100;
 }
 
 .bg-light-blue { background-color: #f3f8ff !important; }
@@ -93,19 +117,28 @@ main {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
-.delete-icon { color: #f4323e; }
-.delete-icon:hover { background-color: #f4323e; }
+// .delete-icon { color: #f4323e; }
+.delete-icon { color: #bababa; }
+// .delete-icon:hover { background-color: #f4323e; }
+.delete-icon:hover { background-color: rgb(255, 145, 0); }
 
-.edit-icon { color: #66a6db; }
-.edit-icon:hover { background-color: #66a6db; }
+// .edit-icon { color: #66a6db; }
+.edit-icon { color: #bababa; }
+// .edit-icon:hover { background-color: #66a6db; }
+.edit-icon:hover { background-color: rgb(255, 145, 0); }
 
-.down-icon { color: #9490cf; }
-.down-icon:hover { background-color: #9490cf; }
+// .down-icon { color: #9490cf; }
+.down-icon { color: #bababa; }
+// .down-icon:hover { background-color: #9490cf; }
+.down-icon:hover { background-color: rgb(255, 145, 0); }
 
-.up-icon { color: #eb7200; }
-.up-icon:hover { background-color: #eb7200; }
+// .up-icon { color: #eb7200; }
+.up-icon { color: #bababa; }
+// .up-icon:hover { background-color: #eb7200; }
+.up-icon:hover { background-color: rgb(255, 145, 0); }
 
-.ok-icon { color: #d2a606; }
+// .ok-icon { color: #d2a606; }
+.ok-icon { color: #bababa; }
 .ok-icon:hover, .yellow-bg { background-color: #d2a606; }
 
 .down-icon:hover svg { transform: translateY(4px); color: white; }
@@ -155,6 +188,14 @@ button {
     appearance: none !important;
     outline: none !important;
 }
+.select {
+    height: 30px !important;
+    border-radius: 6px !important;
+    border: 2px solid transparent !important;
+}
+.select:focus {
+    border: 2px solid rgb(255, 145, 0) !important;
+}
 .new-q-container {
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23D0DEF0FF' stroke-width='4' stroke-dasharray='10' stroke-dashoffset='37' stroke-linecap='square'/%3e%3c/svg%3e");
     border-radius: 10px;
@@ -167,9 +208,14 @@ button {
     outline: none !important;
     border: none !important;
 }
-// .themed-container svg {
-//     color: #bac8da;
-// }
+.add-option-icon {
+    background-color: #5587c8;
+    min-width: 30px;
+    border-radius: 9999px;
+}
+.add-option-icon:hover {
+    background-color: #3669ab;
+}
 .form-section {
     width: 368px;
     height: 107px;
@@ -314,14 +360,18 @@ th:hover { background-color: #ccc; }
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-
 .new-option {
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
+    border: 0px !important;
     height: 30px !important;
     width: 100% !important;
     max-width: 220px !important;
-    border-right: 0px !important;
+}
+.input-calificacion {
+    border-bottom: 2px solid #adadad;
+    padding: 2px 4px 2px 0px !important;
+}
+.input-calificacion:focus-within {
+    border-color: #ff985d;
 }
 .number {
     height: 30px !important;
@@ -329,9 +379,6 @@ th:hover { background-color: #ccc; }
     outline: none !important;
     border: 0 !important;
     padding-left: 0px !important
-}
-.input-calificacion {
-    height: 30px !important;
 }
 .mostrar {
     display: flex !important;
@@ -525,9 +572,6 @@ select {
     }
     .bton {
         width: 30px !important;
-    }
-    .input-calificacion {
-        width: 100% !important;
     }
     .stars-cont {
         width: 100% !important;

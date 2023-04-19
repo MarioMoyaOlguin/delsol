@@ -1,3 +1,4 @@
+import { estadosCiudadesMexico } from './../data';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
@@ -52,12 +53,22 @@ export class CreatePollComponent implements OnInit {
   dialog = false; //para controlar la caja de dialogo
 
   titulo:[string] = ['Encuesta prueba']; // Título de encuesta
+  timer = 0; //temporizador
   questionsArray:any[] = [...this.mockQuestions]; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
   doneQuestions:any[] = [];
+  pollData:any = {
+    title: this.titulo,
+    timer: 10,
+    questions: this.questionsArray,
+  }
 
   scoreArray = ['2','3','4','5','6','7','8','9'];
   starsArray = ['2','3','4'];
+  formatedEstadosCiudadesMexico:any = []
+  states = Object.keys(estadosCiudadesMexico);
+  cities = Object.values(estadosCiudadesMexico);
+  tempCities:any = [];
 
   condicionalOpciones = ''
   cantidadCondicionalOpciones = 0;
@@ -106,22 +117,23 @@ export class CreatePollComponent implements OnInit {
       header.classList.remove('shadow-question')
       header.children[0].children[0].classList.add('rotate-90')
       header.children[0].children[2].classList.add('opacity-0')
-      questionContainer.classList.add('shadow-question')
+      // questionContainer.classList.add('shadow-question')
     } else { //Replegar
       body.classList.add('h-0')
       header.classList.add('rounded-pill')
       header.classList.add('shadow-question')
       header.children[0].children[0].classList.remove('rotate-90')
       header.children[0].children[2].classList.remove('opacity-0')
-      questionContainer.classList.remove('shadow-question')
+      // questionContainer.classList.remove('shadow-question')
     }
   }
 
   /* -------------------- establecer titulo de la encuesta -------------------- */
-  setPollTitle = (title:string) => {
-    if(title == '') { return; }
+  setPollTitle = (title:string, timer:string) => {
+    if(title == '' || timer == '') { return; }
     this.titulo.pop();
     this.titulo.push(title);
+    this.pollData.timer = parseInt(timer);
     this.editTitle = false;
   }
 
@@ -137,6 +149,14 @@ export class CreatePollComponent implements OnInit {
         this.doneQuestions.push(this.questionsArray[i])
       }
     }
+  }
+
+  /* ---------------------------- obtener ciudades ---------------------------- */
+  getCities = (state:string) => {
+    const stateIndex = this.states.indexOf(state)
+    const stateCities = this.cities[stateIndex];
+    this.tempCities = [];
+    this.tempCities = [...stateCities];
   }
 
   //Muestra o esconde los botones de selección de tipo de pregunta
@@ -230,6 +250,11 @@ export class CreatePollComponent implements OnInit {
           this.handleDialog();
           return;
         }
+        if(data![1] === 'no' && data![2] !== '') {
+          this.message = 'Seleccione que tipo de limite quiere aplicar';
+          this.handleDialog();
+          return;
+        }
         if(data![1] !== 'no' && data![2] === '') {
           this.message = 'Seleccione cantidad para limitar las opciones';
           this.handleDialog();
@@ -280,9 +305,8 @@ export class CreatePollComponent implements OnInit {
         break;
 
       case 'lista': 
-        this.questionsArray.splice(index, 1, ({type: 'lista', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
-          numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3],
-          multibranch: this.multibranch}) );
+        this.questionsArray.splice(index, 1, ({type: 'lista', question: data![0], done: true, required: this.check, numeroPregunta: index+1,
+          opcional: this.optional}) );
         break;
 
       case 'estrellas':
@@ -359,6 +383,7 @@ export class CreatePollComponent implements OnInit {
     this.branchOptions = false;
     this.optionsArray = [];
     this.multibranch = false;
+    console.log(this.pollData);
   }
 
   /* ---------------------- Elimina pregunta del arreglo ---------------------- */
@@ -539,7 +564,20 @@ export class CreatePollComponent implements OnInit {
     const parse = `${day.value}-${monthYear}`;
   }
 
+
+  formatData = () => {
+    const estados = Object.keys(estadosCiudadesMexico);
+    const ciudades = Object.values(estadosCiudadesMexico);
+    for (let i = 0; i < estados.length; i++) {
+      const element = estados[i];
+      element.replace(' ', '_');
+    }
+    
+    console.log("estados: ", estados);
+    // console.log("ciudades: ", ciudades);
+  }
 }
+
 
 // @Component({
   

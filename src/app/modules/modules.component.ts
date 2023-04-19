@@ -15,11 +15,11 @@ export class ModulesComponent implements OnInit {
   editing = false;
 
   storesArray = [
-    {id: '00001', nombre: 'DelSol 1', ubicacion: 'Monterrey', empleados: '120', done: true},
-    {id: '00002', nombre: 'DelSol 2', ubicacion: 'Mexico', empleados: '201', done: true},
-    {id: '00003', nombre: 'DelSol 3', ubicacion: 'Tijuana', empleados: '94', done: true},
-    {id: '00004', nombre: 'DelSol 4', ubicacion: 'San Luis Potosí', empleados: '128', done: true},
-    {id: '00005', nombre: 'DelSol 5', ubicacion: 'Leon', empleados: '132', done: true},
+    {id: '00001', nombre: 'DelSol 1', estado: 'Nuevo Leon', ciudad: 'Monterrey', done: true},
+    {id: '00002', nombre: 'DelSol 2', estado: 'Ciudad de Mexico', ciudad: 'Alvaro Obregon', done: true},
+    {id: '00003', nombre: 'DelSol 3', estado: 'Baja California', ciudad: 'Tijuana', done: true},
+    {id: '00004', nombre: 'DelSol 4', estado: 'San Luis Potosí', ciudad: 'San Luis Potosí', done: true},
+    {id: '00005', nombre: 'DelSol 5', estado: 'Guanajuato', ciudad: 'Leon', done: true},
   ]
 
   edit = (index:number) => {
@@ -32,8 +32,8 @@ export class ModulesComponent implements OnInit {
       return
     }
     this.storesArray[index].nombre = data[0];
-    this.storesArray[index].ubicacion = data[1];
-    this.storesArray[index].empleados = data[2];
+    this.storesArray[index].estado = data[1];
+    this.storesArray[index].ciudad = data[2];
     this.storesArray[index].done = true;
     console.log("this.usersArray[index]: ", this.storesArray[index]);
     this.editing = false;
