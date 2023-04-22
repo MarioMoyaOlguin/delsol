@@ -45,6 +45,7 @@ label {
     z-index: 1200;
 }
 .dialog-box {
+    width: fit-content !important;
     max-width: 600px;
     background-color: white;
     padding: 40px;
@@ -52,19 +53,12 @@ label {
     font-size: 18px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items:center;
     gap: 40px;
     border-radius: 8px;
 }
-.dialog-btn {
-    border: 1px solid #f4323e;
-    color: #f4323e !important;
-    border-radius: 4px;
-    background-color: white;
-}
-.dialog-btn:hover {
-    background-color: #f4323e;
-    color: white !important;
-}
+
 .top-86 {
     top: 86px;
     z-index: 100;
@@ -193,7 +187,14 @@ button {
     border-radius: 6px !important;
     border: 2px solid transparent !important;
 }
-.select:focus {
+.list-select {
+    border: 2px solid #d0def0 !important;
+    border-radius: 8px !important;
+    height: 40px !important;
+    outline: none;
+    padding: 4px 10px;
+}
+.select:focus, .list-select:focus {
     border: 2px solid rgb(255, 145, 0) !important;
 }
 .new-q-container {
@@ -288,6 +289,12 @@ th:hover { background-color: #ccc; }
     justify-content: center;
     align-items: center;
     color: #747474;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+.select-type p:hover{
+    background-color: #bfc6cf;
 }
 .dlt {
     border-radius: 4px !important;

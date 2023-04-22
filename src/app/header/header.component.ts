@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -12,6 +12,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input() returnLink?:boolean;
+  @Input() link?:string;
 
   logout = () => {
     this.loginUser.logout();

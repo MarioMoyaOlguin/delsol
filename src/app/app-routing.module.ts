@@ -21,6 +21,7 @@ import { LoginGuardian } from './guardians/login.guardian';
 import { AdminGuardian } from './guardians/admin.guardian';
 import { SuperadminGuardian } from './guardians/superadmin.guardian';
 import { AdminSuperadminGuardian } from './guardians/admin-superadmin.guardian';
+import { PollExamSlugComponent } from './poll-exam-slug/poll-exam-slug.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -35,10 +36,11 @@ const routes: Routes = [
   { path: 'encuesta-creada', component: EncuestaCreadaComponent,  },
   { path: 'usuarios', component: PanelComponent,  },
   { path: 'lista-usuarios', component: UsersListComponent,  },
-  { path: 'lista-modulos', component: ModulesComponent,  },
+  { path: 'lista-tiendas', component: ModulesComponent,  },
   { path: 'encuestas', component: PollMenuComponent,  },
   { path: 'configuracion', component: ModulesMenuComponent,  },
   { path: 'nuevo-modulo', component: NewModuleComponent,  },
+  { path: 'app/:type/:id', component: PollExamSlugComponent },
 ];
 
 @NgModule({

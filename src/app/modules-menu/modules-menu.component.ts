@@ -12,7 +12,6 @@ export class ModulesMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  /* --------------- Servicio login, determinar tipo de usuario --------------- */
-  user = 'superadmin'
+  
 
 }

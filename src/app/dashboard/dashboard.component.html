@@ -1,41 +1,52 @@
 <main class="gray-bg w-100">
 
-    <app-header>
-        <div class="d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
-                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-            </svg>
-            <a routerLink="/home" class="gray">Volver</a>
-        </div>
-    </app-header>
+    <app-header
+        [returnLink]="true"
+        [link]="'/home'"
+    ></app-header>
 
     <div class="d-flex position-relative w-100">
 
         <div class="right-container w-100">
-            <div class="bg-white p-1">
-                <h1 class="red text-center my-1">Dashboard</h1>
-                <div class="py-1 px-2 d-flex flex-wrap gap-2 w-100">
-                    <div class="d-flex gap-1"
-                    *ngIf="user == 'coordinador'">
-                        <p class="mb-0">Sucursal:</p>
-                        <select class="px-2" id="tienda" #selectTienda (change)="setModulo(selectTienda.value)">
-                            <option value=""></option>
-                            <option value="1">Tienda 1</option>
-                            <option value="2">Tienda 2</option>
-                        </select>
+            <div class="bg-white px-1 pt-1 pb-4 d-flex flex-column align-items-center">
+                <h1 class="red text-center mt-1 mb-3">Dashboard</h1>
+                <!-- Grafica encuestas activas/inactivas -->
+                <div class="d-flex flex-column flex-sm-row gap-2 gap-sm-4">
+                    <div [ngClass]="pollExamChart ? 'd-block' : 'd-none' "
+                    class="pollExamChartContainer">
+                        <canvas #pollExamData width="280" height="200"></canvas>
                     </div>
-                    <div class="d-flex gap-1">
-                        <p class="mb-0">Encuesta</p>
-                        <select class="px-2" id="encuesta" #selectEncuesta (change)="setEncuesta(selectEncuesta.value)">
-                            <option value=""></option>
-                            <option *ngFor="let encuesta of encuestas" [value]="encuesta">
-                                {{encuesta}}
-                            </option>
-                        </select>
+                    <div [ngClass]="!pollExamChart ? 'd-block' : 'd-none' "
+                    class="pollExamChartContainer d-flex centered-items ">
+                        <div class="spinner-border text-warning spinner" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center gap-1">
+                        <p class=" text-slate fs-4 fw-semibold text-center mb-0">Total Encuestas:
+                            <span class="text-success">{{pollsArray.length}}</span>
+                        </p>
                     </div>
                 </div>
             </div>
-            <app-polls-charts *ngIf="showCharts" [chartsArray]="chartsArray" [nombreEncuesta]="tituloEncuesta"></app-polls-charts>
+
+            <div class="bg-select p-2 d-flex fw-semibold gap-3 ease-in-out flex-wrap">
+                <p class="mb-0 text-slate">Seleccione encuesta:</p>
+                <select name="" id="" class="px-1" #encuesta
+                (change)="getPollCharts(encuesta.value)">
+                    <option value=""></option>
+                    <option *ngFor="let poll of pollsArray; let j = index" [value]="poll.titulo" class="text-center fs-6">
+                        {{poll.titulo}}
+                    </option>
+                </select>
+            </div>
+            
+            <app-polls-charts *ngIf="showCharts"
+                [chartsArray]="charts"
+                [dataArray]="countedData"
+                [nombreEncuesta]="pollTitle"
+                [dashboard]="true"
+            ></app-polls-charts>
         </div>
     </div>
 </main>

@@ -51,15 +51,17 @@ input, select {
 th, td {
     padding: 8px 4px !important;
     font-size: 1.1rem;
+    line-height: 1;
 }
 th {
-    color: #8b8b8b;
+    color: white;
 }
 td {
-    color: #949494;
+    color: #646464;
+    font-weight: 600 !important;
 }
-table svg {
-    color: #f4323e;
+.bg-table-header {
+    background-color: #f33a46;
 }
 .edit {
     border: none;
@@ -68,18 +70,24 @@ table svg {
     font-weight: 600 !important;
 }
 .close-viewer {
-    background-color: #fc5c67;
-    color: white;
-    stroke-width: 6px;
-    position: fixed;
-    top: 4px;
-    right: 18px;
-    border-radius: 9999px;
-    padding: 6px;
-    z-index: 1000;
+    background-size: 240% auto !important;
 }
-.close-viewer:hover {
-    background-color: #f4323e;
+.close-btn {
+    border-radius: 4px;
+    padding: 6px;
+    z-index: 1100;
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 280% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.close-btn:hover {
+    background-position: 0% 50%;
 }
 .main-container {
     width: 100%;
@@ -90,6 +98,29 @@ table svg {
     top: 0;
     z-index: 100;
 }
+.copy-icon {
+    min-width: 30px !important;
+}
+.link-message {
+    color: #008700;
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.icon-th {
+    min-width: 34px !important;
+    max-width: 36px !important;
+}
+.icons {
+    min-width: 28px !important;
+    min-height: 28px !important;
+}
+.link-container {
+    width: 100%;
+    max-width: max-content;
+    background-color: #f3f3f3;
+}
 .icons:hover {
     background-color: #a7c4ff;
 }
@@ -97,21 +128,74 @@ table svg {
     display: none !important;
 }
 .export {
-    position: absolute;
+    position: fixed;
     width: max-content !important;
-    top: 8px;
-    left: 4px;
+    bottom: 8px;
+    right: 8px;
     padding: 4px !important;
     appearance: none !important;
     border-radius: 4px;
     background-color: white;
-    border: 1px solid #a7c4ff;
+    border: 1px solid #f4323e;
+    color: #f4323e;
     text-align: center;
     font-size: 16px !important;
 }
 .export:hover {
-    background-color: #a7c4ff;
+    background-color: #f4323e;
     color: white;
+}
+.sticky {
+    position: sticky;
+    top: 76px;
+}
+.delete-btn {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+    border-radius: 9999px !important;
+}
+.cancel-btn {
+    background: linear-gradient(45deg, #068526 50%, #06a72e 50%, #06a72e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+}
+.delete-btn:hover, .cancel-btn:hover { background-position: 0% 50%; }
+
+.options-container {
+    position: absolute;
+    top: 4px;
+    right: 46px;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: white;
+}
+.charts-container {
+    background-color: #f9fafc !important;
+    width: 100%;
+    min-height: 100vh !important;
+    height: fit-content !important;
+    // overflow-y: scroll;
+    scroll-behavior: smooth;
+    position: absolute;
+    top: 0;
+    z-index: 100;
 }
 
 

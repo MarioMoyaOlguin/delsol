@@ -42,10 +42,10 @@ th, td {
     line-height: 1;
 }
 th {
-    color: #8b8b8b;
+    color: white;
 }
 td {
-    color: #949494;
+    color: #646464;
 }
 .icons:hover {
     background-color: #a7c4ff;
@@ -53,6 +53,32 @@ td {
 .action-btn {
     width: fit-content !important;
 }
+.delete-btn {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+    border-radius: 9999px !important;
+}
+.cancel-btn {
+    background: linear-gradient(45deg, #068526 50%, #06a72e 50%, #06a72e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+}
+.delete-btn:hover, .cancel-btn:hover { background-position: 0% 50%; }
 
 
 @media only screen and (max-width: 768px) {
@@ -66,7 +92,7 @@ td {
         font-size: 24px;
     }
 }
-@media only screen and (min-width: 576px) {
+@media only screen and (max-width: 576px) {
     .font-small {
         font-size: 20px;
     }

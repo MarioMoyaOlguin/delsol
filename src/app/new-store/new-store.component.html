@@ -1,47 +1,62 @@
 <main>
 
-    <app-header>
-        <div class="d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
-                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-            </svg>
-            <a routerLink="/lista-modulos" class="gray">Volver</a>
-        </div>
-    </app-header>
+    <app-header
+        [returnLink]="true"
+        [link]="'/lista-tiendas'"
+    ></app-header>
     
     <div class="px-md-4 pb-4">
-        <form action="" class="themed-container themed-form mx-auto mt-4" [formGroup]="storeForm" (submit)="newStore()">
+        <form action="" class="themed-container themed-form mx-auto mt-4 bg-white" [formGroup]="storeForm" (submit)="newStore()">
             <h1 class="text-center red mb-4">Nueva Tienda</h1>
     
             <div class="d-flex flex-column flex-sm-row gap-sm-5">
-                <div class="d-flex flex-column w-100 mb-4">
-                    <label for="id">Id de Tienda</label>
+                <div class="d-flex flex-column w-100 mb-2 mb-sm-4">
+                    <label for="id">
+                        Id de Tienda
+                    </label>
                     <input type="text" name="" id="id" class="" formControlName="id">
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getId?.touched && getId?.invalid">Campo requerido</p>
                 </div>
-                <div class="d-flex flex-column w-100 mb-4">
-                    <label for="tienda">Nombre de Tienda</label>
+                <div class="d-flex flex-column w-100 mb-2 mb-sm-4">
+                    <label for="tienda">
+                        Nombre de Tienda
+                    </label>
                     <input type="text" name="" id="tienda" class="" formControlName="nombre">
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getNombre?.touched && getNombre?.invalid">Campo requerido</p>
                 </div>
             </div>
             
             <div class="d-flex flex-column flex-sm-row gap-sm-5">
-                <div class="d-flex flex-column w-100 mb-4">
-                    <label for="estado">Estado</label>
-                    <input type="text" name="" id="estado" class="" formControlName="estado">
+                <div class="d-flex flex-column w-100 mb-2 mb-sm-4">
+                    <label for="estado">
+                        Estado
+                    </label>
+                    <select name="" id="edo" #estado class="w-100 fs-6 select ease-in-out" formControlName="estado" required
+                    (change)="getCities(estado.value)">
+                        <option value="" class=""></option>
+                        <option *ngFor="let state of states; let i = index" [value]="state" class="text-center fs-6">
+                            {{state}}
+                        </option>
+                    </select>
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getEstado?.touched && getEstado?.invalid">Campo requerido</p>
                 </div>
-                <div class="d-flex flex-column w-100 mb-4">
-                    <label for="ciudad">Ciudad</label>
-                    <input type="text" name="" id="ciudad" class="" formControlName="ciudad">
+                <div class="d-flex flex-column w-100 mb-2 mb-sm-4">
+                    <label for="ciudad" [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
+                        Ciudad
+                    </label>
+                    <select name="" id="cdad" #ciudad class="w-100 fs-6 select ease-in-out" formControlName="ciudad"
+                    [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
+                        <option value=""></option>
+                        <option *ngFor="let city of tempCities; let j = index" [value]="city" class="text-center fs-6">
+                            {{city}}
+                        </option>
+                    </select>
                     <p class="text-danger text-center mb-0 font-small" *ngIf="getCiudad?.touched && getCiudad?.invalid">Campo requerido</p>
                 </div>
             </div>
-            
     
             <div class="d-flex gap-4 gap-sm-5 justify-content-end mt-5">
-                <button routerLink="/modulos" class="cancel-btn">Cancelar</button>
+                <button routerLink="/lista-tiendas" class="cancel-btn">Cancelar</button>
                 <button type="submit" class="action-btn" [disabled]="storeForm.invalid">Crear</button>
             </div>
         </form>

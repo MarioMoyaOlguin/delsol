@@ -1,15 +1,11 @@
 
-    <app-header>
-        <div class="d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
-                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-            </svg>
-            <a routerLink="/mis-encuestas" class="gray pointer">Volver</a>
-        </div>
-    </app-header>
+<app-header
+    [returnLink]="true"
+    [link]="'/mis-encuestas'"
+></app-header>
     
-<div class="p-1 p-sm-3 p-md-5">
-    <form action="" class="themed-container mx-auto mt-4 d-flex flex-column py-4 px-5 bg-white" [formGroup]="pollForm" (submit)="newPoll()">
+<div class=" p-sm-3 p-md-5">
+    <form action="" class="themed-container mx-auto mt-4 mt-sm-0 d-flex flex-column py-4 px-5 bg-white" [formGroup]="pollForm" (submit)="newPoll()">
         <h1 class="text-center red mb-4">Nueva Encuesta</h1>
 
         <div class="mb-4 d-flex flex-column flex-md-row gap-4">
@@ -25,82 +21,38 @@
         </div>
         
         <div class="mb-4 d-flex flex-column">
-            <p class="mb-0">Seleccionar alcance</p>
+            <p class="">Seleccionar alcance</p>
 
-            <div class="d-flex flex-column mt-1 gap-2 rounded-1">
-                <!-- seleccionar estados -->
-                <div class="d-flex flex-column bg-light-blue p-2 gap-2 rounded-1">
-                    <div class="d-flex gap-2 align-items-end w-100">
-                        <p class="mb-0 fs-6 text-dark">Aplicar a:</p>
-                        <div class="d-flex">
-                            <select name="" id="">
-                                <option value=""></option>
-                                <option value="">Todas las tiendas</option>
-                                <option value="">Una o varias tiendas</option>
-                                <option value="">Uno o varios estados</option>
-                            </select>
-                            <select class="inner-select" name="" id="" #selectState
-                            (change)="addState(selectState.value)">
-                                <option selected value=""></option>
-                                <option value="nacional" class="text-info fs-6">Todas las tiendas</option>
-                                <option *ngFor="let state of states" class="fs-6" [value]="state">
-                                    {{state}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-wrap gap-2 w-100">
-                        <div *ngFor="let state of selectedStates" class="list-item">
-                            <p class="mb-0 text-dark fs-6">{{state}}</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x red p-0 pointer" viewBox="0 0 16 16"
-                            (click)="removeState(state)">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- seleccionar ciudades -->
-                <!-- <div class="d-flex flex-column bg-light-blue p-2 gap-2 rounded-1">
-                    <div class="d-flex flex-column flex-sm-row gap-2  w-100">
-                        <div class="d-flex gap-2 states-container">
-                            <p class="mb-0 fs-6 text-dark">Ciudades:</p>
-                            <select class="inner-select" name="" id="" placeholder="Estado" #stateCity
-                            (change)="getTempCities(stateCity.value)">
-                                <option selected value=""></option>
-                                <option *ngFor="let state of states" [value]="state">
-                                    {{state}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <select class="inner-select city-select" name="" id="" #selectCity
-                            (change)="addCity(selectCity.value, stateCity.value)">
-                                <option selected value=""></option>
-                                <option *ngFor="let city of tempCities" [value]="city">
-                                    {{city}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-wrap gap-2 w-100">
-                        <div *ngFor="let city of selectedCities" class="list-item">
-                            <p class="mb-0 text-dark fs-6">{{city}}</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x red p-0" viewBox="0 0 16 16"
-                            (click)="removeCity(city, stateCity.value)">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div> -->
+            <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
+                <!-- Estado -->
+                <label for="edo" class="d-flex flex-column w-100 align-items-center fs-6">
+                    Estado
+                    <select name="" id="edo" #estado class="w-100 fs-6 select ease-in-out" formControlName="estado" required
+                    (change)="getCities(estado.value)">
+                        <option value="" class=""></option>
+                        <option value="todas" class="text-center fs-6 red">Todas las tiendas</option>
+                        <option *ngFor="let state of states; let i = index" [value]="state" class="text-center fs-6">
+                            {{state}}
+                        </option>
+                    </select>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEstado?.touched && getEstado?.invalid">Campo requerido</p>
+                </label>
+                <!-- Ciudad -->
+                <label for="cdad" class="d-flex flex-column w-100 align-items-center fs-6"
+                [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
+                    Ciudad
+                    <select name="" id="cdad" #ciudad class="w-100 fs-6 select ease-in-out" formControlName="ciudad">
+                        <option value=""></option>
+                        <option *ngFor="let city of tempCities; let j = index" [value]="city" class="text-center fs-6">
+                            {{city}}
+                        </option>
+                    </select>
+                </label>
             </div>
         </div>
         
         <div class="d-flex gap-5 justify-content-end mt-5">
-            <a routerLink="/mis-encuestas">
-                <button class="cancel-btn">Cancelar</button>
-            </a>
-            
+            <button class="cancel-btn" routerLink="/mis-encuestas">Cancelar</button>
             <button type="submit" class="action-btn" [disabled]="pollForm.invalid">Crear</button>
         </div>
     </form>

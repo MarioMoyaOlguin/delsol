@@ -6,6 +6,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 moment.locale('es');
 
 import { fade, fadeOut } from 'src/app/animations';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-create-poll',
@@ -19,22 +20,22 @@ import { fade, fadeOut } from 'src/app/animations';
 
 export class CreatePollComponent implements OnInit {
   
-  constructor() { }
+  constructor(private firestore:FirestoreService) { }
   
   ngOnInit(): void {
     this.getDaysFromDate('01', '2023');
     this.pushYears();
   }
 
-  mockQuestions = [
-    {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'minimo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
-    {alert: true, alertTrigger: 'no', done: true, numeroPregunta: 2, opcional: false, optionsArray: ['Tienda 1','Tienda 2','Tienda 3','Tienda 4','Tienda 5','Tienda 6',], required: true, targetQuestion: 'no', type: 'lista', question: '¿Que tienda visitó?'},
-    {done: true, numeroPregunta: 3, opcional: false, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
-    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 4, opcional: false, ramificar: '2', ramificar2: '10', required: true, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
-    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
-    {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 6, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
-    {done: true, numeroPregunta: 7, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
-  ]
+  // mockQuestions = [
+  //   {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'minimo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
+  //   {alert: true, alertTrigger: 'no', done: true, numeroPregunta: 2, opcional: false, optionsArray: ['Tienda 1','Tienda 2','Tienda 3','Tienda 4','Tienda 5','Tienda 6',], required: true, targetQuestion: 'no', type: 'lista', question: '¿Que tienda visitó?'},
+  //   {done: true, numeroPregunta: 3, opcional: false, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
+  //   {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 4, opcional: false, ramificar: '2', ramificar2: '10', required: true, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
+  //   {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
+  //   {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 6, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
+  //   {done: true, numeroPregunta: 7, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
+  // ]
   
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
@@ -52,9 +53,9 @@ export class CreatePollComponent implements OnInit {
   multibranch = false; //Determinar si hay mas de 1 opcion que ramifica en pregunta tipo opcion
   dialog = false; //para controlar la caja de dialogo
 
-  titulo:[string] = ['Encuesta prueba']; // Título de encuesta
+  titulo:string = 'Encuesta prueba'; // Título de encuesta
   timer = 0; //temporizador
-  questionsArray:any[] = [...this.mockQuestions]; //Array principal de preguntas
+  questionsArray:any[] = []; //Array principal de preguntas
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
   doneQuestions:any[] = [];
   pollData:any = {
@@ -96,6 +97,19 @@ export class CreatePollComponent implements OnInit {
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
 
+  /* ---------------------------- Guardar encuesta ---------------------------- */
+  savePoll = () => {
+    this.firestore.addPoll({
+      id: new Date().getTime().toString(),
+      titulo: this.titulo,
+      timer: this.pollData.timer,
+      preguntas: this.questionsArray,
+      respuestas: [],
+      estado: 'activa',
+      done: true
+    });
+  }
+
   /* --------------------------- ventana de dialogo --------------------------- */
   handleDialog = () => this.dialog = !this.dialog;
 
@@ -131,8 +145,7 @@ export class CreatePollComponent implements OnInit {
   /* -------------------- establecer titulo de la encuesta -------------------- */
   setPollTitle = (title:string, timer:string) => {
     if(title == '' || timer == '') { return; }
-    this.titulo.pop();
-    this.titulo.push(title);
+    this.titulo = title;
     this.pollData.timer = parseInt(timer);
     this.editTitle = false;
   }
@@ -577,8 +590,3 @@ export class CreatePollComponent implements OnInit {
     // console.log("ciudades: ", ciudades);
   }
 }
-
-
-// @Component({
-  
-// })

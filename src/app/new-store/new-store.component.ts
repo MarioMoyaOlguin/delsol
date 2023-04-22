@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { FirestoreService } from '../services/firestore.service';
+
+import { estadosCiudadesMexico } from './../data';
 
 @Component({
   selector: 'app-new-store',
@@ -11,9 +14,10 @@ export class NewStoreComponent implements OnInit {
   
   storeForm!:FormGroup;
 
-  constructor(private router:Router, private fb:FormBuilder) { }
+  constructor(private router:Router, private fb:FormBuilder, private firestore:FirestoreService) { }
 
   ngOnInit(): void {
+    this.fillStatesCitiesArray();
     this.storeForm = this.fb.group({
       id: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
@@ -27,10 +31,35 @@ export class NewStoreComponent implements OnInit {
   get getEstado() { return this.storeForm.get("estado") }
   get getCiudad() { return this.storeForm.get("ciudad") }
   
-  data:any[] = []
-
+  
+  /* ---------------------------- Registrar tienda ---------------------------- */
   newStore = () => {
-    this.router.navigate(['/lista-modulos'], {});
+    this.firestore.addStore({
+      id: new Date().getTime().toString(),
+      storeId: this.getId?.value,
+      nombre: this.getNombre?.value,
+      estado: this.getEstado?.value,
+      ciudad: this.getCiudad?.value,
+    });
+  }
+
+  /* ---------------------------- obtener ciudades ---------------------------- */
+  getCities = (state:string) => {
+    const stateIndex = this.states.indexOf(state)
+    const stateCities = this.cities[stateIndex];
+    this.tempCities = [];
+    this.tempCities = [...stateCities];
+  }
+
+  /* ----------------------- Obtener estados y ciudades ----------------------- */
+  states:any = [];
+  cities:any = [];
+  tempCities:any = [];
+
+  fillStatesCitiesArray = () => {
+    console.log(estadosCiudadesMexico);
+    this.states = Object.keys(estadosCiudadesMexico);
+    this.cities = Object.values(estadosCiudadesMexico);
   }
 
 }

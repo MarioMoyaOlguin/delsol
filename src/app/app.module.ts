@@ -5,6 +5,7 @@ import localeEs from '@angular/common/locales/es';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { QRCodeModule } from 'angularx-qrcode';
 
 registerLocaleData(localeEs, 'es');
 
@@ -42,6 +43,12 @@ import { LoginGuardian } from './guardians/login.guardian';
 import { SuperadminGuardian } from './guardians/superadmin.guardian';
 import { AdminGuardian } from './guardians/admin.guardian';
 import { AdminSuperadminGuardian } from './guardians/admin-superadmin.guardian';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { QrCodeComponent } from './qr-code/qr-code.component';
+import { PollExamSlugComponent } from './poll-exam-slug/poll-exam-slug.component';
+import { PollComponent } from './poll/poll.component';
 
 
 
@@ -72,6 +79,9 @@ import { AdminSuperadminGuardian } from './guardians/admin-superadmin.guardian';
     PollsChartsComponent,
     NewModuleComponent,
     DialogBoxComponent,
+    QrCodeComponent,
+    PollExamSlugComponent,
+    PollComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +89,10 @@ import { AdminSuperadminGuardian } from './guardians/admin-superadmin.guardian';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     DragDropModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },

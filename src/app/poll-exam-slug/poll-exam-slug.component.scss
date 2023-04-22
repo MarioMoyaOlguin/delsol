@@ -1,0 +1,43 @@
+.welcome-screen-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f4323e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+.logo-delsol {
+    height: 90px;
+    width: auto;
+    margin-bottom: 12px;
+}
+.welcome-screen-container  h2 {
+    font-size: 48px !important;
+}
+.message-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 24px;
+    border-radius: 18px;
+    width: 600px;
+    height: 400px;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    
+}
+
+@media only screen and (max-width: 576px) {
+    .welcome-screen-container {
+        padding: 0px;    
+    }
+    .message-container {
+        border-radius: 0px;
+    }
+}

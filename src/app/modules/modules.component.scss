@@ -25,14 +25,17 @@ h1 {
 .rotate-icon {
     transform: rotate(-180deg);
 }
-input, select {
+input {
     width: 100%;
     height: 29px !important;
-    border: 0px !important;
     border-radius: 0px !important;
     font-size: 16px !important;
     outline: none !important;
+    border: 0px !important;
+    border-bottom: 2px solid #888888 !important;
 }
+input:focus { border-bottom: 2px solid #ff985d !important;}
+
 .chk {
     width: 40px;
     color: rgb(20, 20, 20) !important;
@@ -42,14 +45,15 @@ input, select {
     background-color: #e7f2ff;
 }
 th, td {
-    padding: 8px 10px !important;
+    padding: 10px 5px !important;
     font-size: 1.1rem;
+    line-height: 1;
 }
 th {
-    color: #8b8b8b;
+    color: white;
 }
 td {
-    color: #949494;
+    color: #646464;
 }
 table svg {
     color: #f4323e;
@@ -63,6 +67,33 @@ table svg {
 .action-btn {
     width: fit-content !important;
 }
+.delete-btn {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+    border-radius: 9999px !important;
+}
+.cancel-btn {
+    background: linear-gradient(45deg, #068526 50%, #06a72e 50%, #06a72e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+}
+.delete-btn:hover, .cancel-btn:hover { background-position: 0% 50%; }
+
 
 @media only screen and (max-width: 768px) {
     th, td {

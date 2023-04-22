@@ -19,14 +19,17 @@ export class NewPollComponent implements OnInit {
     this.fillStatesCitiesArray();
     this.pollForm = this.fb.group({
       titulo: ['', [Validators.required]],
-      tienda: ['', [Validators.required, Validators.pattern('[^ ]')]],
-      filtro: ['', [Validators.required]],
-      tiempo: ['']
+      estado: ['', [Validators.required]],
+      ciudad: ['', ],
+      // tienda: ['', [Validators.required, Validators.pattern('[^ ]')]],
+      // filtro: ['', [Validators.required]],
+      // tiempo: ['']
     });
   }
   /* --------------------------------- Getters -------------------------------- */
   get getTitulo() { return this.pollForm.get("titulo") }
-  get getTienda() { return this.pollForm.get("tienda") }
+  get getEstado() { return this.pollForm.get("estado") }
+  get getCiudad() { return this.pollForm.get("ciudad") }
 
   /* -------------------------------- Variables ------------------------------- */
   states:any = [] //Array de estados de la republica
@@ -96,18 +99,12 @@ export class NewPollComponent implements OnInit {
     this.selectedStates.splice(index, 1);
   }
 
-  /* ------------------- Obtener array temporal de ciudades ------------------- */
-  getTempCities = (state:string) => {
-    console.log("state: ", state);
-    let stateIndex = 0;
-    for (let i = 0; i < this.states.length; i++) {
-      if(this.states[i] == state) {
-        stateIndex = i;
-        break;
-      }
-    }
+  /* ---------------------------- obtener ciudades ---------------------------- */
+  getCities = (state:string) => {
+    const stateIndex = this.states.indexOf(state)
+    const stateCities = this.cities[stateIndex];
     this.tempCities = [];
-    this.tempCities = this.cities[stateIndex];
+    this.tempCities = [...stateCities];
   }
 
   /* ----------------------------- Agregar ciudad ----------------------------- */

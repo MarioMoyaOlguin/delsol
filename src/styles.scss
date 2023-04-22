@@ -25,6 +25,10 @@ button[type="submit"]:disabled {
     color: #bababa !important;
 }
 
+.text-slate { color: rgb(30 41 59) !important; }
+
+.bg-slate { background-color: rgb(30 41 59);}
+
 .invisible { opacity: 0 !important; }
 
 .text-orange { color: rgb(255, 145, 0); }
@@ -93,6 +97,12 @@ a { text-decoration: none; }
     color: #949494;
     font-size: 1.1rem;
 }
+.return-link {
+    height: fit-content;
+}
+.return-link:hover svg, .return-link:hover p {
+    color: #f4323e !important;
+}
 p, label {
     color: #949494;
     font-size: 1.4rem;
@@ -108,7 +118,7 @@ input[type=text], input[type=password], input[type=email],  input[type=number], 
     outline: none;
     padding: 4px 10px;
 }
-input:focus, select:focus {
+input:focus, select:focus, .border-b {
     border: 2px solid #ff985d !important;
 }
 button {
@@ -138,37 +148,67 @@ textarea::placeholder, input::placeholder {
 .select select {
     display: none;
 }
-.gray-btn, .action-btn, .cancel-btn {
+.gray-btn, .action-btn, .cancel-btn, .yellow-btn-animated {
     appearance: none;
     border-radius: 9999px;
     font-size: 1.1rem;
     width: 150px !important;
     padding: 4px;
 }
+.bg-table-header {
+    background-color: #f33a46;
+}
+.sticky-nav-margin {
+    position: sticky;
+    top: 86px;
+}
 .gray-btn {
     border: 1px solid #949494;
     color: #949494;
     background-color: white;
 }
-.action-btn {
-    // background-color: #f4323e;
+.centered-items {
+    align-items: center !important;
+    justify-content: center !important;
+}
+.close-viewer {
+    background-size: 240% auto;
+    color: white;
+    stroke-width: 6px;
+    position: fixed;
+    top: 4px;
+    right: 18px;
+    border-radius: 9999px;
+    padding: 6px;
+    z-index: 1000;
+}
+.yellow-btn-animated {
+    background: linear-gradient(45deg, #d68c1d 50%, #f4a632 50%, #f4a632 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50% !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.action-btn, .red-btn-animated {
     background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
     background-size: 222% auto;
     color: white;
     border: none;
     cursor: pointer;
-    background-position: 100% 50%;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+    background-position: 100% 50% !important;
+    transition-property: all !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 250ms !important;
 }
-.action-btn:hover {
-    // animation: background 0.2s linear both;
-    background-position: 0% 50%;
+.action-btn:hover, .yellow-btn-animated:hover, .red-btn-animated:hover {
+    background-position: 0% 50% !important;
 }
-.action-btn:disabled {
-    // background-color: #949494 !important;
-    background: linear-gradient(45deg, #949494, #949494 100%) !important;
+.action-btn:disabled, .yellow-btn-animated:disabled, .red-btn-animated:disabled {
+    background: linear-gradient(45deg, #949494 50%, #949494 50%, #949494 100%) !important;
     pointer-events: none;
 }
 .cancel-btn {
@@ -188,6 +228,37 @@ textarea::placeholder, input::placeholder {
 .fade-in {
     animation: fadeIn 0.1s ease-in-out;
 }
+.dialog-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(104, 104, 104, 0.438);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1200;
+    backdrop-filter: blur(4px);
+}
+.dialog-box {
+    max-width: 400px;
+    width: 100%;
+    background-color: white;
+    padding: 40px;
+    color: #747474;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    border-radius: 8px;
+}
+.btn-base {
+    appearance: none !important;
+    outline: none !important;
+    border-radius: 9999px;
+    width: 120px !important;
+}
+.border-b { border-bottom: 2px solid #747474 !important; }
 
 
 @keyframes fadeIn {
@@ -198,5 +269,15 @@ textarea::placeholder, input::placeholder {
 @keyframes background {
     0% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+
+@media only screen and (max-width: 768px) {
+    
+}
+@media only screen and (max-width: 576px) {
+    .sticky-nav-margin {
+        top: 76px !important;
+    }
 }
 

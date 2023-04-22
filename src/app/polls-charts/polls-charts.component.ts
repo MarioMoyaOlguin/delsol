@@ -21,6 +21,8 @@ export class PollsChartsComponent implements OnInit {
 
   @Input() chartsArray:any
   @Input() nombreEncuesta:any
+  @Input() dataArray:any
+  @Input() dashboard?:boolean
 
   constructor() {
     
@@ -36,7 +38,7 @@ export class PollsChartsComponent implements OnInit {
 
   loading = false;
   chartsBySectionsArray:any = [];
-  promisesArray:any = [];
+  chartDataBySectionsArray:any = [];
   
   colorOptions = {
     colorschemes: { scheme: 'brewer.RdYlGn4' }
@@ -50,8 +52,8 @@ export class PollsChartsComponent implements OnInit {
     for (let i = 0; i < this.chartsBySectionsArray.length; i++) { //Array secciones de 8 graficas
 
       for (let j = 0; j < this.chartsBySectionsArray[i].length; j++) { // seccion
-        const chartContext = this.charts.nativeElement.children[i].children[i === 0 ? j+1 : j].children[1].children[0]
-          .getContext('2d', { willReadFrequently: true });
+        const chartContext = this.charts.nativeElement.children[i].children[j].children[1].children[0]
+        .getContext('2d', { willReadFrequently: true });
         
         switch (this.chartsBySectionsArray[i][j].type) {
           case 'estrellas':
@@ -60,7 +62,7 @@ export class PollsChartsComponent implements OnInit {
               data: {
                   datasets: [{
                       label: 'Current Value',
-                      data: this.chartsBySectionsArray[i][j].data,
+                      data: this.chartDataBySectionsArray[i][j],
                       fill: true,
                       backgroundColor: ["#d7191c", "#ff0505", "#fdae61", "#a6d96a", "#66bd63"],
                   }],
@@ -87,7 +89,7 @@ export class PollsChartsComponent implements OnInit {
               data: {
                   datasets: [{
                       label: 'Current Value',
-                      data: this.chartsBySectionsArray[i][j].data,
+                      data: this.chartDataBySectionsArray[i][j],
                       fill: true,
                       backgroundColor: this.bgColors10,
                   }],
@@ -109,12 +111,13 @@ export class PollsChartsComponent implements OnInit {
             break;
   
           case 'nps':
+            const labels = [this.chartsBySectionsArray[i][j].bad, this.chartsBySectionsArray[i][j].neutral, this.chartsBySectionsArray[i][j].good]
             new Chart(chartContext, {
               type: 'doughnut',
               data: {
-                labels: this.chartsBySectionsArray[i][j].labels,
+                labels: labels,
                 datasets: [{
-                  data: this.chartsBySectionsArray[i][j].data
+                  data: this.chartDataBySectionsArray[i][j]
                 }]
               },
               options: {
@@ -123,20 +126,23 @@ export class PollsChartsComponent implements OnInit {
             });
             break;
   
-          case 'opcion':
-            new Chart(chartContext, {
-              type: 'pie',
-              data: {
-                labels: this.chartsBySectionsArray[i][j].labels,
-                datasets: [{
-                  data: this.chartsBySectionsArray[i][j].data
-                }]
-              },
-              options: {
-                plugins: this.colorOptions,
-              }
-            });
-            break;
+            case 'opcion':
+              const opcionLabels = this.chartsBySectionsArray[i][j].optionsArray.map( (label:any) => {
+                return label.opcion
+              })
+              new Chart(chartContext, {
+                type: 'pie',
+                data: {
+                  labels: opcionLabels,
+                  datasets: [{
+                    data: this.chartDataBySectionsArray[i][j]
+                  }]
+                },
+                options: {
+                  plugins: this.colorOptions,
+                }
+              });
+              break;
         }
       }
     }
@@ -150,10 +156,15 @@ export class PollsChartsComponent implements OnInit {
         pregunta: j+1
       }
     }
+    // console.log("this.chartsArray: ", this.chartsArray);
     const chunkSize = 8;
     for (let i = 0; i < this.chartsArray.length; i += chunkSize) {
         const chunk = this.chartsArray.slice(i, i + chunkSize);
+        console.log("chunk: ", chunk);
+        console.log("this.dataArray: ", this.dataArray);
         this.chartsBySectionsArray.push(chunk);
+        const chunkData = this.dataArray.slice(i, i + chunkSize);
+        this.chartDataBySectionsArray.push(chunkData);
     }
   }
 
@@ -167,6 +178,7 @@ export class PollsChartsComponent implements OnInit {
     const tempImages:any = [];
     for (let i = 0; i < this.chartsBySectionsArray.length; i++) {
       const targetHtml = document.getElementById(`page${i}`);
+      targetHtml!.style.width = "900px";
       const promise = html2canvas(targetHtml!, options).then((canvas) => {
         const img = canvas.toDataURL('image/PNG');
         return img;
@@ -198,6 +210,10 @@ export class PollsChartsComponent implements OnInit {
         doc.addImage(results[i], 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
       }
       doc.save(`Encuesta - ${this.nombreEncuesta} - ${new Date().toISOString()}.pdf`);
+      for (let i = 0; i < this.chartsBySectionsArray.length; i++) {
+        const targetHtml = document.getElementById(`page${i}`);
+        targetHtml!.style.width = "auto";
+      }
       this.loading = false;
     })
   }

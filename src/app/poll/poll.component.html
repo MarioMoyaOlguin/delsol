@@ -1,43 +1,20 @@
-
-<!-- ----------------------- Pantalla de bienvenida ------------------------ -->
-<div class="welcome-container red-bg d-flex p-3 flex-column align-items-center justify-content-center"
-*ngIf="welcome">
-    <div class="welcome px-5 pb-2 pt-3 bg-white d-flex flex-column align-items-center">
-        <img src="/assets/images/Delsol-logo-simple.webp" alt="" >
-        <h1 class="my-5 text-center px-2 fw-bold">Ayúdanos a mejorar tu experiencia respondiendo unas preguntas breves</h1>
-        <div class="py-1">
-            <button class="action-btn mb-3 mb-sm-5" (click)="setWelcome()">Iniciar</button>
-        </div>
-    </div>
-</div>
-
 <!-- -------------------- Pantalla encuesta finalizada --------------------- -->
 <div class="welcome-container red-bg"
 *ngIf="currentQuestion == undefined">
-    <div class="d-flex flex-column fw-bold mx-auto text-center">
+    <div class="d-flex flex-column centered-items fw-bold mx-auto text-center">
         <img src="/assets/images/Delsol-logo-simple.webp" alt="" class="mx-auto my-5">
         <h1 class="text-white display-3 fw-bold mb-4">¡Gracias!</h1>
         <p class="text-white h3">Tus respuestas ayudan a mejorar nuestro servicio</p>
-        <!-- <a >
-            <button class="gray-btn mx-auto text-black mt-5 border-0" (click)="registerAnswers()">Volver</button>
-        </a> -->
+
+        <ng-content class="mt-4"></ng-content>
     </div>
 </div>
 
 <ng-content></ng-content>
 
-<div class="main-window gray-bg d-flex flex-column pb-4 px-0 px-ms-4"
-*ngIf="!welcome">
-
-
-    <img src="/assets/images/Delsol-logo-simple.webp" alt="" class="my-2 mx-auto">
-
-    <div *ngIf="dataArray!.length < 1" class="d-flex mx-auto my-4 no-questions shadow-sm bg-purple-light rounded-2 overflow-hidden mt-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg p-2 text-light bg-purple" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-        </svg>
-        <p class="mb-0 mx-auto fs-4 text-purple">Aún no hay preguntas</p>
-    </div>
+<div class="main-window gray-bg d-flex flex-column pb-4 px-0 px-sm-4"
+>
+    <img src="/assets/images/Delsol-logo-simple.webp" alt="" class="mx-auto">
 
     <div *ngIf="currentQuestion !== undefined" class="d-flex justify-content-center question-container mt-4">
         <div class="themed-container overflow-hidden mt-2 bg-white  " @fadeInOut>
@@ -231,10 +208,10 @@
     
                     <div class="mx-4 mt-4 rounded-1 overflow-hidden ">
                         
-                        <div class="d-flex gap-4 ">
+                        <div class="d-flex flex-column flex-sm-row gap-4 ">
                             <label for="estado" class="d-flex flex-column w-100 align-items-center">
                                 Estado
-                                <select name="" id="estado" #estado class="w-100 fs-6 select"
+                                <select name="" id="estado" #estado class="w-100 fs-6 select ease-in-out"
                                 (change)="getCities(estado.value)">
                                     <option value=""></option>
                                     <option *ngFor="let state of states; let i = index" [value]="state" class="text-center fs-6">
@@ -245,7 +222,7 @@
                             <label for="ciudad" class="d-flex flex-column w-100 align-items-center"
                             [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
                                 Ciudad
-                                <select name="" id="ciudad" #ciudad class="w-100 fs-6 select"
+                                <select name="" id="ciudad" #ciudad class="w-100 fs-6 select ease-in-out"
                                 (change)="citySelected(ciudad.value)">
                                     <option value=""></option>
                                     <option *ngFor="let city of tempCities; let j = index" [value]="city" class="text-center fs-6">

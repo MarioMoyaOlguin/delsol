@@ -16,7 +16,7 @@
 *ngIf="dialog">
     <div class="dialog-box position-relative text-center">
         {{message}}
-        <button class="dialog-btn ease-in-out py-1" (click)="handleDialog()">Cerrar</button>
+        <button class="action-btn py-1" (click)="handleDialog()">Cerrar</button>
     </div>
 </div>
 
@@ -25,30 +25,10 @@
 <!-- ----------------------------------------------------------------------- -->
 <main class="gray-bg w-100 pb-5 position-relative"
 [ngClass]="route ? 'h-0' : 'visible'">
-    <app-header>
-        <div class="d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
-                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-            </svg>
-            <a routerLink="/mis-encuestas" class="gray" [ngStyle]="editing ? noPointerEvs : pointerEvs">Volver</a>
-        </div>
-    </app-header>
-
-    <!-- Boton visor de preguntas -->
-    <!-- <div class="position-fixed view-array rounded-circle d-flex justify-content-center align-items-center pointer shadow "
-    (click)="openViewer()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-option" viewBox="0 0 16 16">
-            <path d="M1 2.5a.5.5 0 0 1 .5-.5h3.797a.5.5 0 0 1 .439.26L11 13h3.5a.5.5 0 0 1 0 1h-3.797a.5.5 0 0 1-.439-.26L5 3H1.5a.5.5 0 0 1-.5-.5zm10 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
-        </svg>
-    </div> -->
-
-    <!-- Visor de preguntas -->
-    <!-- <app-poll-viewer *ngIf="viewer" [dataArray]="questionsArray" >
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg close-viewer" viewBox="0 0 16 16"
-        (click)="openViewer()">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-        </svg>
-    </app-poll-viewer> -->
+    <app-header
+        [returnLink]="true"
+        [link]="'/mis-encuestas'"
+    ></app-header>
 
     <!-- ------------------------ Contenedor del editor ------------------------ -->
     <div class="px-md-5 ">
@@ -57,7 +37,7 @@
         <div class="themed-container d-flex flex-column p-3 p-md-4 p-lg-5 mx-auto mt-5 bg-white" #alsPoll id="poll">
             <!-- Título de la encuesta -->
             <div class="d-flex flex-column gap-2 justify-content-start w-bold mb-3 mb-md-4 mb-lg-5 me-5 me-md-0 w-100 ">
-                <p *ngIf="!editTitle" class="red fs-3 mb-0 me-3 fw-bold lh-1">{{titulo[0]}}</p>
+                <p *ngIf="!editTitle" class="red fs-3 mb-0 me-3 fw-bold lh-1">{{titulo}}</p>
                 <div *ngIf="!editTitle" class="d-flex gap-2">
                     <p class="mb-0 fs-5">Temporizador:
                         <span *ngIf="pollData.timer==0" class="fs-6 text-dark">sin temporizador</span>
@@ -74,7 +54,7 @@
                     <input type="text" class="w-100 " placeholder="Titulo de la encuesta" #title>
                     <div class="d-flex gap-2">
                         <input type="number" class=" timer-input" min="1" placeholder="Temporizador" #timer>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check set-title-icon" viewBox="0 0 16 16"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check set-title-icon pointer" viewBox="0 0 16 16"
                         (click)="setPollTitle(title.value, timer.value)">
                             <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                         </svg>
@@ -187,7 +167,7 @@
                         </div><!-- --------------------------- Fin case texto ---------------------------- -->
                         
                         <!-- -------------------------- case calificacion -------------------------- -->
-                        <div *ngSwitchCase="'calificacion'" class="   gap-4 w-question" #questionContainer cdkDrag>
+                        <div *ngSwitchCase="'calificacion'" class="  gap-4 w-question" #questionContainer cdkDrag>
                             <!-- cabecera -->
                             <div class="question-bar d-flex justify-content-between ease-in-out cursor-grab" #header cdkDragHandle
                             [ngClass]="question.done ? 'done-bg' : 'edit-bg'">
@@ -520,7 +500,7 @@
                                             <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                         </svg>
                                     </button>
-                                    <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center disabled"
+                                    <button class="bton edit-icon p-2 d-flex justify-content-center align-items-center"
                                     (click)="editQuestion('lista', i)" [ngStyle]="(question.done && editing) ? noPointerEvs : pointerEvs" *ngIf="question.done"> <!-- renderiza el elemento si la pregunta esta completada -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
@@ -554,7 +534,7 @@
                                     <div class="d-flex gap-4 ">
                                         <label for="estado" class="d-flex flex-column w-100 align-items-center">
                                             Estado
-                                            <select name="" id="estado" #estado class="w-100 fs-6 select"
+                                            <select name="" id="estado" #estado class="w-100 fs-6 list-select ease-in-out"
                                             (change)="getCities(estado.value)">
                                                 <option value=""></option>
                                                 <option *ngFor="let state of states; let i = index" [value]="state" class="text-center fs-6">
@@ -565,7 +545,7 @@
                                         <label for="ciudad" class="d-flex flex-column w-100 align-items-center"
                                         [ngClass]="tempCities.length < 1 ? 'disabled' : '' ">
                                             Ciudad
-                                            <select name="" id="ciudad" #ciudad class="w-100 fs-6 select">
+                                            <select name="" id="ciudad" #ciudad class="w-100 fs-6 list-select ease-in-out">
                                                 <option value=""></option>
                                                 <option *ngFor="let city of tempCities; let j = index" [value]="city" class="text-center fs-6">
                                                     {{city}}
@@ -573,21 +553,18 @@
                                             </select>
                                         </label>
                                     </div>
-                                    <!-- footer -->
-                                    <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
-                                        <!-- Alerta, alterna, obligatoria -->
-                                        <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
-                                        [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                            <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                                <label class="item-container text-dark"> Alterna
-                                                    <input type="checkbox" (change)="makeOptional()">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="item-container text-dark"> Obligatoria
-                                                    <input type="checkbox" (change)="setRequired()">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
+                                    <!-- Alerta, alterna, obligatoria -->
+                                    <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
+                                    [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                        <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
+                                            <label class="item-container text-dark"> Alterna
+                                                <input type="checkbox" (change)="makeOptional()">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="item-container text-dark"> Obligatoria
+                                                <input type="checkbox" (change)="setRequired()">
+                                                <span class="checkmark"></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -1079,8 +1056,9 @@
             <!-- botones -->
             <div class="d-flex gap-5 justify-content-end mt-5">
                 <button class="cancel-btn" routerLink="/mis-encuestas">Cancelar</button>
-                <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing">Guardar</button>
-                <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing">Publicar</button>
+                <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing"
+                (click)="savePoll()">Guardar</button>
+                <!-- <button class="action-btn" type="submit" [disabled]="questionsArray.length < 1 || editing">Publicar</button> -->
             </div>
         </div>
     </div>

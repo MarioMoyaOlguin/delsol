@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
 
     if(this.loginForm.invalid) { return }
     else { this.router.navigate(['/home'], {}); }
-
-
     // const user = { email: this.getEmail!.value, password: this.getPassword!.value };
 
     // this.loginUser.login(user)
