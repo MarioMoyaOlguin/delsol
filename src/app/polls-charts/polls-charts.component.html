@@ -1,0 +1,40 @@
+<ng-content></ng-content>
+
+<div class="gray-bg ">
+
+    <div class="poll-name w-100 sticky d-flex flex-column flex-md-row mt-2 p-1 gray-bg align-items-center"
+    [ngClass]="dashboard ? 'top-dashboard' : 'top-0'">
+        <button class="action-btn pdf-btn rounded-1 d-flex justify-content-center align-items-center px-2 "
+        (click)="generateCanvas()">
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" @fadeInOut
+            [ngClass]="loading ? '' : 'remove'"></span>
+            Descargar PDF
+        </button>
+        <p class="red fs-3 mb-0 px-3 me-5">{{nombreEncuesta}}</p>
+    </div>
+    
+    <div class="p-3 bg-gray" id="charts">
+        <div class="" #chartsContainer>
+            
+            <div class="d-flex flex-wrap justify-content-center flex-wrap gap-4 mt-4" id="page{{i}}"
+            *ngFor="let chunk of chartsBySectionsArray; let i = index">
+
+            
+                <div class="themed-shadow chart rounded-2 bg-white d-flex flex-column align-items-center p-1 "
+                *ngFor="let chart of chunk; let i = index">
+                    <div class="w-100 mb-2">
+                        <div class="d-flex gap-2 justify-content-start">
+                            <p class="mb-0 text-success fs-6">Pregunta {{chart.pregunta}}</p>
+                            <p class="mb-0 text-primary fs-6">{{chart.type}}</p>
+                        </div>
+                        <p class="red fs-6 text-center mb-0">{{chart.question}}</p>
+                    </div>
+                    <div>
+                        <canvas width="300" height="200"></canvas>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

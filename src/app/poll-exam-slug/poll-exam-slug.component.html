@@ -1,0 +1,18 @@
+
+<!-- ------------------------- Bienvenida encuesta ------------------------- -->
+<div *ngIf="!continue && appType == 'encuesta' " class="welcome-screen-container shadow">
+    <div class="message-container">
+        <div class="d-flex flex-column align-items-center">
+            <img src="/assets/images/Delsol-logo.png" alt="logo-delsol" class="logo-delsol">
+            <h2 class="mb-0 text-slate text-center">¡Bienvenido!</h2>
+        </div>
+        <div class="d-flex centered-items flex-column gap-5 mb-4">
+            <p class="mb-0 fs-3 text-center text-dark">Ayúdanos a mejorar tu experiencia respondiendo unas preguntas breves.</p>
+            <button class="action-btn" (click)="setDataReady()" [disabled]="!dataReady">Iniciar</button>
+        </div>
+    </div>
+</div>
+
+<app-poll *ngIf="continue" [dataArray]="pollExamData" [table]="appType" [testing]="false">
+    <button class="yellow-btn-animated mt-4" (click)="continue = false">Volver</button>
+</app-poll>

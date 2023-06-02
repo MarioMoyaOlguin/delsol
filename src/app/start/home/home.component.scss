@@ -12,6 +12,42 @@ a {
 #buttons-container p {
     font-size: 1.1rem;
 }
+.z-4 {
+    z-index: 100 !important;
+}
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid #e5eaf1;
+}
+.links-container {
+    // background-color: #e5eaf1;
+    
+}
+.link-item {
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+.link-item:hover {
+    background-color: #c3ccdb;
+    color: #496086;
+}
+.enter {
+    transform: translateY(105%);
+    opacity: 1;
+    z-index: 100;
+}
+.leave {
+    transform: translateY(90%);
+    opacity: 0;
+    z-index: -20;
+}
+.w-fit {
+    width: fit-content !important;
+}
 .icons-container {
     width: 50px;
     height: 40px;
@@ -19,14 +55,72 @@ a {
 .rotate-icon {
     transform: rotate(-180deg);
 }
+.link-btn:hover svg{
+    color: #f4323e !important;
+}
+.links:hover svg{
+    color: #f4323e !important;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.menu {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 4px;
+    padding: 4px 0px;
+}
+.title {
+    font-size: 28px !important;
+}
+.link {
+    font-size: 20px !important;
+}
+.icon {
+    width: fit-content;
+}
+label {
+    color: rgb(32, 32, 32);
+    cursor: pointer;
+}
+.link-chk {
+    display: none;
+}
+.links-list-encuesta, .links-list-ajustes {
+    height: 0px;
+}
+.options {
+    overflow: hidden;
+    height: 26.39px;
+}
+.link-chk:checked ~ .links-list-encuesta, .link-chk:checked ~ .links-list-ajustes {
+    height: 60px;
+}
+.link-chk:checked + .options {
+    height: 0px;
+}
+
+
 
 
 @media only screen and (max-width: 576px) {
+    .menu {
+        
+    }
     .title {
-        font-size: 16px !important;
+        
     }
-    .link-btn {
-        width: 120px !important;
-        height: 100px !important;
+    .options {
+        
     }
+    .links-container {
+        
+    }
+    .link {
+        
+    }
+    
 }

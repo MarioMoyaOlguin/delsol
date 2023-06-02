@@ -1,0 +1,47 @@
+<main>
+
+    <app-header>
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill dark-gray" viewBox="0 0 16 16">
+                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+            </svg>
+            <a routerLink="/configuracion" class="gray">Volver</a>
+        </div>
+    </app-header>
+    
+    <div class="px-md-4 pb-4">
+        <form action="" class="themed-container themed-form mx-auto mt-4" [formGroup]="storeForm" (submit)="newStore()">
+            <h1 class="text-center red mb-4">Nuevo Módulo</h1>
+    
+            <div class="d-flex flex-column flex-sm-row gap-sm-5">
+                <div class="d-flex flex-column w-100 mb-4">
+                    <label for="id">Nombre de Módulo</label>
+                    <input type="text" name="" id="id" class="" formControlName="id">
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getId?.touched && getId?.invalid">Campo requerido</p>
+                </div>
+    
+                <div class="d-flex flex-column w-100 mb-4">
+                    <label for="tienda">Tienda</label>
+                    <input type="text" name="" id="tienda" class="" formControlName="nombre">
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getNombre?.touched && getNombre?.invalid">Campo requerido</p>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-5 w-100">
+                <div class="d-flex flex-column w-100">
+                    <label for="ubica">Encargado</label>
+                    <input type="text" name="" id="ubica" class="w-100" formControlName="ubicacion">
+                    <p class="text-danger text-center mb-2 font-small" *ngIf="getUbicacion?.touched && getUbicacion?.invalid">Campo requerido</p>
+                </div>
+            </div>
+    
+            <div class="d-flex gap-4 gap-sm-5 justify-content-end mt-5">
+                <button routerLink="/configuracion" class="cancel-btn">Cancelar</button>
+                <button type="submit" class="action-btn" [disabled]="storeForm.invalid">Crear</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+

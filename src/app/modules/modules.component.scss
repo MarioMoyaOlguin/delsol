@@ -12,22 +12,11 @@ h1 {
 .svg-hover:hover {
     color: #f4323e !important;
 }
-button:hover {
-    border-color: rgb(3, 133, 3) !important;
-    -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-    box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-}
 .bg-edit {
     background-color: #ffc0c4;
 }
-.new-poll {
-    border: 2px solid #d0def0 !important;
-    border-radius: 9999px;
-    background-color: white;
-    -webkit-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
+.icons:hover {
+    background-color: #a7c4ff;
 }
 .icons-container {
     width: 40px;
@@ -36,14 +25,17 @@ button:hover {
 .rotate-icon {
     transform: rotate(-180deg);
 }
-input, select {
+input {
     width: 100%;
     height: 29px !important;
-    border: 0px !important;
     border-radius: 0px !important;
     font-size: 16px !important;
     outline: none !important;
+    border: 0px !important;
+    border-bottom: 2px solid #888888 !important;
 }
+input:focus { border-bottom: 2px solid #ff985d !important;}
+
 .chk {
     width: 40px;
     color: rgb(20, 20, 20) !important;
@@ -53,14 +45,15 @@ input, select {
     background-color: #e7f2ff;
 }
 th, td {
-    padding: 16px 10px !important;
+    padding: 10px 5px !important;
     font-size: 1.1rem;
+    line-height: 1;
 }
 th {
-    color: #8b8b8b;
+    color: white;
 }
 td {
-    color: #949494;
+    color: #646464;
 }
 table svg {
     color: #f4323e;
@@ -71,6 +64,36 @@ table svg {
     font-size: 0.8rem;
     font-weight: 600 !important;
 }
+.action-btn {
+    width: fit-content !important;
+}
+.delete-btn {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+    border-radius: 9999px !important;
+}
+.cancel-btn {
+    background: linear-gradient(45deg, #068526 50%, #06a72e 50%, #06a72e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+}
+.delete-btn:hover, .cancel-btn:hover { background-position: 0% 50%; }
+
 
 @media only screen and (max-width: 768px) {
     th, td {

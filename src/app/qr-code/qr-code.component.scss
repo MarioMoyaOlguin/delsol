@@ -1,0 +1,27 @@
+.qr-container {
+    padding: 32px;
+    border-radius: 8px;
+    background-color: white;
+}
+.download-btn {
+    background: linear-gradient(45deg, #d68c1d 50%, #f4a632 50%, #f4a632 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.download-btn:hover {
+    background-position: 0% 50%;
+}
+
+@media only screen and (max-width: 576px) {
+    .qr-container {
+        padding: 8px;
+    }
+}

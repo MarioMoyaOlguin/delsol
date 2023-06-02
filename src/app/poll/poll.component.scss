@@ -1,0 +1,263 @@
+.main-window {
+    width: 100%;
+    // min-width: 500px;
+    height: 100vh;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    z-index: 110;
+    top: 0;
+    position:fixed;
+}
+.welcome-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1000;
+}
+.welcome {
+    border-radius: 30px;
+    height: fit-content;
+    max-width: 760px;
+    -webkit-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    -moz-box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+    box-shadow: 8px 8px 33px 3px rgba(56,56,56,0.4);
+}
+.star:hover {
+    color: #ffc107;
+}
+svg {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+img {
+    width: 100px;
+    height: 100px;
+}
+h1 {
+    font-size: 36px;
+}
+.themed-container {
+    width: 100%;
+    max-width: 768px;
+    height: fit-content;
+}
+textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+}
+textarea::placeholder {
+    color: #949494;
+    font-style: italic;
+    font-weight: 500;
+}
+.score-table {
+    max-width: 500px;
+}
+th {
+    width: 10%;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid rgb(200, 200, 200);
+}
+.th-inactive {
+    color: rgb(23, 23, 23);
+    background-color: white;
+}
+.th-active, th:hover {
+    color: white;
+    background-color: #f4323e;
+    border-color: #f4323e;
+}
+.stars-cont {
+    max-width: 500px;
+}
+.hover-red:hover {
+    color: #f4323e !important;
+}
+.hover-yellow:hover {
+    color: #ffc107 !important;
+}
+.hover-green:hover {
+    color: #2b9810 !important;
+}
+.optionsLegend p {
+    font-size: 16px;
+    color: black;
+    margin-left: 4px;
+}
+.no-questions {
+    width: 300px;
+}
+.number-container {
+    min-width: 34px !important;
+    height: 34px;
+}
+.bg-purple { background-color: #4d56a3; }
+
+.bg-purple-light { background-color: #ebedf5; }
+
+.text-purple { color: #4d56a3 !important; }
+
+.question-number {
+    min-width: 34px !important;
+}
+.center-content {
+    justify-content: center !important;
+    align-items: center !important;
+}
+.gap-options { gap: 4px 8px; }
+
+.double-col {
+    width: 50% !important;
+    // padding: 0px 4px;
+}
+
+
+
+/* ------------------------------- calendario ------------------------------- */
+ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: 0;
+    padding: 0;
+}
+li {
+    font-size: 1.2rem;
+}
+.day-name {
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+    color: #f4323e;
+}
+.day {
+    width: 30px !important;
+    height: 30px;
+}
+.day:hover {
+    background-color: #ff7c85;
+    color: white;
+}
+.day-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.set-date {
+    background-color: white !important;
+}
+.bg-white {
+    background-color: white !important;
+}
+.header-calendar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.header-calendar h1 {
+    color: #43b5ad;
+}
+.header-calendar button {
+    border: 0;
+}
+.set-date p{
+    font-size: 16px;
+    padding: 2px;
+    display: flex;
+    align-items: flex-end;
+}
+.date-input {
+    width: fit-content;
+    height: 30px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 2px !important;
+    outline: none !important;
+}
+.date-controls { background-color: transparent; }
+
+.date-controls:hover { background-color: #76eee6 !important; }
+
+.bg-date { background-color: #4cc7be !important; }
+
+.bg-light-gray { background-color: #fdfdfd !important; }
+
+.disabled {
+    color: #e5e5e5 !important;
+    pointer-events: none !important;
+}
+.dialog-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.438);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1200;
+}
+.dialog-box {
+    max-width: 600px;
+    background-color: white;
+    padding: 40px;
+    color: #747474;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    border-radius: 8px;
+}
+.dialog-btn {
+    border: 1px solid #f4323e;
+    color: #f4323e !important;
+    border-radius: 4px;
+    background-color: white;
+}
+.dialog-btn:hover {
+    background-color: #f4323e;
+    color: white !important;
+}
+.text-xs {
+    font-size: 22px !important;
+}
+
+/* ------------------------- Checkmark personalizado ------------------------ */
+input:checked + .radiocheck > .radiochecked {
+    background-color: #258de2 !important;
+}
+/* -------------------------------------------------------------------------- */
+
+
+
+@media only screen and (max-width: 768px) {
+    .themed-container {
+        border-radius: 12px ;
+    }
+    .text-xs {
+        font-size: 20px !important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .action-btn {
+        width: 100px;
+        font-size: 15px !important;
+    }
+    h1 {
+        font-size: 30px;
+    }
+    textarea {
+        font-size: 14px;
+    }
+    .text-xs {
+        font-size: 16px !important;
+    }
+    .themed-container {
+        border-radius: 0px ;
+    }
+}

@@ -1,0 +1,41 @@
+.poll-name {
+    position: fixed;
+    background-color: #f9fafc;
+    backdrop-filter: blur(4px);
+}
+.top-dashboard {
+    top: 86px !important;
+}
+.pdf-btn {
+    min-width: fit-content !important;
+}
+.action-btn {
+    width: fit-content !important;
+}
+.charts-container {
+    // min-width: 960px;
+}
+.themed-shadow {
+    -webkit-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    -moz-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+    box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
+}
+.chart {
+    width: 300px;
+}
+.title-bar {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.92);
+}
+.w-0 { width: 0px !important; }
+
+.w-10 { width: 10px !important;}
+
+
+@media only screen and (max-width: 576px) {
+    .top-dashboard {
+        top: 76px !important;
+    }
+}

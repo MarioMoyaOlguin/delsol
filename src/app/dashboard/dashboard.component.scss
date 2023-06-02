@@ -6,21 +6,8 @@ main {
     padding: 20px;
     font-weight: 500 !important;
 }
-.left-card {
-    width: 100%;
-    max-width: 380px;
-    height: 202px !important;
-}
-.right-card {
-    width: 100%;
-    max-width: 380px;
-}
 p {
     font-size: 19px;
-}
-.shirt {
-    width: 26px;
-    height: 26px;
 }
 .sm-text{
     font-size: 13px;
@@ -36,8 +23,41 @@ p {
 a {
     text-decoration: none;
 }
+.pollExamChartContainer {
+    width: 280px;
+    height: 200px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    padding: 6px;
+}
+.main-container {
+    width: 100%;
+    height: fit-content !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth;
+    position: static !important;
+    top: 0;
+    z-index: 10;
+}
+.spinner {
+    width: 60px;
+    height: 60px;
+}
+.bg-select {
+    background-color: rgb(234, 242, 255);
+}
+select {
+    outline: none !important;
+    height: 32px !important;
+    border: 2px solid #cccccc !important;
+    border-radius: 8px !important;
+}
+select:focus {
+    border: 2px solid #ff985d !important;
+}
 
-@media only screen and (max-width: 768px) {
+
+@media only screen and (max-width: 576px) {
     p {
         font-size: 17px;
     }

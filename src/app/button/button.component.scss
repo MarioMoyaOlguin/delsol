@@ -2,8 +2,12 @@
     width: 150px !important;
     height: 120px !important;
     border-radius: 26px !important;
-    border: 2px solid #d0def0 !important;
+    border: 2px solid #d0def0;
 }
+.link-btn:hover {
+    border-color: #f4323e !important;
+}
+
 
 @media only screen and (max-width: 576px) {
     .link-btn {
