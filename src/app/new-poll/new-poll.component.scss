@@ -1,10 +1,50 @@
 form {
     width: 100%;
-    max-width: 576px;
+    max-width: 800px;
 }
 input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
     border: 2px solid rgb(228, 63, 63) !important;
 }
+input, p, select {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 100ms;
+}
+select, input {
+    height: 34px !important;
+}
+.states-container {
+    max-width: max-content !important;
+}
+.timer-container {
+    min-width: fit-content !important;
+}
+.bg-light-blue { background-color: #f1f5f9; }
+
+.inner-select {
+    // appearance: none !important;
+    height: 26px !important;
+    outline: none !important;
+    border-top: 0px !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-bottom: 2px solid #bebebe !important;
+}
+select:focus {
+    border-color: #ff985d !important;
+}
+.list-item {
+    display: flex;
+    background-color: #d0def0;
+    padding: 0 0 0 4px;
+    margin-bottom: 0px !important;
+    border-radius: 4px;
+}
+.city-select {
+    width: 100%;
+    max-width: max-content;
+}
+
 
 @media only screen and (max-width: 768px) {
     form {
@@ -14,4 +54,8 @@ input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
     label {
         font-size: 20px;
     }
+}
+
+@media only screen and (max-width: 576px) {
+    
 }

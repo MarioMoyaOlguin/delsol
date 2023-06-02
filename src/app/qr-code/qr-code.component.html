@@ -1,0 +1,15 @@
+<div class="dialog-container">
+
+    <div class="qr-container">
+
+        <div class="d-flex flex-column position-relative">
+            <div class="position-absolute top-0 start-100 translate-middle"><ng-content></ng-content></div>
+            <qrcode  [qrdata]="enlaceUrl" [width]="300" [errorCorrectionLevel]="'M'" (qrCodeURL)="onCodeChange($event)"
+            class=""></qrcode>
+    
+            <a [href]="urlSegura" [download]="nombreQr" class="download-btn ease-in-out" (click)="descargarQr($event)">
+                <p class="mb-0 fs-3 text-light text-center">Descargar png</p>
+            </a>
+        </div>
+    </div>
+</div>

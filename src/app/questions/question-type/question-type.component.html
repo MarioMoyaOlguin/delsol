@@ -1,0 +1,11 @@
+<div class="d-flex flex-column p-3 pt-0">
+    <div class="d-flex flex-column w-100">
+        <label for="" class="red mb-0 text-center">{{textoPregunta}}</label>
+        <input type="text" name="" id="" class="mt-2" #textQuestion placeholder="Escribe tu pregunta aqui..."
+        (keyup)="pushDatos(textQuestion.value)">
+    </div>
+    <div class="w-100 d-flex flex-column mt-3">
+        <label class="fs-6">Respuesta</label>
+        <textarea name="" placeholder="Demo..."></textarea>
+    </div>
+</div>

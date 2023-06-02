@@ -1,3 +1,5 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
 html {
     background-color: #f9fafc !important;
 }
@@ -6,7 +8,7 @@ main {
     background-color: #f9fafc !important;
 }
 .ease-in-out {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow;
+    transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
@@ -14,40 +16,73 @@ button[type="submit"]:disabled {
     background-color: rgb(127, 127, 127) !important;
     border-color: rgb(127, 127, 127) !important;
 }
-.red {
-    color: #f4323e !important;
+.visible { opacity: 1 !important; }
+
+.sticky { position: sticky !important; }
+
+.disabled {
+    pointer-events: none !important;
+    color: #bababa !important;
 }
-.gray {
-    color: #949494 !important;
-}
-.dark-gray {
-    color: #747474 !important;
-}
-.gray-bg {
-    background-color: #f9fafc !important;
-}
-.red-bg {
-    background-color: #f4323e !important;
-}
-.text-black {
-    color: black !important;
-}
+
+.text-slate { color: rgb(30 41 59) !important; }
+
+.bg-slate { background-color: rgb(30 41 59);}
+
+.invisible { opacity: 0 !important; }
+
+.text-orange { color: rgb(255, 145, 0); }
+
+.no-pointers-events { pointer-events: none !important; }
+
+.capitalize { text-transform: capitalize !important; }
+
+.word-break { word-break: break-all; }
+
+.red { color: #f4323e !important; }
+
+.gray { color: #949494 !important; }
+
+.w-icons { width: 36px !important;}
+
+.dark-gray { color: #747474 !important; }
+
+.gray-bg { background-color: #f9fafc !important; }
+
+.red-bg { background-color: #f4323e !important; }
+
+.pink-bg { background-color: #fcd5d8 !important; }
+
+.text-black { color: black !important; }
+
+.cursor-grab { cursor: grab !important; }
+
+.cursor-grab:active { cursor: grabbing !important; }
+
+.hide { opacity: 0 !important; }
+
+/* --------------------- Angular CDK drag & drop styles --------------------- */
+.cdk-drag { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }
+
+.cdk-drag-animating { transition: transform 300ms cubic-bezier(0, 0, 0.2, 1); }
+/* -------------------------------------------------------------------------- */
+
+.rotate-90 { transform: rotate(90deg) !important; }
+
 .logo {
     height: 120px;
     width: 120px;
 }
-.pointer {
-    cursor: pointer !important;
-}
-.font-small {
-    font-size: 16px;
-}
-.w-td {
-    width: 30px !important;
-}
-a {
-    text-decoration: none;
-}
+.remove { display: none !important; }
+
+.pointer { cursor: pointer !important; }
+
+.font-small { font-size: 16px; }
+
+.w-td { width: 30px !important; }
+
+a { text-decoration: none; }
+
 .themed-container {
     border-radius: 30px;
     -webkit-box-shadow: 4px 4px 32px 6px rgba(234,237,242,1);
@@ -58,15 +93,24 @@ a {
     padding: 24px 60px;
     width: 768px;
 }
+.text-label {
+    color: #949494;
+    font-size: 1.1rem;
+}
+.return-link {
+    height: fit-content;
+}
+.return-link:hover svg, .return-link:hover p {
+    color: #f4323e !important;
+}
 p, label {
     color: #949494;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
 }
 label {
-    font-size: 1.4rem;
     margin-bottom: 0.6rem;
 }
-input[type=text], input[type=password], input[type=email], .select {
+input[type=text], input[type=password], input[type=email],  input[type=number], .select {
     appearance: none !important;
     border: 2px solid #d0def0 !important;
     border-radius: 8px;
@@ -74,7 +118,7 @@ input[type=text], input[type=password], input[type=email], .select {
     outline: none;
     padding: 4px 10px;
 }
-input:focus, select:focus {
+input:focus, select:focus, .border-b {
     border: 2px solid #ff985d !important;
 }
 button {
@@ -104,30 +148,136 @@ textarea::placeholder, input::placeholder {
 .select select {
     display: none;
 }
-.gray-btn, .action-btn, .cancel-btn {
+.gray-btn, .action-btn, .cancel-btn, .yellow-btn-animated {
+    appearance: none;
     border-radius: 9999px;
     font-size: 1.1rem;
     width: 150px !important;
     padding: 4px;
+}
+.bg-table-header {
+    background-color: #f33a46;
+}
+.sticky-nav-margin {
+    position: sticky;
+    top: 86px;
 }
 .gray-btn {
     border: 1px solid #949494;
     color: #949494;
     background-color: white;
 }
-.action-btn, .cancel-btn {
-    border: 1px solid #f4323e;
+.centered-items {
+    align-items: center !important;
+    justify-content: center !important;
 }
-.action-btn {
-    background-color: #f4323e;
+.close-viewer {
+    background-size: 240% auto;
     color: white;
+    stroke-width: 6px;
+    position: fixed;
+    top: 4px;
+    right: 18px;
+    border-radius: 9999px;
+    padding: 6px;
+    z-index: 1000;
+}
+.yellow-btn-animated {
+    background: linear-gradient(45deg, #d68c1d 50%, #f4a632 50%, #f4a632 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50% !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.action-btn, .red-btn-animated {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50% !important;
+    transition-property: all !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 250ms !important;
+}
+.action-btn:hover, .yellow-btn-animated:hover, .red-btn-animated:hover {
+    background-position: 0% 50% !important;
+}
+.action-btn:disabled, .yellow-btn-animated:disabled, .red-btn-animated:disabled {
+    background: linear-gradient(45deg, #949494 50%, #949494 50%, #949494 100%) !important;
+    pointer-events: none;
 }
 .cancel-btn {
     background-color: white;
     color: #f4323e;
-    border-color: #f4323e !important;
+    border: 1px solid #f4323e;
+}
+.sticky-element {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.bg-transparent { background-color: transparent !important;}
+
+.opacity-0 { opacity: 0 !important; }
+
+.fade-in {
+    animation: fadeIn 0.1s ease-in-out;
+}
+.dialog-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(104, 104, 104, 0.438);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1200;
+    backdrop-filter: blur(4px);
+}
+.dialog-box {
+    max-width: 400px;
+    width: 100%;
+    background-color: white;
+    padding: 40px;
+    color: #747474;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    border-radius: 8px;
+}
+.btn-base {
+    appearance: none !important;
+    outline: none !important;
+    border-radius: 9999px;
+    width: 120px !important;
+}
+.border-b { border-bottom: 2px solid #747474 !important; }
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes background {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 
-
+@media only screen and (max-width: 768px) {
+    
+}
+@media only screen and (max-width: 576px) {
+    .sticky-nav-margin {
+        top: 76px !important;
+    }
+}
 

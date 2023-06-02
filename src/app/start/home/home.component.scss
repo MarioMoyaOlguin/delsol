@@ -12,6 +12,44 @@ a {
 #buttons-container p {
     font-size: 1.1rem;
 }
+.z-4 {
+    z-index: 100 !important;
+}
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid #e5eaf1;
+}
+.links-container {
+    background-color: #e5eaf1;
+    border: 4px solid transparent;
+    border-radius: 4px;
+    width: 174px;
+}
+.link-item {
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+.link-item:hover {
+    background-color: #c3ccdb;
+    color: #496086;
+}
+.enter {
+    transform: translateY(105%);
+    opacity: 1;
+    z-index: 100;
+}
+.leave {
+    transform: translateY(90%);
+    opacity: 0;
+    z-index: -20;
+}
+.w-fit {
+    width: fit-content !important;
+}
 .icons-container {
     width: 50px;
     height: 40px;
@@ -19,14 +57,16 @@ a {
 .rotate-icon {
     transform: rotate(-180deg);
 }
+.link-btn:hover svg{
+    color: #f4323e !important;
+}
+.links:hover svg{
+    color: #f4323e !important;
+}
 
 
 @media only screen and (max-width: 576px) {
     .title {
         font-size: 16px !important;
-    }
-    .link-btn {
-        width: 120px !important;
-        height: 100px !important;
     }
 }

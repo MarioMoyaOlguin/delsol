@@ -6,28 +6,21 @@ main {
 h1 {
     font-size: 32px;
 }
+input[type=checkbox] {
+    height: 14px !important;
+    width: 14px !important;
+}
+.checkbox-column {
+    width: 34px;
+}
 .svg-hover {
     color: black !important;
 }
 .svg-hover:hover {
     color: #f4323e !important;
 }
-button:hover {
-    border-color: rgb(3, 133, 3) !important;
-    -webkit-box-shadow: 2px 2px 24px 3px rgb(224, 255, 224, .6);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-    box-shadow: 2px 2px 24px 3px rgba(224, 255, 224, .6);
-}
 .bg-edit {
-    background-color: #ffc0c4;
-}
-.new-poll {
-    border: 2px solid #d0def0 !important;
-    border-radius: 9999px;
     background-color: white;
-    -webkit-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    -moz-box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
-    box-shadow: 2px 2px 24px 3px rgba(234,237,242,1);
 }
 .icons-container {
     width: 40px;
@@ -44,6 +37,9 @@ input, select {
     font-size: 16px !important;
     outline: none !important;
 }
+.action-btn {
+    width: fit-content !important;
+}
 .chk {
     width: 40px;
     color: rgb(20, 20, 20) !important;
@@ -53,17 +49,19 @@ input, select {
     background-color: #e7f2ff;
 }
 th, td {
-    padding: 16px 10px !important;
+    padding: 8px 4px !important;
     font-size: 1.1rem;
+    line-height: 1;
 }
 th {
-    color: #8b8b8b;
+    color: white;
 }
 td {
-    color: #949494;
+    color: #646464;
+    font-weight: 600 !important;
 }
-table svg {
-    color: #f4323e;
+.bg-table-header {
+    background-color: #f33a46;
 }
 .edit {
     border: none;
@@ -71,20 +69,147 @@ table svg {
     font-size: 0.8rem;
     font-weight: 600 !important;
 }
+.close-viewer {
+    background-size: 240% auto !important;
+}
+.close-btn {
+    border-radius: 4px;
+    padding: 6px;
+    z-index: 1100;
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 280% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+.close-btn:hover {
+    background-position: 0% 50%;
+}
+.main-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+.copy-icon {
+    min-width: 30px !important;
+}
+.link-message {
+    color: #008700;
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.icon-th {
+    min-width: 34px !important;
+    max-width: 36px !important;
+}
+.icons {
+    min-width: 28px !important;
+    min-height: 28px !important;
+}
+.link-container {
+    width: 100%;
+    max-width: max-content;
+    background-color: #f3f3f3;
+}
+.icons:hover {
+    background-color: #a7c4ff;
+}
+.remove {
+    display: none !important;
+}
+.export {
+    position: fixed;
+    width: max-content !important;
+    bottom: 8px;
+    right: 8px;
+    padding: 4px !important;
+    appearance: none !important;
+    border-radius: 4px;
+    background-color: white;
+    border: 1px solid #f4323e;
+    color: #f4323e;
+    text-align: center;
+    font-size: 16px !important;
+}
+.export:hover {
+    background-color: #f4323e;
+    color: white;
+}
+.sticky {
+    position: sticky;
+    top: 76px;
+}
+.delete-btn {
+    background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+    border-radius: 9999px !important;
+}
+.cancel-btn {
+    background: linear-gradient(45deg, #068526 50%, #06a72e 50%, #06a72e 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    width: 100px !important;
+}
+.delete-btn:hover, .cancel-btn:hover { background-position: 0% 50%; }
+
+.options-container {
+    position: absolute;
+    top: 4px;
+    right: 46px;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: white;
+}
+.charts-container {
+    background-color: #f9fafc !important;
+    width: 100%;
+    min-height: 100vh !important;
+    height: fit-content !important;
+    // overflow-y: scroll;
+    scroll-behavior: smooth;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+}
+
 
 @media only screen and (max-width: 768px) {
     th, td {
         font-size: 14px !important;
-        padding-left: 4px !important;
-        padding-right: 4px !important;
-        line-height: 15px;
+        line-height: 15px !important;
     }
     h1 {
-        font-size: 24px;
+        font-size: 24px !important;
     }
 }
 @media only screen and (min-width: 576px) {
     .font-small {
-        font-size: 20px;
+        font-size: 20px !important;
     }
 }

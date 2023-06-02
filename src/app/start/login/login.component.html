@@ -1,24 +1,38 @@
-<main class="main-container gray-bg">
+<main class="main-container gray-bg pb-5">
 
     <div class="form-container mx-auto d-flex flex-column align-items-center">
         <img src="/assets/images/Delsol-logo-simple.webp" class="logo my-4" alt="">
-        <small class="my-4">{{loginForm.value | json}}</small>
     
         <form [formGroup]="loginForm" class="bg-white themed-container d-flex flex-column align-items-center">
             <h1 class="red text-center mb-5">Bienvenido</h1>
         
             <div class="d-flex flex-column login-inputs-container">
-                <label for="user">Email o usuario</label>
-                <input type="text" name="" id="user" class="mb-1" formControlName="email" #mail required>
-                <small class="mb-4">{{empty}}</small>
-        
-                <label for="pass">Contraseña</label>
-                <input type="password" name="" id="password" formControlName="password" #pass required>
-                <small class="mb-4">{{empty}}</small>
+                <div class="mb-3">
+                    <label for="user">Usuario</label>
+                    <input type="text" name="" id="user" class="w-100" formControlName="email" #mail required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.invalid">
+                        Campo requerido
+                    </p>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getEmail?.touched && getEmail?.errors?.['pattern']">
+                        Email no válido
+                    </p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="pass">Contraseña</label>
+                    <input type="password" name="" id="password" class="w-100" formControlName="password" #pass required>
+                    <p class="text-danger text-center mb-0 font-small" *ngIf="getPassword?.touched && getPassword?.invalid">
+                        Campo requerido. Mínimo 8 digitos
+                    </p>
+                </div>
             </div>
 
-            <button class="mt-5 action-btn" type="submit"
-            (click)="validateLogin($event, mail.value, pass.value)">
+            <div class="pink-bg p-2 rounded-1 mt-3 w-100">
+                <p class="mb-0 fs-6 red text-center">Usuario o contraseña invalidos</p>
+            </div>
+
+            <button class="mt-5 action-btn" type="submit" [disabled]="loginForm.invalid"
+            (click)="submitForm($event)">
                 Ingresar
             </button>
         </form>

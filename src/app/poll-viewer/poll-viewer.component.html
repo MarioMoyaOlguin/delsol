@@ -1,0 +1,99 @@
+<div class="main-window position-fixed top-0 gray-bg p-4">
+
+    <ng-content></ng-content>
+
+    <p class="text-center red fs-2 my-4">Flujo normal</p>
+    
+    <div *ngIf="ordenNormalArray.length < 1" class="d-flex mx-auto my-4 no-questions shadow-sm bg-purple-light rounded-2 overflow-hidden ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg p-2 text-light bg-purple" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+        </svg>
+        <p class="mb-0 mx-auto fs-4 text-purple">Aún no hay preguntas</p>
+    </div>
+
+    <div class="array-grid">
+        <div *ngFor="let pregunta of ordenNormalArray" class="card-container shadow-sm mx-auto position-relative">
+            <div class="w-100 d-flex bg-green-light sticky">
+                <div class="number-container text-center text-light bg-success fs-5 fw-bold">{{pregunta.numeroPregunta}}</div>
+                <p class="mb-0 mx-auto text-center text-success fs-5 fw-semibold">{{pregunta.type}}</p>
+            </div>
+            <div class="">
+                <p class="fs-6 fw-semibold red text-center mt-2 px-2 lh-1">{{pregunta.question}}</p>
+                <div class="p-2 settings-container">
+                    <p class="mb-0 fs-6" *ngIf="pregunta.required">Obligatoria</p>
+                    <p *ngIf="pregunta.ramificar !== 'no' && pregunta.ramificar && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="mb-0 fs-6">
+                        Se ramifica: {{pregunta.ramificar}} o menos
+                    </p>
+                    <p class="mb-0 fs-6" *ngIf="pregunta.targetQuestion !== 'no' && pregunta.targetQuestion">
+                        Redirecciona: pregunta {{pregunta.targetQuestion}}
+                    </p>
+                    <p *ngIf="pregunta.ramificar2 !== 'no' && pregunta.ramificar2 && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="mb-0 fs-6">
+                        Se ramifica: {{pregunta.ramificar2}} o mas
+                    </p>
+                    <p class="mb-0 fs-6" *ngIf="pregunta.target2 !== 'no' && pregunta.target2">
+                        Redirecciona: pregunta {{pregunta.target2}}
+                    </p>
+                    <p *ngIf="pregunta.tipoLimite !== 'no' && pregunta.tipoLimite">{{pregunta.tipoLimite}}: {{pregunta.numero}} opciones</p> 
+                    <p *ngIf="pregunta.alert && pregunta.type === 'opcion'" class="">
+                        Alerta: {{pregunta.alertTrigger}}
+                    </p>
+                    <p *ngIf="pregunta.alert && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="">
+                        Alerta: {{pregunta.alertTrigger}} o menos
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center red fs-2 my-4">Preguntas opcionales</p>
+
+    <div *ngIf="optionalQuestionsArray.length < 1" class="d-flex mx-auto my-4 no-questions shadow-sm bg-purple-light rounded-2 overflow-hidden ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg p-2 text-light bg-purple" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+        </svg>
+        <p class="mb-0 mx-auto fs-4 text-purple">Aún no hay preguntas</p>
+    </div>
+
+    <div class="array-grid ">
+        <div *ngFor="let pregunta of optionalQuestionsArray" class="card-container shadow-sm mt-3 mx-auto">
+            <div class="w-100 d-flex bg-yellow-light sticky">
+                <div class="number-container text-center text-light bg-warning fs-5 fw-bold">{{pregunta.numeroPregunta}}</div>
+                <p class="mb-0 mx-auto text-center text-warning fs-5 fw-semibold">{{pregunta.type}}</p>
+            </div>
+            <div class="">
+                <p class="fs-6 fw-semibold red text-center mt-2 px-2 lh-1">{{pregunta.question}}</p>
+                <div class="p-2 settings-container">
+                    <p class="mb-0 fs-6" *ngIf="pregunta.required">Obligatoria</p>
+                    <p *ngIf="pregunta.ramificar !== 'no' && pregunta.ramificar && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="mb-0 fs-6">
+                        Se ramifica: {{pregunta.ramificar}} o menos
+                    </p>
+                    <p class="mb-0 fs-6" *ngIf="pregunta.targetQuestion !== 'no' && pregunta.targetQuestion">
+                        Redirecciona: pregunta {{pregunta.targetQuestion}}
+                    </p>
+                    <p *ngIf="pregunta.ramificar2 !== 'no' && pregunta.ramificar2 && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="mb-0 fs-6">
+                        Se ramifica: {{pregunta.ramificar2}} o mas
+                    </p>
+                    <p class="mb-0 fs-6" *ngIf="pregunta.target2 !== 'no' && pregunta.target2">
+                        Redirecciona: pregunta {{pregunta.target2}}
+                    </p>
+                    <p *ngIf="pregunta.tipoLimite !== 'no' && pregunta.tipoLimite">{{pregunta.tipoLimite}}: {{pregunta.numero}} opciones</p> 
+                    <p *ngIf="pregunta.alert && pregunta.type === 'opcion'" class="">
+                        Alerta: {{pregunta.alertTrigger}}
+                    </p>
+                    <p *ngIf="pregunta.alert && pregunta.type === 'calificacion' ||  pregunta.type === 'estrellas' || pregunta.type === 'nps'"
+                    class="">
+                        Alerta: {{pregunta.alertTrigger}} o menos
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>

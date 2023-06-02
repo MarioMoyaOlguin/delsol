@@ -2,6 +2,16 @@
     width: 70px;
     height: 70px;
 }
+.nav-div {
+    width: 100%;
+    height: 86px;
+}
+.backdrop-blur {
+    backdrop-filter: blur(6px);
+    z-index: 30;
+}
+.bg-nav { background-color: rgba(255, 255, 255, 0.9) !important;}
+
 
 @media only screen and (max-width: 576px) {
     .logo-nav {
@@ -14,5 +24,8 @@
     }
     .username {
         font-size: 17px !important;
+    }
+    .nav-div {
+        height: 76px;
     }
 }
