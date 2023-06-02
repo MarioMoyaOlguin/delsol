@@ -23,13 +23,14 @@ export class NewPollComponent implements OnInit {
       ciudad: ['', ],
       // tienda: ['', [Validators.required, Validators.pattern('[^ ]')]],
       // filtro: ['', [Validators.required]],
-      // tiempo: ['']
+      tiempo: ['', [Validators.required]]
     });
   }
   /* --------------------------------- Getters -------------------------------- */
   get getTitulo() { return this.pollForm.get("titulo") }
   get getEstado() { return this.pollForm.get("estado") }
   get getCiudad() { return this.pollForm.get("ciudad") }
+  get getTiempo() { return this.pollForm.get("tiempo") }
 
   /* -------------------------------- Variables ------------------------------- */
   states:any = [] //Array de estados de la republica
@@ -42,7 +43,7 @@ export class NewPollComponent implements OnInit {
   tempCities:any = []; //Array temporal de ciudades
 
   newPoll = () => {
-    this.router.navigate(['/crear-encuesta'], {});
+    this.router.navigate(['/crear-encuesta'], {state: this.pollForm.value});
   }
 
   /* ----------------------------- Agregar estado ----------------------------- */
@@ -101,7 +102,8 @@ export class NewPollComponent implements OnInit {
 
   /* ---------------------------- obtener ciudades ---------------------------- */
   getCities = (state:string) => {
-    const stateIndex = this.states.indexOf(state)
+    const stateIndex = this.states.indexOf(state);
+    if(stateIndex === -1) { return }
     const stateCities = this.cities[stateIndex];
     this.tempCities = [];
     this.tempCities = [...stateCities];

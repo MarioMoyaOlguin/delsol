@@ -17,3 +17,16 @@ input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;    
 }
+
+@media only screen and (max-width: 576px) {
+    .themed-container {
+        border-radius: 0px !important;
+        
+    }
+    .form-container, .login-inputs-container, form {
+        width: 100% !important;
+    }
+    form {
+        padding: 20px 30px !important;
+    }
+}

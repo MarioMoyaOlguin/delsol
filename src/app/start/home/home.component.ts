@@ -14,10 +14,10 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
-  /* --------------- servicio login, identificar tipo de usuario -------------- */
-  user = 'administrador'
+  
   
 
 }

@@ -7,6 +7,15 @@ main {
     min-height: 100vh !important;
     background-color: #f9fafc !important;
 }
+body {
+    background-color: #f7f7f7;
+}
+.max-w-xxl {
+    max-width: 1400px !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .ease-in-out {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -24,6 +33,7 @@ button[type="submit"]:disabled {
     pointer-events: none !important;
     color: #bababa !important;
 }
+.w-fit { width: fit-content !important;}
 
 .text-slate { color: rgb(30 41 59) !important; }
 
@@ -61,11 +71,45 @@ button[type="submit"]:disabled {
 
 .hide { opacity: 0 !important; }
 
-/* --------------------- Angular CDK drag & drop styles --------------------- */
-.cdk-drag { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }
-
-.cdk-drag-animating { transition: transform 300ms cubic-bezier(0, 0, 0.2, 1); }
+/* ------------------------- Checkmark personalizado ------------------------ */
+.radiocheck-label {
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+.radiocheck {
+    width: 20px;
+    height: 20px;
+    min-width: 20px !important;
+    margin-bottom: 0px !important;
+    border-radius: 9999px;
+    border: 1px solid #258de2;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.radiochecked {
+    width: 10px;
+    height: 10px;
+    min-width: 10px !important;
+    border-radius: 9999px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+.radiocheck:hover .radiochecked {
+    background-color: #84beec;
+}
+input:checked + .radiochecked {
+    background-color: #258de2 !important;
+}
 /* -------------------------------------------------------------------------- */
+
+
+
 
 .rotate-90 { transform: rotate(90deg) !important; }
 
@@ -182,6 +226,17 @@ textarea::placeholder, input::placeholder {
     padding: 6px;
     z-index: 1000;
 }
+.green-btn-animated {
+    background: linear-gradient(45deg, #068526 50%, #0e9630 50%, #0e9630 100%);
+    background-size: 222% auto;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-position: 100% 50% !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
 .yellow-btn-animated {
     background: linear-gradient(45deg, #d68c1d 50%, #f4a632 50%, #f4a632 100%);
     background-size: 222% auto;
@@ -204,10 +259,10 @@ textarea::placeholder, input::placeholder {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
     transition-duration: 250ms !important;
 }
-.action-btn:hover, .yellow-btn-animated:hover, .red-btn-animated:hover {
+.action-btn:hover, .yellow-btn-animated:hover, .red-btn-animated:hover, .green-btn-animated:hover {
     background-position: 0% 50% !important;
 }
-.action-btn:disabled, .yellow-btn-animated:disabled, .red-btn-animated:disabled {
+.action-btn:disabled, .yellow-btn-animated:disabled, .red-btn-animated:disabled, .green-btn-animated:disabled {
     background: linear-gradient(45deg, #949494 50%, #949494 50%, #949494 100%) !important;
     pointer-events: none;
 }
@@ -278,6 +333,9 @@ textarea::placeholder, input::placeholder {
 @media only screen and (max-width: 576px) {
     .sticky-nav-margin {
         top: 76px !important;
+    }
+    .action-btn {
+        width: 100px !important;
     }
 }
 

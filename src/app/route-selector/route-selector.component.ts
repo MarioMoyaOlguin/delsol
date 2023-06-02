@@ -263,6 +263,11 @@ export class RouteSelectorComponent implements OnInit {
       this.hasSelectedOption = false;
     }
     switch (this.currentQuestion.tipoLimite) {
+      case 'no':
+        if(this.hasSelectedOption) { this.next = false }
+        else { this.next = true }
+        break;
+
       case 'fija':
       case 'maximo':
         if(checkedCounter === this.currentQuestion.numero) {

@@ -76,19 +76,22 @@
                     <div class="bg-white p-3 p-sm-4 mx-auto d-flex flex-column align-items-center gradient">
                         <h1 class="red text-center mb-4 mb-sm-5">{{currentQuestion.question}}</h1>
     
-                        <div class="optionsLegend px-3 w-100">
+                        <div class="optionsLegend px-1 px-sm-3 w-100">
                             <p *ngIf="currentQuestion.tipoLimite == 'fija'">Seleccione {{currentQuestion.numero}} opciones</p>
                             <p *ngIf="currentQuestion.tipoLimite == 'minimo'">Seleccione un mínimo de {{currentQuestion.numero}} opciones</p>
                             <p *ngIf="currentQuestion.tipoLimite == 'maximo'">Seleccione un máximo de {{currentQuestion.numero}} opciones</p>
                         </div>
-                        <div class="d-flex flex-wrap w-100 px-3 " #optionsContainer>
-                            <div class="d-flex align-items-center justify-content-between checkbox-container"
-                            [ngClass]="testing ? 'w-100' : 'double-col' "
+                        <div class="d-flex flex-wrap gap-2 gap-sm-3 w-100 px-1 px-sm-3 " #optionsContainer>
+                            <div class="d-flex checkbox-container w-100"
                             *ngFor="let option of currentQuestion.optionsArray; let i = index">
-                                <label class="item-container text-dark"> {{option.opcion}}
+                                <label class="radiocheck-label text-xs text-break lh-1"
+                                [ngClass]="testing ? 'col-6' : 'col-12' ">
                                     <input type="checkbox" (change)="getOpciones(optionsContainer, i)" [value]="option.opcion"
-                                    (change)="getOptionsRef(optionsContainer)">
-                                    <span class="checkmark"></span>
+                                        (change)="getOptionsRef(optionsContainer)" class="d-none">
+                                    <div class="radiocheck">
+                                        <div class="radiochecked"></div>
+                                    </div>
+                                    {{option.opcion}}
                                 </label>
                                 <p *ngIf="option.targetQ !== 'no'" class="mb-0 fs-6 text-dark"
                                 [ngClass]="testing ? '' : 'remove' ">
@@ -118,9 +121,9 @@
                         </div>
                         
                         <div class="w-100 d-flex justify-content-between stars-cont position-relative ">
-                            <p class="mb-0">{{currentQuestion.bad}}</p>
-                            <p class="mb-0 position-absolute start-50 translate-middle-x">{{currentQuestion.neutral}}</p>
-                            <p class="mb-0">{{currentQuestion.good}}</p>
+                            <p class="mb-0 text-xs">{{currentQuestion.bad}}</p>
+                            <p class="mb-0 text-xs position-absolute start-50 translate-middle-x">{{currentQuestion.neutral}}</p>
+                            <p class="mb-0 text-xs">{{currentQuestion.good}}</p>
                         </div>
                     </div>
                 </div>
@@ -149,9 +152,9 @@
                         </div>
     
                         <div class="w-100 d-flex justify-content-between stars-cont position-relative ">
-                            <p class="mb-0">{{currentQuestion.bad}}</p>
-                            <p class="mb-0 position-absolute start-50 translate-middle-x ">{{currentQuestion.neutral}}</p>
-                            <p class="mb-0">{{currentQuestion.good}}</p>
+                            <p class="mb-0 text-xs">{{currentQuestion.bad}}</p>
+                            <p class="mb-0 text-xs position-absolute start-50 translate-middle-x ">{{currentQuestion.neutral}}</p>
+                            <p class="mb-0 text-xs">{{currentQuestion.good}}</p>
                         </div>
                     </div>
                 </div>

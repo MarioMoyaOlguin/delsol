@@ -31,12 +31,16 @@ input[type=checkbox] {
 }
 input, select {
     width: 100%;
+    max-width: 400px !important;
     height: 29px !important;
-    border: 0px !important;
     border-radius: 0px !important;
     font-size: 16px !important;
     outline: none !important;
+    border: 0px !important;
+    border-bottom: 2px solid #888888 !important;
 }
+input:focus, select:focus { border-bottom: 2px solid #ff985d !important;}
+
 .action-btn {
     width: fit-content !important;
 }
@@ -128,26 +132,23 @@ td {
     display: none !important;
 }
 .export {
-    position: fixed;
-    width: max-content !important;
-    bottom: 8px;
-    right: 8px;
     padding: 4px !important;
     appearance: none !important;
     border-radius: 4px;
     background-color: white;
-    border: 1px solid #f4323e;
-    color: #f4323e;
+    border: 1px solid #01987a;
+    color: #027a62;
     text-align: center;
     font-size: 16px !important;
 }
 .export:hover {
-    background-color: #f4323e;
+    background-color: #01987a;
     color: white;
 }
 .sticky {
     position: sticky;
-    top: 76px;
+    top: 167px;
+    z-index: 100;
 }
 .delete-btn {
     background: linear-gradient(45deg, #bb1924 50%, #f4323e 50%, #f4323e 100%);
@@ -197,19 +198,66 @@ td {
     top: 0;
     z-index: 100;
 }
+.search-bar {
+    position: sticky;
+    top: 86px;
+    z-index: 100;
+}
+.excel-logo {
+    height: 34px !important;
+    width: auto !important;
+}
+.w-poll {
+    width: 182px !important;
+    height: 50px !important;
+}
+.w-export {
+    // width: ;
+}
+.delete {
+    height: 50px;
+    width: 50px;
+    min-width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
 @media only screen and (max-width: 768px) {
     th, td {
         font-size: 14px !important;
-        line-height: 15px !important;
+        line-height: 16px !important;
     }
     h1 {
         font-size: 24px !important;
     }
 }
-@media only screen and (min-width: 576px) {
+
+@media only screen and (max-width: 576px) {
     .font-small {
-        font-size: 20px !important;
+        font-size: 16px !important;
+    }
+    .export {
+        font-size: 12px !important;
+    }
+    .sticky {
+        top: 142px;
+    }
+    .search-bar {
+        top: 76px;    
+    }
+    .w-poll {
+        width: 140px !important;
+        height: 36px !important;
+    }
+    .delete {
+        height: 36px;
+        width: 36px;
+        min-width: 36px;
+    }
+    th, td {
+        font-size: 12px !important;
+        line-height: 14px !important;
     }
 }

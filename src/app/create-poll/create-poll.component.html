@@ -34,14 +34,15 @@
     <div class="px-md-5 ">
 
         <!-- ------------------------- Editor de encuestas ------------------------- -->
-        <div class="themed-container d-flex flex-column p-3 p-md-4 p-lg-5 mx-auto mt-5 bg-white" #alsPoll id="poll">
+        <div class="themed-container d-flex flex-column p-1 p-md-4 p-lg-5 mx-auto mt-5 bg-white" #alsPoll id="poll">
             <!-- Título de la encuesta -->
             <div class="d-flex flex-column gap-2 justify-content-start w-bold mb-3 mb-md-4 mb-lg-5 me-5 me-md-0 w-100 ">
                 <p *ngIf="!editTitle" class="red fs-3 mb-0 me-3 fw-bold lh-1">{{titulo}}</p>
                 <div *ngIf="!editTitle" class="d-flex gap-2">
                     <p class="mb-0 fs-5">Temporizador:
-                        <span *ngIf="pollData.timer==0" class="fs-6 text-dark">sin temporizador</span>
-                        <span *ngIf="pollData.timer>0" class="fs-6 text-dark">{{pollData.timer}} minutos</span>
+                        <!-- <span *ngIf="pollData.timer== 'no'" class="fs-6 text-dark">sin temporizador</span> -->
+                        <span *ngIf="timer == 0" class="fs-6 text-dark">sin temporizador</span>
+                        <span *ngIf="timer>0" class="fs-6 text-dark">{{timer}} minutos</span>
                     </p>
                     <div class="d-flex align-items-center edit" (click)="editPollTitle()" *ngIf="!editTitle">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill " viewBox="0 0 16 16">
@@ -50,6 +51,7 @@
                         <p class="mb-0 ms-1 sm-text fw-semibold">Editar</p>
                     </div>
                 </div>
+
                 <div class="d-flex flex-column flex-sm-row w-100 gap-2" *ngIf="editTitle">
                     <input type="text" class="w-100 " placeholder="Titulo de la encuesta" #title>
                     <div class="d-flex gap-2">
@@ -87,7 +89,7 @@
                                         <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                     <div class="number-container d-flex center-content bg-white red fs-4 lh-1 rounded-pill px-2">{{i + 1}}</div>
-                                    <p class="mb-0 text-dark opacity-0 capitalize">{{question.type}}</p>
+                                    <p class="mb-0 text-dark opacity-0 text-xs capitalize">{{question.type}}</p>
                                 </div>
                                 <div class="d-flex gap-2 p-1 align-items-center icons-cont">
                                     <button class="bton delete-icon d-flex center-content p-delete pointer"
@@ -137,10 +139,10 @@
                                         <textarea name="" placeholder="Demo..."></textarea>
                                     </div>
                                     <!-- Ramificar -->
-                                    <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                    <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white w-fit "
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                        <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia pregunta:</p>
-                                        <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
+                                        <p class="mb-0 text-xs text-dark me-1">Ramificar hacia pregunta:</p>
+                                        <select class="bg-edit text-xs" #branchTarget (click)="getDoneQuestions()">
                                             <option value="no">sin ramificar</option>
                                             <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
                                                 {{ opcion.numeroPregunta}}
@@ -148,17 +150,23 @@
                                             <option value="finalizar">Finalizar encuesta</option>
                                         </select>
                                     </div>
-                                    <!-- Alerta, alterna, obligatoria -->
+                                    <!-- Alterna, obligatoria -->
                                     <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                            <label class="item-container text-dark"> Alterna
-                                                <input type="checkbox" (change)="makeOptional()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alterna
                                             </label>
-                                            <label class="item-container text-dark"> Obligatoria
-                                                <input type="checkbox" (change)="setRequired()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Obligatoria
                                             </label>
                                         </div>
                                     </div>
@@ -177,7 +185,7 @@
                                         <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                     <div class="number-container d-flex center-content bg-white red fs-4 lh-1 rounded-pill px-2">{{i + 1}}</div>
-                                    <p class="mb-0 text-dark opacity-0 capitalize">{{question.type}}</p>
+                                    <p class="mb-0 text-dark opacity-0 text-xs capitalize">{{question.type}}</p>
                                 </div>
                                 <div class="d-flex gap-2 p-1 align-items-center icons-cont">
                                     <button class="bton delete-icon d-flex center-content p-delete pointer"
@@ -217,7 +225,7 @@
                             <!-- cuerpo -->
                             <div class="overflow-hidden ease-in-out pt-3" #body
                             [ngClass]="question.done ? 'done-body' : 'edit-body'">
-                                <div class="p-3 pt-0">
+                                <div class="p-2 p-sm-3 pt-0">
                                     <div class="d-flex flex-column w-100 mb-3">
                                         <label *ngIf="!question.done" for="{{question.question}}" class="red text-center pb-0">Pregunta</label>
                                         <label *ngIf="question.done" for="{{question.question}}" class="red text-center pb-0">{{question.question}}</label>
@@ -242,7 +250,7 @@
                                         (keyup)="0" value="{{question.high}}" [ngStyle]="question.done ? displayNone : displayBlock">
                                     </div>
                                 </div>
-                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-3 pb-3">
+                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-2 pb-2 px-sm-3 pb-sm-3">
                                     <!-- Ramificar -->
                                     <div class="d-flex gap-1 flex-wrap align-items-center ">
                                         <p class="mb-0 fs-6 text-dark me-1">Ramificar si el usuario califica:</p>
@@ -286,25 +294,34 @@
                                     <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                            <label class="item-container red"> Alerta
-                                                <input type="checkbox" (change)="setAlert()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label red">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setAlert()" #radio >
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alerta
                                             </label>
-                                            <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                            <select name="" id="" class="" #alertTrigger>
+                                            <select name="" id="" class="" #alertTrigger
+                                            (change)="alertTrigger.value != 'no' ? radio.checked = true : radio.checked = false ">
                                                 <option value="no">sin alerta</option>
                                                 <option value="1">1</option>
                                                 <option *ngFor="let score of scoreArray" [value]="score">
                                                     {{score}} o menos
                                                 </option>
                                             </select>
-                                            <label class="item-container text-dark"> Alterna
-                                                <input type="checkbox" (change)="makeOptional()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alterna
                                             </label>
-                                            <label class="item-container text-dark"> Obligatoria
-                                                <input type="checkbox" (change)="setRequired()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Obligatoria
                                             </label>
                                         </div>
                                     </div>
@@ -323,7 +340,7 @@
                                         <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                     <div class="number-container d-flex center-content bg-white red fs-4 lh-1 rounded-pill">{{i + 1}}</div>
-                                    <p class="mb-0 text-dark opacity-0 capitalize">{{question.type}}</p>
+                                    <p class="mb-0 text-dark opacity-0 text-xs capitalize">{{question.type}}</p>
                                 </div>
                                 <div class="d-flex gap-2 p-1 align-items-center icons-cont">
                                     <button class="bton delete-icon d-flex center-content p-delete pointer"
@@ -363,7 +380,7 @@
                             <!-- cuerpo -->
                             <div class="overflow-hidden ease-in-out pt-3" #body
                             [ngClass]="question.done ? 'done-body' : 'edit-body'">
-                                <div class="p-3 pt-0">
+                                <div class="p-1 pt-0">
                                     <div class="d-flex flex-column w-100 mb-3">
                                         <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
                                         <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
@@ -372,45 +389,47 @@
                                     </div>
                                     <!-- Arreglo dinamico de opciones -->
                                     <div class="d-flex flex-wrap" *ngIf="question.done" #optionsContainer> <!-- Se muestra al finalizar la pregunta -->
-                                        <div class="d-flex justify-content-between align-items-start checkbox-container px-1 col-6 col-md-4" id=""
+                                        <div class="d-flex justify-content-between align-items-start checkbox-container px-1 col-12 col-md-6" id=""
                                         *ngFor="let option of question.optionsArray">
-                                            <label class="item-container text-dark word-break"> {{option.opcion}}
-                                                <input type="checkbox">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label label-text">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                {{option.opcion}}
                                             </label>
-                                            <!-- <p *ngIf="option.ramificar" class="mb-0 fs-6 text-dark">ramificar: pregunta {{option.targetQ}}</p> -->
                                         </div>
                                     </div>
                                     <!-- Arreglo editor de opciones, Se muestra al editar la pregunta -->
                                     <div class="d-flex flex-column gap-1" [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <!-- Arreglo -->
                                         <div class="" #editOptionsContainer>
-                                            <div class="d-flex justify-content-between heckbox-container" id=""
+                                            <div class="d-flex flex-column flex-sm-row justify-content-between heckbox-container" id=""
                                             *ngFor="let option of optionsArray; let optIndex = index">
-                                                <label class="item-container d-flex align-items-start me-2 text-dark word-break">
-                                                    {{option.opcion}}
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <div class="d-flex gap-3">
-                                                    <label class="item-container d-flex align-items-start fs-6 text-dark">
-                                                        <input type="checkbox" (change)="multibranchOptions(editOptionsContainer)">
-                                                        <span class="checkmark"></span>
-                                                        <p class="mb-0 fs-6 text-dark">ramificar</p>
+                                                <div class="d-flex ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt me-1" viewBox="0 0 16 16"
+                                                    (click)="removeOption(optIndex)">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                    <label class="radiocheck-label label-text">
+                                                        <div class="radiocheck">
+                                                            <input type="checkbox" class="d-none">
+                                                            <div class="radiochecked"></div>
+                                                        </div>
+                                                        {{option.opcion}}
                                                     </label>
-                                                    <div class="d-flex align-items-start">
-                                                        <p class="mb-0 fs-6 text-dark">pregunta: </p>
-                                                        <select class="bg-edit bg-transparent" (click)="getDoneQuestions()">
+                                                </div>
+                                                <div class="d-flex justify-content-en gap-3 ">
+                                                    <div class=" d-flex align-items-center ms-4">
+                                                        <p class="mb-0 text-xs text-dark">enviar a pregunta:</p>
+                                                        <select class="w-60 text-xs bg-white" (click)="getDoneQuestions()">
                                                             <option value="no"></option>
+                                                            <option value="finalizar">Finalizar encuesta</option>
                                                             <option *ngFor="let opcion of doneQuestions" [value]="opcion.numeroPregunta">
                                                                 {{opcion.numeroPregunta}}
                                                             </option>
                                                         </select>
                                                     </div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-dark dlt mt-1" viewBox="0 0 16 16"
-                                                    (click)="removeOption(optIndex)">
-                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                    </svg>
                                                 </div>
                                             </div>
                                         </div>
@@ -424,7 +443,7 @@
                                                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                                 </svg>
                                             </div>
-                                            <small class="text-danger ps-2 d-flex align-items-end edit-body">
+                                            <small class="text-danger ps-2 d-flex align-items-end edit-body lh-1">
                                                 {{optionsArray.length < 2 ? 'Mínimo 2 opciones' : ''}}
                                             </small>
                                         </div>
@@ -432,9 +451,9 @@
                                     <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column">
                                         <!-- limitar opciones -->
                                         <div class="w-100 d-flex align-items-center mt-3 " [ngClass]="question.done ? 'ocultar' : 'mostrar'">
-                                            <div class="d-flex align-items-center px-2 bg-white overflow-hidden rounded-pill ">
+                                            <div class="d-flex align-items-center px-2 bg-white overflow-hidden  ">
                                                 <p class="mb-0 fs-6 text-dark">¿Limitar respuestas?</p>
-                                                <select name="" id="" class="select my-0" #tipoLimite>
+                                                <select name="" id="" class=" my-0" #tipoLimite>
                                                     <option value="no">No</option>
                                                     <option value="minimo">Mínimo</option>
                                                     <option value="maximo">Máximo</option>
@@ -447,24 +466,33 @@
                                         <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                         [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                             <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                                <label class="item-container red"> Alerta
-                                                    <input type="checkbox" (change)="setAlert()">
-                                                    <span class="checkmark"></span>
+                                                <label class="radiocheck-label red">
+                                                    <div class="radiocheck">
+                                                        <input type="checkbox" name="" id="" class="d-none" (change)="setAlert()" #radio >
+                                                        <div class="radiochecked"></div>
+                                                    </div>
+                                                    Alerta
                                                 </label>
-                                                <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                                <select name="" id="" class="" #alertTrigger>
+                                                <select name="" id="" class="" #alertTrigger
+                                                (change)="alertTrigger.value != 'no' ? radio.checked = true : radio.checked = false ">
                                                     <option value="no">sin alerta</option>
                                                     <option *ngFor="let score of optionsArray" [value]="score.opcion">
                                                         {{score.opcion}}
                                                     </option>
                                                 </select>
-                                                <label class="item-container text-dark"> Alterna
-                                                    <input type="checkbox" (change)="makeOptional()">
-                                                    <span class="checkmark"></span>
+                                                <label class="radiocheck-label">
+                                                    <div class="radiocheck">
+                                                        <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                        <div class="radiochecked"></div>
+                                                    </div>
+                                                    Alterna
                                                 </label>
-                                                <label class="item-container text-dark"> Obligatoria
-                                                    <input type="checkbox" (change)="setRequired()">
-                                                    <span class="checkmark"></span>
+                                                <label class="radiocheck-label">
+                                                    <div class="radiocheck">
+                                                        <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                        <div class="radiochecked"></div>
+                                                    </div>
+                                                    Obligatoria
                                                 </label>
                                             </div>
                                         </div>
@@ -582,7 +610,7 @@
                                         <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                     <div class="number-container d-flex center-content bg-white red fs-4 lh-1 rounded-pill">{{i + 1}}</div>
-                                    <p class="mb-0 text-dark opacity-0 capitalize">{{question.type}}</p>
+                                    <p class="mb-0 text-dark opacity-0 text-xs capitalize">{{question.type}}</p>
                                 </div>
                                 <div class="d-flex gap-2 p-1 align-items-center icons-cont">
                                     <button class="bton delete-icon d-flex center-content p-delete pointer"
@@ -622,7 +650,7 @@
                             <!-- cuerpo -->
                             <div class="overflow-hidden ease-in-out pt-3" #body
                             [ngClass]="question.done ? 'done-body' : 'edit-body'">
-                                <div class="p-3 pt-0">
+                                <div class="p-2 p-sm-3 pt-0">
                                     <div class="d-flex flex-column w-100 mb-4">
                                         <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
                                         <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
@@ -665,7 +693,7 @@
                                         <input value="{{question.good}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
                                     </div>
                                 </div>
-                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-3 pb-3">
+                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-2 pb-2 px-sm-3 pb-sm-3">
                                     <!-- Ramificar -->
                                     <div class="d-flex flex-wrap gap-1 align-items-center overflow-hidden ">
                                         <p class="mb-0 fs-6 text-dark">Ramificar si el usuario califica:</p>
@@ -708,25 +736,34 @@
                                     <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                            <label class="item-container red"> Alerta
-                                                <input type="checkbox" (change)="setAlert()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label red">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setAlert()" #radio >
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alerta
                                             </label>
-                                            <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                            <select name="" id="" class="" #alertTrigger>
+                                            <select name="" id="" class="" #alertTrigger
+                                            (change)="alertTrigger.value != 'no' ? radio.checked = true : radio.checked = false ">
                                                 <option value="no">sin alerta</option>
                                                 <option value="1">1</option>
                                                 <option *ngFor="let score of starsArray" [value]="score">
                                                     {{score}} o menos
                                                 </option>
                                             </select>
-                                            <label class="item-container text-dark"> Alterna
-                                                <input type="checkbox" (change)="makeOptional()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alterna
                                             </label>
-                                            <label class="item-container text-dark"> Obligatoria
-                                                <input type="checkbox" (change)="setRequired()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Obligatoria
                                             </label>
                                         </div>
                                     </div>
@@ -785,7 +822,7 @@
                             <!-- cuerpo -->
                             <div class="overflow-hidden ease-in-out pt-3" #body
                             [ngClass]="question.done ? 'done-body' : 'edit-body'">
-                                <div class="p-3 pt-0">
+                                <div class="p-2 p-sm-3 pt-0">
                                     <div class="d-flex flex-column w-100 mb-4">
                                         <label *ngIf="!question.done" for="{{question.question}}" class="red text-center">Pregunta</label>
                                         <label *ngIf="question.done" for="{{question.question}}" class="red text-center">{{question.question}}</label>
@@ -824,7 +861,7 @@
                                         <input value="{{question.good}}" type="text" class="w-100 rounded-s-0" #good (keyup)="0" [ngStyle]="question.done ? displayNone : displayBlock">
                                     </div>
                                 </div>
-                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-3 pb-3">
+                                <div [ngClass]="question.done ? 'ocultar' : 'mostrar'" class="flex-column px-2 pb-2 px-sm-3 pb-sm-3">
                                     <!-- Ramificar -->
                                     <div class="d-flex flex-wrap gap-1 align-items-center overflow-hidden ">
                                         <p class="mb-0 fs-6 text-dark">Ramificar si el usuario califica:</p>
@@ -863,24 +900,33 @@
                                     <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
-                                            <label class="item-container red"> Alerta
-                                                <input type="checkbox" (change)="setAlert()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label red">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setAlert()" #radio >
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alerta
                                             </label>
-                                            <p class="mb-0 fs-6 text-dark">al seleccionar:</p>
-                                            <select name="" id="" class="" #alertTrigger>
+                                            <select name="" id="" class="" #alertTrigger
+                                            (change)="alertTrigger.value != 'no' ? radio.checked = true : radio.checked = false ">
                                                 <option value="no">sin alerta</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                             </select>
-                                            <label class="item-container text-dark"> Alterna
-                                                <input type="checkbox" (change)="makeOptional()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alterna
                                             </label>
-                                            <label class="item-container text-dark"> Obligatoria
-                                                <input type="checkbox" (change)="setRequired()">
-                                                <span class="checkmark"></span>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Obligatoria
                                             </label>
                                         </div>
                                     </div>
@@ -938,7 +984,7 @@
                             <!-- cuerpo de la pregunta -->
                             <div class="overflow-hidden ease-in-out pt-3" #body
                             [ngClass]="question.done ? 'done-body' : 'edit-body'">
-                                <div class="d-flex flex-column p-3 pt-0">
+                                <div class="d-flex flex-column p-2 p-sm-3 pt-0">
                                     <div class="d-flex flex-column w-100">
                                         <label *ngIf="!question.done" for="{{question.question}}" class="red text-center mb-0">Pregunta</label>
                                         <label *ngIf="question.done" for="{{question.question}}" class="red text-center mb-0">{{question.question}}</label>
@@ -987,7 +1033,7 @@
                                         </div>
                                     </div>
                                     <!-- Ramificar -->
-                                    <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white rounded-pill w-fit "
+                                    <div class="d-flex mt-3 px-2 align-items-end justify-content-start bg-white w-fit "
                                     [ngClass]="question.done ? 'ocultar' : 'mostrar'">
                                         <p class="mb-0 fs-6 text-dark me-1">Ramificar hacia:</p>
                                         <select class="bg-edit" #branchTarget (click)="getDoneQuestions()">
@@ -998,25 +1044,26 @@
                                             <option value="finalizar">Finalizar encuesta</option>
                                         </select>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- footer con switchs de alerta y pregunta obligatoria -->
-                            <div class="d-flex gap-1 justify-content-end align-items-center switch-bg px-3 py-2" *ngIf="!question.done">
-                                <div class="d-flex me-3">
-                                    <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                    (click)="makeOptional()" [ngStyle]="optional ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
-                                        <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                        [ngClass]="optional ? 'right' : 'left'"></div>
+                                    <!-- Alerta, alterna, obligatoria -->
+                                    <div class="d-flex justify-content-between w-100 mt-3 lign-items-center p-1 gap-2 bg-white flex-wrap"
+                                    [ngClass]="question.done ? 'ocultar' : 'mostrar'">
+                                        <div class="d-flex gap-2 flex-wrap overflow-hidden align-items-end justify-content-start w-fit">
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="makeOptional()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Alterna
+                                            </label>
+                                            <label class="radiocheck-label">
+                                                <div class="radiocheck">
+                                                    <input type="checkbox" name="" id="" class="d-none" (change)="setRequired()">
+                                                    <div class="radiochecked"></div>
+                                                </div>
+                                                Obligatoria
+                                            </label>
+                                        </div>
                                     </div>
-                                    <p class="fs-6 ms-1 mb-0 text-dark">Alterna</p>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="d-flex align-items-center check-container rounded-pill ease-in-out position-relative"
-                                    (click)="setRequired()" [ngStyle]="check ? right : left"> <!--activa/desactiva switch de pregunta obligatoria-->
-                                        <div class="check-control rounded-circle ease-in-out position-absolute" 
-                                        [ngClass]="check ? 'right' : 'left'"></div>
-                                    </div>
-                                    <p class="fs-6 ms-1 mb-0 text-dark">Obligatoria</p>
                                 </div>
                             </div>
                         </div><!-- --------------------------- Fin case fecha ---------------------------- -->

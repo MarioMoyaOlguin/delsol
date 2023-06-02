@@ -28,11 +28,12 @@
 <div class="dialog-container" @fadeInOut
 *ngIf="dialog" >
     <div class="dialog-box position-relative d-flex flex-column">
-        <p class="mb-0 fs-5 text-dark text-center">¿Borrar encuesta?</p>
+        <p class="mb-0 fs-5 text-dark text-center">¿Borrar encuesta<span *ngIf="multiSelected">s seleccionadas</span>?</p>
         <p class="mb-0 fs-6 text-dark text-center">Esta operación no se puede deshacer.</p>
         <div class="d-flex justify-content-center gap-4">
             <button class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
-            <button class="delete-btn" (click)="proceedDelete()">Borrar</button>
+            <button *ngIf="!multiSelected" class="delete-btn" (click)="proceedDelete()">Borrar</button>
+            <button *ngIf="multiSelected" class="delete-btn" (click)="proceedDeleteSelectedPolls()">Borrar</button>
         </div>
     </div>
 </div>
@@ -54,30 +55,50 @@
         [link]="'/home'"
     ></app-header>
 
-    <!-- ----------------------- boton exportar a excel ------------------------ -->
-    <button *ngIf="export" class="export ease-in-out position-absolute bottom-1 right-1" (click)="multisheetToExcel()">
-        Exportar a Excel
-    </button>
-
     <div class="px-1 px-sm-2 px-md-3 px-lg-4 py-3 py-sm-4 d-flex justify-content-between">
         <h1 class="red mb-0 lh-1 d-flex align-items-center lh-1">Encuestas</h1>
 
-        <button routerLink="/nueva-encuesta" class="action-btn border-0 d-flex justify-content-center align-items-center pe-3 py-2 ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus text-light ms-1" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg>
-            <div class="text-dark icons-container position-relative mx-1 d-none d-sm-flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                class="bi bi-hand-thumbs-up-fill ease-in-out text-light" viewBox="0 0 16 16">
-                    <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                class="bi bi-hand-thumbs-up-fill rotate-icon position-absolute bottom-0 end-0 ease-in-out text-light" viewBox="0 0 16 16">
-                    <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+        <div class="d-flex gap-3 align-items-center">
+            <div *ngIf="export" class="delete action-btn pointer" (click)="deleteSelectedPolls()" @fadeInOut>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash-fill " viewBox="0 0 16 16">
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                 </svg>
             </div>
-            <p class="mb-0 lh-1 font-small text-light">Nueva encuesta</p>
-        </button>
+    
+            <button class=" position-relative border-0 d-flex justify-content-center align-items-center
+            ease-in-out w-poll rounded-pill" [ngClass]="newPoll ? 'action-btn' : 'green-btn-animated' ">
+                <div *ngIf="newPoll" class="d-flex align-items-center justify-content-center position-absolute w-poll" @fadeInOut
+                routerLink="/nueva-encuesta">
+                    <div  class="text-dark icons-container position-relative mx-1 d-none d-sm-flex" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-hand-thumbs-up-fill ease-in-out text-light" viewBox="0 0 16 16">
+                            <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-hand-thumbs-up-fill rotate-icon position-absolute bottom-0 end-0 ease-in-out text-light" viewBox="0 0 16 16">
+                            <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                        </svg>
+                    </div>
+                    <p class="mb-0 me-1 lh-1 font-small text-light" >Nueva encuesta</p>
+                </div>
+    
+                <div *ngIf="export" class="d-flex align-items-center justify-content-center position-absolute w-poll" @fadeInOut
+                (click)="multisheetToExcel()">
+                    <img  src="assets/images/iconos/excel-icon.png" alt="" class="excel-logo me-2 d-none d-sm-block" >
+                    <p class="mb-0 lh-1 font-small text-light" >Exportar a excel</p>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Buscar encuesta -->
+    <div class="search-bar d-flex mx-1 mx-sm-2 mx-md-3 mx-lg-4 p-3 py-sm-4 bg-white gap-2 justify-content-between">
+        <div class="d-flex gap-3">
+            <input type="text" name="search" id="" placeholder="Buscar..." class=" ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-search pointer p-1 rounded-1 icons ease-in-out text-dark" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+        </div>
     </div>
 
     <!-- tabla -->
@@ -89,9 +110,9 @@
                         <input type="checkbox" name="" id="" class="pointer" #selectAll (change)="setAll(selectAll.checked)">
                     </th>
                     <th class="">Nombre</th>
-                    <th *ngIf="editing === false" class=""># Preguntas</th>
+                    <th *ngIf="editing === false" class="">Respuestas</th>
+                    <th *ngIf="editing === false" class="">Fecha</th>
                     <th class="">Estado</th>
-                    <th *ngIf="editing === false" class=""># Respuestas</th>
                     <th *ngIf="editing === false" class="icon-th d-none d-sm-table-cell"></th>
                     <th *ngIf="editing === false" class="icon-th d-none d-sm-table-cell"></th>
                     <th *ngIf="editing === false" class="icon-th d-none d-sm-table-cell"></th>
@@ -110,9 +131,9 @@
                         <input  type="checkbox" name="" id="checkbox{{i}}" class="pointer" [checked]="poll.checked" (change)="setChecked(i)">
                     </td>
                     <td *ngIf="poll.done">{{poll.titulo}}</td>
-                    <td *ngIf="poll.done && editing == false">{{poll.preguntas.length}}</td>
-                    <td *ngIf="poll.done">{{poll.estado}}</td>
                     <td *ngIf="poll.done && editing == false">{{poll.respuestas.length}}</td>
+                    <td *ngIf="poll.done">{{poll.fecha}}</td>
+                    <td *ngIf="poll.done">{{poll.estado}}</td>
 
                     <!-- -------------------- Menu de opciones de encuesta --------------------- -->
                     <td *ngIf="poll.done" class="d-sm-none position-relative">
@@ -193,10 +214,10 @@
                         </svg>
                     </td>
                     <td *ngIf="poll.done && editing == false" class="icon-th d-none d-sm-table-cell">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-eye-fill pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-speedometer pointer p-1 rounded-1 icons text-dark ease-in-out" viewBox="0 0 16 16"
                         (click)="viewCharts(i)">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                            <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                            <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
                         </svg>
                     </td>
 

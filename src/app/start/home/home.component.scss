@@ -23,10 +23,8 @@ a {
     border-bottom: 12px solid #e5eaf1;
 }
 .links-container {
-    background-color: #e5eaf1;
-    border: 4px solid transparent;
-    border-radius: 4px;
-    width: 174px;
+    // background-color: #e5eaf1;
+    
 }
 .link-item {
     border-radius: 4px;
@@ -64,9 +62,65 @@ a {
     color: #f4323e !important;
 }
 
+.links-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.menu {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 4px;
+    padding: 4px 0px;
+}
+.title {
+    font-size: 28px !important;
+}
+.link {
+    font-size: 20px !important;
+}
+.icon {
+    width: fit-content;
+}
+label {
+    color: rgb(32, 32, 32);
+    cursor: pointer;
+}
+.link-chk {
+    display: none;
+}
+.links-list-encuesta, .links-list-ajustes {
+    height: 0px;
+}
+.options {
+    overflow: hidden;
+    height: 26.39px;
+}
+.link-chk:checked ~ .links-list-encuesta, .link-chk:checked ~ .links-list-ajustes {
+    height: 60px;
+}
+.link-chk:checked + .options {
+    height: 0px;
+}
+
+
+
 
 @media only screen and (max-width: 576px) {
-    .title {
-        font-size: 16px !important;
+    .menu {
+        
     }
+    .title {
+        
+    }
+    .options {
+        
+    }
+    .links-container {
+        
+    }
+    .link {
+        
+    }
+    
 }

@@ -2,11 +2,13 @@ import { estadosCiudadesMexico } from './../data';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Location } from '@angular/common';
 
 moment.locale('es');
 
 import { fade, fadeOut } from 'src/app/animations';
 import { FirestoreService } from '../services/firestore.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-poll',
@@ -19,23 +21,26 @@ import { FirestoreService } from '../services/firestore.service';
 })
 
 export class CreatePollComponent implements OnInit {
+
+  public pollFormData:any;
   
-  constructor(private firestore:FirestoreService) { }
+  constructor(private firestore:FirestoreService, private location:Location, private router:Router) { }
   
   ngOnInit(): void {
     this.getDaysFromDate('01', '2023');
     this.pushYears();
+    this.getRouteData();
   }
 
-  // mockQuestions = [
-  //   {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'minimo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
-  //   {alert: true, alertTrigger: 'no', done: true, numeroPregunta: 2, opcional: false, optionsArray: ['Tienda 1','Tienda 2','Tienda 3','Tienda 4','Tienda 5','Tienda 6',], required: true, targetQuestion: 'no', type: 'lista', question: '¿Que tienda visitó?'},
-  //   {done: true, numeroPregunta: 3, opcional: false, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
-  //   {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 4, opcional: false, ramificar: '2', ramificar2: '10', required: true, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
-  //   {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
-  //   {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 6, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
-  //   {done: true, numeroPregunta: 7, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
-  // ]
+  mockQuestions = [
+    {alert: true, alertTrigger: 'Ropa', done: true, numero: 2, numeroPregunta: 1, opcional: false, optionsArray: [{opcion: 'Ropa', ramificar: true, targetQ: '1'}, {opcion: 'Electrónica', ramificar: true, targetQ: '3'}, {opcion: 'Juguetería', ramificar: false, targetQ: 'no'}, {opcion: 'abarrotes asfawef WE GFAW<DFAwerfawefgardr gtsaer ', ramificar: false, targetQ: 'no'}, {opcion: 'merceria', ramificar: false, targetQ: 'no'}, {opcion: 'carnes', ramificar: false, targetQ: 'no'}], required: true, tipoLimite: 'minimo', targetQuestion: 'no', type: 'opcion', question: '¿Que departamentos visitó?'},
+    {alert: true, alertTrigger: 'no', done: true, numeroPregunta: 2, opcional: false, optionsArray: ['Tienda 1','Tienda 2','Tienda 3','Tienda 4','Tienda 5','Tienda 6',], required: true, targetQuestion: 'no', type: 'lista', question: '¿Que tienda visitó?'},
+    {done: true, numeroPregunta: 3, opcional: false, required: true, targetQuestion: 'no', type: 'texto', question: '¿Que podemos hacer para mejorar el servicio?'},
+    {alert: true, alertTrigger: '2', done: true, high:'Excelente', low: 'Pesima', numeroPregunta: 4, opcional: false, ramificar: '2', ramificar2: '10', required: true, target2: '6', targetQuestion: '1', type: 'calificacion', question: '¿Cómo fue su experiencia de compra?'},
+    {alert: false, alertTrigger: 'no', bad: 'Pesimas', done: true, good: 'Excelentes', neutral: 'Neutral', numeroPregunta: 5, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'estrellas', question: '¿Como califica las instalaciones?'},
+    {alert: false, alertTrigger: 'no', bad: 'Malo', done: true, good: 'Excelente', neutral: 'Neutral', numeroPregunta: 6, opcional: false, ramificar: 'no', ramificar2: 'no', required: true, target2: 'no', targetQuestion: 'no', type: 'nps', question: '¿Como calificaria el trato al cliente?'},
+    {done: true, numeroPregunta: 7, opcional: false, required: true, targetQuestion: 'no', type: 'fecha', question: '¿Cuál es su fecha de cumpleaños?'},
+  ]
   
   /* -------------------------------------------------------------------------- */
   /*                                  Variables                                 */
@@ -52,15 +57,19 @@ export class CreatePollComponent implements OnInit {
   branchOptions = false; // Mostrar/ocultar mas opciones de ramificacion
   multibranch = false; //Determinar si hay mas de 1 opcion que ramifica en pregunta tipo opcion
   dialog = false; //para controlar la caja de dialogo
+  newPoll = true;
 
-  titulo:string = 'Encuesta prueba'; // Título de encuesta
+  titulo:string = ''; // Título de encuesta
   timer = 0; //temporizador
-  questionsArray:any[] = []; //Array principal de preguntas
+  store = '';
+
+  questionsArray:any[] = [...this.mockQuestions]; //Array principal de preguntas
+  
   optionsArray:any[] = []; //Array de opciones, pregunta tipo opcion
   doneQuestions:any[] = [];
   pollData:any = {
     title: this.titulo,
-    timer: 10,
+    timer: this.timer,
     questions: this.questionsArray,
   }
 
@@ -97,8 +106,34 @@ export class CreatePollComponent implements OnInit {
   /*                                  Funciones                                 */
   /* -------------------------------------------------------------------------- */
 
+  getRouteData = () => {
+    this.pollFormData = this.location.getState();
+
+    if(this.pollFormData.titulo === undefined) {
+      this.router.navigate(['/nueva-encuesta'], {});
+    }
+    else {
+      this.titulo = this.pollFormData.titulo;
+      if(this.pollFormData.ciudad !== undefined) { this.store = this.pollFormData.ciudad }
+      else { this.store = this.pollFormData.estado}
+      this.timer = parseInt(this.pollFormData.tiempo);
+    }
+  }
+
   /* ---------------------------- Guardar encuesta ---------------------------- */
   savePoll = () => {
+    function padTo2Digits(num:any) {
+      return num.toString().padStart(2, '0');
+    }
+    
+    function formatDate(date:any) {
+      return [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('/');
+    }
+
     this.firestore.addPoll({
       id: new Date().getTime().toString(),
       titulo: this.titulo,
@@ -106,7 +141,8 @@ export class CreatePollComponent implements OnInit {
       preguntas: this.questionsArray,
       respuestas: [],
       estado: 'activa',
-      done: true
+      done: true,
+      fecha: formatDate(new Date())
     });
   }
 
@@ -121,7 +157,10 @@ export class CreatePollComponent implements OnInit {
   }
 
   /* ---------------------- editar titulo de la encuesta ---------------------- */
-  editPollTitle = () => { this.editTitle = true; }
+  editPollTitle = () => {
+    this.editTitle = true;
+    console.log("this.pollFormData: ", this.pollFormData);
+  }
 
   /* --------------------- Desplegar/replegar la pregunta --------------------- */
   retract = (body:any, header:any, questionContainer:any) => {
@@ -143,10 +182,11 @@ export class CreatePollComponent implements OnInit {
   }
 
   /* -------------------- establecer titulo de la encuesta -------------------- */
-  setPollTitle = (title:string, timer:string) => {
-    if(title == '' || timer == '') { return; }
+  setPollTitle = (title:string, timer?:string) => {
+    if(title == '') { return; }
     this.titulo = title;
-    this.pollData.timer = parseInt(timer);
+    if(timer) { this.timer = parseInt(timer); }
+    else { this.timer = 0;}
     this.editTitle = false;
   }
 
@@ -263,16 +303,16 @@ export class CreatePollComponent implements OnInit {
           this.handleDialog();
           return;
         }
-        if(data![1] === 'no' && data![2] !== '') {
-          this.message = 'Seleccione que tipo de limite quiere aplicar';
-          this.handleDialog();
-          return;
-        }
-        if(data![1] !== 'no' && data![2] === '') {
-          this.message = 'Seleccione cantidad para limitar las opciones';
-          this.handleDialog();
-          return;
-        }
+        // if(data![1] === 'no' && data![2] !== '') {
+        //   this.message = 'Seleccione que tipo de limite quiere aplicar';
+        //   this.handleDialog();
+        //   return;
+        // }
+        // if(data![1] !== 'no' && data![2] === '') {
+        //   this.message = 'Seleccione cantidad para limitar las opciones';
+        //   this.handleDialog();
+        //   return;
+        // }
         if(this.alert && data![3] === 'no') {
           this.message = 'Seleccione una condicion para activar la alerta';
           this.handleDialog();
@@ -281,40 +321,49 @@ export class CreatePollComponent implements OnInit {
         if(!this.alert && data![3] !== 'no') {
           this.alert = true;
         }
-        for (let i = 0; i < data![4].children.length; i++) { //validar las opciones de ramificacion del arreglo de opciones
-          let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
-          const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
-          if(branchChecked && targetQuestion === 'no') {
-            this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
-            this.handleDialog();
-            return;
-          }
-          if(!branchChecked && targetQuestion !== 'no') {
-            branchChecked = true;
-          }
-        }
+        //validar las opciones de ramificacion del arreglo de opciones
+        // for (let i = 0; i < data![4].children.length; i++) {
+        //   let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
+        //   const targetQuestion = data![4].children[i].children[1].children[1].children[0].value;
+        //   if(branchChecked && targetQuestion === 'no') {
+        //     this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
+        //     this.handleDialog();
+        //     return;
+        //   }
+        //   if(!branchChecked && targetQuestion !== 'no') {
+        //     branchChecked = true;
+        //   }
+        // }
         // for del arreglo de opciones para registrar objetos al optionsArray con datos de las opciones
         this.optionsArray = [];
+        let branchCounter = 0;
         for (let i = 0; i < data![4].children.length; i++) {
-          let branchChecked = data![4].children[i].children[1].children[0].children[0].checked;
-          const targetQuestion = data![4].children[i].children[1].children[1].children[1].value;
-          if(branchChecked && targetQuestion === 'no') {
-            this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
-            this.handleDialog();
-            return;
-          }
-          if(!branchChecked && targetQuestion !== 'no') {
-            branchChecked = true;
+          let branched = false;
+          // let branchChecked = data![4].children[i].children[1].children[0].children[0].children[0].checked;
+          // if(branchChecked && targetQuestion === 'no') {
+            //   this.message = `Seleccione hacia que pregunta se ramifica la opción ${i+1}`;
+            //   this.handleDialog();
+            //   return;
+            // }
+            // if(!branchChecked && targetQuestion !== 'no') {
+              //   branchChecked = true;
+              // }
+          const targetQuestion = data![4].children[i].children[1].children[0].children[1].value;
+          if(targetQuestion != 'no' && targetQuestion != 'finalizar') {
+            branchCounter++;
+            branched = true;
           }
           this.optionsArray.push({
             opcion: data![4].children[i].children[0].innerText,
-            ramificar: branchChecked,
+            ramificar: branched,
             targetQ: targetQuestion
           })
         }
+        let multiBranch = false;
+        if(branchCounter > 1) { multiBranch = true }
         this.questionsArray.splice(index, 1, ({type: 'opcion', question: data![0],  optionsArray: this.optionsArray, done: true, required: this.check,
           tipoLimite: data![1], numero: number, numeroPregunta: index+1, opcional: this.optional, alert: this.alert, alertTrigger: data![3],
-          multibranch: this.multibranch}) );
+          multibranch: multiBranch}) );
         break;
 
       case 'lista': 
@@ -452,7 +501,7 @@ export class CreatePollComponent implements OnInit {
   multibranchOptions = (ref:any) => {
     let checkedCounter = 0; //contador
     for (let i = 0; i < ref.children.length; i++) { //Referencia al contenedor de opciones
-      if(ref.children[i].children[1].children[0].children[0].checked) { //si hay opcion con que ramifica
+      if(ref.children[i].children[1].children[0].children[0].children[0].checked) { //si hay opcion con que ramifica
         checkedCounter++;
       }
     }

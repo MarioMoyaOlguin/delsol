@@ -3,13 +3,27 @@ import { collectionData, doc, getDocs, updateDoc, deleteDoc } from '@angular/fir
 import { Firestore, where } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { addDoc, collection, query } from '@firebase/firestore';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
 
-constructor(private firestore:Firestore, private router:Router) { }
+constructor(private firestore:Firestore, private router:Router, private cookies:CookieService) { }
+
+  /* ---------------------------------- Login --------------------------------- */
+  userLogin = (filter = '') => {
+    const pollsRef = collection(this.firestore, 'usuarios');
+    let q = query(pollsRef);
+    if(filter) {
+      q = query(pollsRef, where('nombre', '==', filter));
+    }
+    return collectionData(q, { idField: 'idDoc' });
+  }
+
+
+
 
   /* -------------------------------- Encuestas ------------------------------- */
   addPoll = (poll:any) => {

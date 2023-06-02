@@ -6,9 +6,6 @@ import { fontStyle } from 'html2canvas/dist/types/css/property-descriptors/font-
 import { fade } from '../animations';
 import { LOGO } from '../logo';
 import { FirestoreService } from '../services/firestore.service';
-import { LoginService } from '../services/login.service';
-
-
 
 @Component({
   selector: 'app-my-polls',
@@ -36,6 +33,7 @@ export class MyPollsComponent implements OnInit {
   pollTitle = '';
   route = false;
   export = false;
+  newPoll = true;
 
   pollsArray:any[] = [];
   charts:any = [];
@@ -65,6 +63,7 @@ export class MyPollsComponent implements OnInit {
 
   /* ----------------------------- Borrar encuesta ---------------------------- */
   dialog = false;
+  multiSelected = false;
 
   deletePoll = (index:number) => {
     this.pollIndex = index;
@@ -74,11 +73,28 @@ export class MyPollsComponent implements OnInit {
   proceedDelete = () => {
     const id = this.pollsArray[this.pollIndex].idDoc;
     this.firestore.deletePoll(id);
-    this.pollsArray.splice(this.pollIndex, 1);
     this.dialog = false;
   }
   cancelDelete = () => {
     this.pollIndex = 0;
+    this.multiSelected = false;
+    this.dialog = false;
+  }
+
+  deleteSelectedPolls = () => {
+    this.multiSelected = true;
+    this.dialog = true;
+  }
+  proceedDeleteSelectedPolls = () => {
+    let indexes:number[] = [];
+    for (let i = 0; i < this.pollsArray.length; i++) {
+      if(this.pollsArray[i].checked) { indexes.push(i) }
+    }
+    for (let i = 0; i < indexes.length; i++) {
+      const id = this.pollsArray[indexes[i]].idDoc;
+      this.firestore.deletePoll(id);
+    }
+    this.multiSelected = false;
     this.dialog = false;
   }
 
@@ -305,8 +321,14 @@ export class MyPollsComponent implements OnInit {
     for (let index = 0; index < this.pollsArray.length; index++) {
       if(this.pollsArray[index].checked) { checkedExist = true }
     }
-    if(checkedExist) { this.export = true }
-    else { this.export = false }
+    if(checkedExist) {
+      this.newPoll = false;
+      this.export = true
+    }
+    else {
+      this.newPoll = true;
+      this.export = false
+    }
   }
 
   setAll = (checked:boolean) => {
@@ -315,8 +337,14 @@ export class MyPollsComponent implements OnInit {
       this.pollsArray[index].checked = checked;
       if(this.pollsArray[index].checked) { checkedExist = true }
     }
-    if(checkedExist) { this.export = true }
-    else { this.export = false }
+    if(checkedExist) {
+      this.newPoll = false;
+      this.export = true
+    }
+    else {
+      this.newPoll = true;
+      this.export = false
+    }
   }
 
   activatePoll = (index:number) => { this.pollsArray[index].estado = 'activa'; }
@@ -324,10 +352,7 @@ export class MyPollsComponent implements OnInit {
   
   /* ----------------------- Secccion visor de encuesta ----------------------- */
   questionsArray = []
-  
-  routeViewer = () => {
-    this.route = !this.route;
-  }
+  routeViewer = () => { this.route = !this.route; }
 
   /* ----------------------------------- QR ----------------------------------- */
   qrCode = false;
@@ -336,7 +361,7 @@ export class MyPollsComponent implements OnInit {
   urlSegura:SafeUrl = '';
   enlaceUrl = '';
   nombreQr = '';
-  baseUrl = 'http://localhost:4200';
+  baseUrl = 'https://tecmilenio-260e0.web.app';
 
   downloadQr = (e:any, index:number) => {
     e.preventDefault();

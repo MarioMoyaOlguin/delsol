@@ -14,10 +14,11 @@
                 <input type="text" name="" id="id" class="" formControlName="titulo" required>
                 <p class="text-danger text-center mb-0 font-small" *ngIf="getTitulo?.touched && getTitulo?.invalid">Campo requerido</p>
             </div>
-            <!-- <div class="timer-container d-flex flex-column">
+            <div class="timer-container d-flex flex-column">
                 <label for="espera">Temporizador (minutos)</label>
                 <input type="number" name="" id="espera" class="" formControlName="tiempo" >
-            </div> -->
+                <p class="text-danger text-center mb-0 font-small" *ngIf="getTiempo?.touched && getTiempo?.invalid">Campo requerido</p>
+            </div>
         </div>
         
         <div class="mb-4 d-flex flex-column">
